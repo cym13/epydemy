@@ -1,4 +1,19 @@
 #!/usr/bin/env python3
+#
+# Copyright (c) 2014, Cédric Picard
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 A computer virus simulation game
@@ -22,6 +37,10 @@ from world import World
 from time import sleep
 
 def play(virus, world):
+    """
+    Main game shell and main game loop.
+    """
+
     help_msg = """
     help        Print this help
     patch       Open the patch panel
@@ -29,14 +48,17 @@ def play(virus, world):
     quit        Quit the game
     """
 
+    print(virus)
+    print(world)
+
     cmd = None
     while cmd != "quit":
         cmd = input("\n> ")
 
         if cmd == "":
+            world.step()
             print(virus)
             print(world)
-            world.step()
 
             if world.infected == 0:
                 if world.sane != 0:
@@ -52,8 +74,15 @@ def play(virus, world):
         elif cmd == "patch":
             patch(virus, world)
 
+        else:
+            print("Wrong command")
+
 
 def patch(virus, world):
+    """
+    Virus modification subshell
+    """
+
     help_msg = """
     help              Print this help
     list              List the available patches
@@ -113,6 +142,9 @@ def patch(virus, world):
 
             except SkillNotPresent:
                 print("You don't have %s yet" % skill)
+
+        else:
+            print("Wrong command")
 
 
 def main():

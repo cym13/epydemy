@@ -1,3 +1,6 @@
+# This is a general python gitignore from
+# https://raw.github.com/github/gitignore/master/Python.gitignore
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

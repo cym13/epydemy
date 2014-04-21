@@ -1,3 +1,18 @@
+# Copyright (c) 2014, Cédric Picard
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import yaml
 from exceptions import *
 
@@ -45,23 +60,24 @@ class World:
         rent_r = self.virus.stat["rentability"]
 
         for each in self.countries:
-            self.countries[each]["sane"] -= inf_r * self.countries[each]["sane"]
+            self.countries[each]["sane"] -= round(
+                                        inf_r * self.countries[each]["sane"])
             self.sane += self.countries[each]["sane"]
 
-            self.countries[each]["infected"] += (
+            self.countries[each]["infected"] += round(
                     inf_r * self.countries[each]["sane"] -
                     (dest_r + prot_r) * self.countries[each]["infected"])
             self.infected += self.countries[each]["infected"]
 
-            self.countries[each]["destroyed"] += (
+            self.countries[each]["destroyed"] += round(
                                     dest_r * self.countries[each]["infected"])
             self.destroyed += self.countries[each]["destroyed"]
 
-            self.countries[each]["protected"] += (
+            self.countries[each]["protected"] += round(
                                     prot_r * self.countries[each]["infected"])
             self.protected += self.countries[each]["protected"]
 
-            money += (self.countries[each]["infected"]/
+            money += round(self.countries[each]["infected"]/
                     self.countries[each]["computers"]* rent_r*
                     self.countries[each]["money"])
 
@@ -76,8 +92,8 @@ class World:
             countries = self.countries
 
         for each in countries:
-            each["sane"]      += (1 - immunity_rate) * each["protected"]
-            each["protected"]  = immunity_rate * each["protected"]
+            each["sane"]      += round((1 - immunity_rate) * each["protected"])
+            each["protected"]  = round(immunity_rate * each["protected"])
 
     def repairs(rate, countries=None):
         """
@@ -88,8 +104,8 @@ class World:
             countries = self.countries
 
         for each in countries:
-            each["sane"]      += rate * each["destroyed"]
-            each["destroyed"] -= rate * each["destroyed"]
+            each["sane"]      += round(rate * each["destroyed"])
+            each["destroyed"] -= round(rate * each["destroyed"])
 
     def __str__(self):
         """
