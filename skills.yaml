@@ -1,0 +1,33 @@
+%YAML 1.2
+---
+
+# This is the list of all skills
+#
+# price:  price of the skill
+# category: discretion, transmission, moneymaking or offensiveness
+# requirements: list of required skills to unlock, if None, set one void
+#               element otherwise it bugs.
+# effect: list of values associated to one of the following categories:
+#           dangerosity
+#           detectability
+#           rentability
+#           spreadability
+# description: description of the skill
+
+fuzzy_code_1:
+    price: 100
+    category: discretion
+    effect:
+      detectability: -5
+    description:
+      The virus' code is mixed randomly to bypass antivirus scans.
+
+fuzzy_code_2:
+    price: 200
+    category: discretion
+    requirements:
+      - fuzzy_code_1
+    effect:
+      detectability: -5
+    description:
+      The virus' code is mixed more effectively to bypass antivirus scans.

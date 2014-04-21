@@ -1,0 +1,28 @@
+%YAML 1.2
+---
+
+# Here are the countries
+#
+# Get most infos from http://www.aneki.com/computers.html
+#
+# defense:   0-100   How likely hard it is to infect a country's computer.
+# detection: 0-100   How likely will your virus get detected once activated.
+# money:     0-100   How rich is the country
+# internet:  1-5     How is the country connected to the internet. The higher
+#                    the number, the more connected is the country.
+# computers: 0-?     The number of computers in the country.
+
+
+France:
+    defense:   80
+    detection: 80
+    money:     100
+    internet:  5
+    computers: 21800000
+
+United-States:
+    defense:   100
+    detection: 100
+    money:     100
+    internet:  5
+    computers: 164100000
