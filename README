@@ -1,4 +1,4 @@
-2014-04-21
+Epydemy version 0.6 - 2014-04-21
 
 Manifest
 ========
@@ -37,17 +37,17 @@ TODO
 
 Almost everything :)
 
-Yet, version 0.06, the objectives are:
+Yet the objectives are:
 
-[x] creating the basics of the architecture
-[x] creating the basics of the mechanics
+[x] create the basics of the architecture
+[x] create the basics of the mechanics
 [x] add some basic data to allow testing
-[x] creating a base of tests
-[x] creating a basic ui
-[x] adding save/load
-[?] improving the game mechanics to something usable
-[ ] adding stuff to populate the game
-[ ] improving the ui
+[x] create a base of tests
+[x] create a basic ui
+[x] add save/load
+[?] improve the game mechanics to something usable
+[ ] add stuff to populate the game
+[ ] improve the ui
 
 There will be v0.1, and we will be able to move forward more complex game
 mechanics, ui and user experience.

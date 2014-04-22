@@ -12,17 +12,58 @@
 #                    the number, the more connected is the country.
 # computers: 0-?     The number of computers in the country.
 
-
-France:
-    defense:   80
-    detection: 80
-    money:     100
-    internet:  5
-    computers: 21800000
-
-United-States:
+North_America:
     defense:   100
     detection: 100
     money:     100
     internet:  5
-    computers: 164100000
+    computers: 302980000
+
+Asia:
+    defense:   50
+    detection: 40
+    money:     70
+    internet:  4
+    computers: 591005000
+
+Middle_East:
+    defense:   40
+    detection: 40
+    money:     60
+    internet:  3
+    computers: 105454000
+
+Western_Europe:
+    defense:   80
+    detection: 80
+    money:     100
+    internet:  3
+    computers: 289618000
+
+Eastern_Europe:
+    defense:   30
+    detection: 30
+    money:     40
+    internet:  3
+    computers: 78486000
+
+South_America:
+    defense:   20
+    detection: 30
+    money:     40
+    internet:  3
+    computers: 152215000
+
+Oceania:
+    defense:   40
+    detection: 20
+    money:     50
+    internet:  2
+    computers: 47488000
+
+Africa:
+    defense:   10
+    detection: 10
+    money:     30
+    internet:  1
+    computers: 104393000
