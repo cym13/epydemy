@@ -37,13 +37,13 @@ TODO
 
 Almost everything :)
 
-Yet, version 0.05, the objectives are:
+Yet, version 0.06, the objectives are:
     + creating the basics of the architecture
     + creating the basics of the mechanics
     + add some basic data to allow testing
     + creating a base of tests
     + creating a basic ui
-    - adding save/load
+    + adding save/load
     - improving the game mechanics to something usable
     - improving the ui
     - adding stuff to populate the game

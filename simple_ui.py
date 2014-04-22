@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 """
 A computer virus simulation game
 
@@ -29,22 +30,27 @@ Options:
                 Not implemented yet
 """
 
+
 import sys
+from os import path
+import yaml
 from exceptions import *
 from docopt import docopt
 from virus import Virus
 from world import World
 from time import sleep
 
-def play(virus, world):
+
+def play(virus, world, filename):
     """
     Main game shell and main game loop.
     """
 
     help_msg = """
+    <enter>     Go one step forward
     help        Print this help
     patch       Open the patch panel
-    <enter>     Go one step forward
+    save        Save the game
     quit        Quit the game
     """
 
@@ -62,11 +68,9 @@ def play(virus, world):
 
             if world.infected == 0:
                 if world.sane != 0:
-                    print("GAME OVER")
-                    sys.exit()
+                    raise WhiteFlag
                 elif world.sane == 0:
-                    print("YOU WIN!")
-                    sys.exit()
+                    raise VictoryFlag
 
         elif cmd == "help":
             print(help_msg)
@@ -74,7 +78,14 @@ def play(virus, world):
         elif cmd == "patch":
             patch(virus, world)
 
-        else:
+        elif cmd == "save":
+            try:
+                save_file(virus, world, filename)
+                print("Game saved.")
+            except PermissionError:
+                print("The game couldn't be saved: Permission Denied")
+
+        elif cmd != "" and cmd != "quit":
             print("Wrong command")
 
 
@@ -147,10 +158,24 @@ def patch(virus, world):
             print("Wrong command")
 
 
+def load_file(path):
+    with open(path) as f:
+        state = yaml.load(f)
+        return state["virus"], state["world"]
+
+
+def save_file(virus, world, path):
+    with open(path, "w") as f:
+        f.write(yaml.dump({"virus":virus, "world":world}))
+
+
 def main():
     args = docopt(__doc__)
-    new_game = args["--new"] or True # For test purpose only
     filename = args["FILE"]
+    new_game = args["--new"]
+
+    if not new_game and path.exists(filename):
+        new_game = False
 
     if new_game:
         name = input("Enter your virus' name: ")
@@ -162,7 +187,16 @@ def main():
             print("This country does not exist.")
             sys.exit()
 
-        play(virus, world)
+    else:
+        virus, world = load_file(filename)
+
+    try:
+        play(virus, world, filename)
+    except VictoryFlag:
+        print("You Win!")
+    except WhiteFlag:
+        print("GAME OVER")
+
 
 if __name__=="__main__":
     main()
