@@ -68,6 +68,6 @@ class TestWorld:
         world.__init__(virus, "France")
 
     def test_init(cls):
-        assert "United-States" in list(world.countries.keys())
-        assert "France" in list(world.countries.keys())
+        assert "United-States" in list(World.countries.keys())
+        assert "France" in list(World.countries.keys())
 

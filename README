@@ -47,7 +47,10 @@ Yet the objectives are:
 [x] add save/load
 [?] improve the game mechanics to something usable
 [ ] add stuff to populate the game
-[ ] improve the ui
+[w] improve the ui
+[ ] write tests
+
+Legend: [ ] Todo | [x] Finished | [?] Need Test | [w] In Work | [s] Stopped
 
 There will be v0.1, and we will be able to move forward more complex game
 mechanics, ui and user experience.

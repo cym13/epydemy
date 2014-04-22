@@ -17,53 +17,53 @@ North_America:
     detection: 100
     money:     100
     internet:  5
-    computers: 302980000
+    computers: 300000000
 
 Asia:
     defense:   50
     detection: 40
     money:     70
     internet:  4
-    computers: 591005000
+    computers: 600000000
 
 Middle_East:
     defense:   40
     detection: 40
     money:     60
     internet:  3
-    computers: 105454000
+    computers: 100000000
 
 Western_Europe:
     defense:   80
     detection: 80
     money:     100
     internet:  3
-    computers: 289618000
+    computers: 300000000
 
 Eastern_Europe:
     defense:   30
     detection: 30
     money:     40
     internet:  3
-    computers: 78486000
+    computers: 80000000
 
 South_America:
     defense:   20
     detection: 30
     money:     40
     internet:  3
-    computers: 152215000
+    computers: 200000000
 
 Oceania:
     defense:   40
     detection: 20
     money:     50
     internet:  2
-    computers: 47488000
+    computers: 50000000
 
 Africa:
     defense:   10
     detection: 10
     money:     30
     internet:  1
-    computers: 104393000
+    computers: 100000000

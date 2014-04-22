@@ -98,6 +98,7 @@ def patch(virus, world):
     help              Print this help
     list              List the available patches
     list own          List the present patches
+    info patch        Print patch infos
     upgrade patch     Upgrade the given patch
     downgrade patch   Downgrade the given patch
     """
@@ -123,6 +124,12 @@ def patch(virus, world):
             for skill in virus.skills:
                 print("%s (%sBTC)" % (skill,
                                       virus.sk_list[skill]["price"] / 5))
+
+        elif cmd.startswith("info"):
+            skill = cmd[5:]
+
+            for field in virus.sk_list[skill]:
+                print("%s: %s" % (field.title(), virus.sk_list[skill][field]))
 
         elif cmd.startswith("upgrade"):
             skill = cmd[8:]
@@ -180,9 +187,14 @@ def main():
     if new_game:
         name = input("Enter your virus' name: ")
         virus = Virus(name)
+
         try:
-            first_country = input("What country do you want to start in ? ")
+            print("Available countries are:")
+            for name in World.countries:
+                print(name)
+            first_country = input("Where do you want to start? ")
             world = World(virus, first_country)
+
         except CountryDoesNotExist:
             print("This country does not exist.")
             sys.exit()

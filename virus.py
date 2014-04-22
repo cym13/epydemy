@@ -13,9 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import yaml
 from exceptions import *
 from math import floor
+
 
 class Virus:
     """
@@ -84,6 +86,7 @@ class Virus:
 
         for each in self.sk_list[skill]["effect"]:
             self.stat[each] -= self.sk_list[skill]["effect"][each]
+
 
     def __str__(self):
         """

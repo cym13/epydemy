@@ -20,6 +20,10 @@ class World:
     """
     This is the world you play in.
     """
+
+    with open("./countries.yaml") as f:
+        countries = yaml.load(f)
+
     def __init__(self, virus, init_country):
         self.virus = virus
 
@@ -28,19 +32,17 @@ class World:
         self.destroyed = 0
         self.protected = 0
 
-        with open("./countries.yaml") as f:
-            self.countries = yaml.load(f)
-        for each in self.countries:
-            self.countries[each]["sane"] = self.countries[each]["computers"]
-            self.countries[each]["infected"]       = 0
-            self.countries[each]["protected"]      = 0
-            self.countries[each]["destroyed"]      = 0
+        for each in World.countries:
+            World.countries[each]["sane"] = World.countries[each]["computers"]
+            World.countries[each]["infected"]       = 0
+            World.countries[each]["protected"]      = 0
+            World.countries[each]["destroyed"]      = 0
 
-            self.countries[each]["research_rate"]  = 0
-            self.countries[each]["research_level"] = 0
+            World.countries[each]["research_rate"]  = 0
+            World.countries[each]["research_level"] = 0
 
         try:
-            self.countries[init_country]["infected"] = 1
+            World.countries[init_country]["infected"] = 1
         except KeyError:
             raise CountryDoesNotExist
 
@@ -59,27 +61,27 @@ class World:
         prot_r = self.virus.stat["detect"] * 0.01
         rent_r = self.virus.stat["rentab"]
 
-        for each in self.countries:
-            self.countries[each]["sane"] -= round(
-                                        inf_r * self.countries[each]["sane"])
-            self.sane += self.countries[each]["sane"]
+        for each in World.countries:
+            World.countries[each]["sane"] -= round(
+                                        inf_r * World.countries[each]["sane"])
+            self.sane += World.countries[each]["sane"]
 
-            self.countries[each]["infected"] += round(
-                    inf_r * self.countries[each]["sane"] -
-                    (dest_r + prot_r) * self.countries[each]["infected"])
-            self.infected += self.countries[each]["infected"]
+            World.countries[each]["infected"] += round(
+                    inf_r * World.countries[each]["sane"] -
+                    (dest_r + prot_r) * World.countries[each]["infected"])
+            self.infected += World.countries[each]["infected"]
 
-            self.countries[each]["destroyed"] += round(
-                                    dest_r * self.countries[each]["infected"])
-            self.destroyed += self.countries[each]["destroyed"]
+            World.countries[each]["destroyed"] += round(
+                                    dest_r * World.countries[each]["infected"])
+            self.destroyed += World.countries[each]["destroyed"]
 
-            self.countries[each]["protected"] += round(
-                                    prot_r * self.countries[each]["infected"])
-            self.protected += self.countries[each]["protected"]
+            World.countries[each]["protected"] += round(
+                                    prot_r * World.countries[each]["infected"])
+            self.protected += World.countries[each]["protected"]
 
-            money += round(self.countries[each]["infected"]/
-                    self.countries[each]["computers"]* rent_r*
-                    self.countries[each]["money"])
+            money += round(World.countries[each]["infected"]/
+                    World.countries[each]["computers"]* rent_r*
+                    World.countries[each]["money"])
 
         return money
 
@@ -89,7 +91,7 @@ class World:
         One may specify a special list of countries, default is all.
         """
         if not countries:
-            countries = self.countries
+            countries = World.countries
 
         for each in countries:
             each["sane"]      += round((1 - immunity_rate) * each["protected"])
@@ -101,7 +103,7 @@ class World:
         One may specify a special list of countries, default is all.
         """
         if not countries:
-            countries = self.countries
+            countries = World.countries
 
         for each in countries:
             each["sane"]      += round(rate * each["destroyed"])
@@ -113,23 +115,23 @@ class World:
         """
         state  = "Sane\n"
         state += "----\n"
-        for each in self.countries:
-            if self.countries[each]["infected"] == 0:
-                state += each + " (%s)\n" % self.countries[each]["sane"]
+        for each in World.countries:
+            if World.countries[each]["infected"] == 0:
+                state += each + " (%s)\n" % World.countries[each]["sane"]
 
         state += "\n"
         state += "Infected\n"
         state += "--------\n"
-        for each in self.countries:
-            if self.countries[each]["infected"] != 0:
-                state += each +" (%s/%s)\n" % (self.countries[each]["infected"],
-                                               self.countries[each]["sane"] +
-                                               self.countries[each]["infected"])
+        for each in World.countries:
+            if World.countries[each]["infected"] != 0:
+                state += each +" (%s/%s)\n"% (World.countries[each]["infected"],
+                                              World.countries[each]["sane"] +
+                                              World.countries[each]["infected"])
         state += "\n"
         state += "Destroyed\n"
         state += "---------\n"
-        for each in self.countries:
-            if self.countries[each]["infected"] != 0:
-                state += each +" (%s)\n" % self.countries[each]["destroyed"]
+        for each in World.countries:
+            if World.countries[each]["infected"] != 0:
+                state += each +" (%s)\n" % World.countries[each]["destroyed"]
 
         return state
