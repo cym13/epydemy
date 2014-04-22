@@ -54,10 +54,10 @@ class World:
         self.protected = 0
         self.destroyed = 0
 
-        inf_r  = self.virus.stat["spreadability"] * 0.01
-        dest_r = self.virus.stat["dangerosity"] * 0.01
-        prot_r = 1 - (self.virus.stat["detectability"] * 0.01)
-        rent_r = self.virus.stat["rentability"]
+        inf_r  = self.virus.stat["spread"] * 0.01
+        dest_r = self.virus.stat["danger"]   * 0.01
+        prot_r = self.virus.stat["detect"] * 0.01
+        rent_r = self.virus.stat["rentab"]
 
         for each in self.countries:
             self.countries[each]["sane"] -= round(

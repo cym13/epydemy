@@ -107,22 +107,22 @@ def patch(virus, world):
         print("\nCurrent (%sBTC):" % virus.money)
         for skill in virus.skills:
             print("%s (%sBTC)" % (skill,
-                                  virus.skills_list[skill]["price"] / 5))
+                                  virus.sk_list[skill]["price"] / 5))
         cmd = input(">> ")
 
         if cmd == "help":
             print(help_msg)
 
         elif cmd == "list":
-            for skill in virus.skills_list:
+            for skill in virus.sk_list:
                 if skill not in virus.skills:
                     print("%s (%sBTC)" % (skill,
-                                          virus.skills_list[skill]["price"]))
+                                          virus.sk_list[skill]["price"]))
 
         elif cmd == "list own":
             for skill in virus.skills:
                 print("%s (%sBTC)" % (skill,
-                                      virus.skills_list[skill]["price"] / 5))
+                                      virus.sk_list[skill]["price"] / 5))
 
         elif cmd.startswith("upgrade"):
             skill = cmd[8:]
@@ -141,7 +141,7 @@ def patch(virus, world):
 
             except SkillNotAvailable:
                 print("You have to unlock this skills first:")
-                for each in virus.skills_list[skill]["requirements"]:
+                for each in virus.sk_list[skill]["requirements"]:
                     if each not in virus.skills:
                         print(each)
 
@@ -154,7 +154,7 @@ def patch(virus, world):
             except SkillNotPresent:
                 print("You don't have %s yet" % skill)
 
-        else:
+        elif cmd != "quit" and cmd != "":
             print("Wrong command")
 
 
@@ -165,7 +165,7 @@ def load_file(path):
 
 
 def save_file(virus, world, path):
-    with open(path, "w") as f:
+    with open(path, "w+") as f:
         f.write(yaml.dump({"virus":virus, "world":world}))
 
 
@@ -174,8 +174,8 @@ def main():
     filename = args["FILE"]
     new_game = args["--new"]
 
-    if not new_game and path.exists(filename):
-        new_game = False
+    if not path.exists(filename):
+        new_game = True
 
     if new_game:
         name = input("Enter your virus' name: ")

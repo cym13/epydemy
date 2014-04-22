@@ -4,20 +4,20 @@ virus: &id001 !!python/object:virus.Virus
   name: test
   research_level: 0
   research_rate: 0
-  skills: [fuzzy_code_1, fuzzy_code_2]
-  skills_list:
+  sk_list:
     fuzzy_code_1:
       category: discretion
       description: The virus' code is mixed randomly to bypass antivirus scans.
-      effect: {detectability: -5}
+      effect: {detect: -5}
       price: 100
     fuzzy_code_2:
       category: discretion
       description: The virus' code is mixed more effectively to bypass antivirus scans.
-      effect: {detectability: -5}
+      effect: {detect: -5}
       price: 200
       requirements: [fuzzy_code_1]
-  stat: {dangerosity: 0, detectability: -10, rentability: 0, spreadability: 0}
+  skills: [fuzzy_code_1, fuzzy_code_2]
+  stat: {danger: 0, detect: -10, rentab: 0, spread: 0}
 world: !!python/object:world.World
   countries:
     France: {computers: 21800000, defense: 80, destroyed: 0, detection: 80, infected: 1,

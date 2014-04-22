@@ -30,43 +30,42 @@ class Virus:
         self.research_level = 0
 
         # Skill stats
-        self.stat = {
-                "dangerosity"  : 0,
-                "detectability": 0,
-                "rentability"  : 0,
-                "spreadability": 0
-                }
+        self.stat = {"danger": 0,
+                     "detect": 0,
+                     "rentab": 0,
+                     "spread": 0}
+
         self.skills = []
         with open("./skills.yaml") as f:
-            self.skills_list = yaml.load(f)
+            self.sk_list = yaml.load(f)
 
 
     def upgrade(self, skill):
         """
         Apply a skill patch to the virus
         """
-        if skill not in self.skills_list:
+        if skill not in self.sk_list:
             raise SkillDoesNotExist
 
-        if self.money - self.skills_list[skill]["price"] < 0:
+        if self.money - self.sk_list[skill]["price"] < 0:
             raise NotEnoughMoney
 
         if skill in self.skills:
             raise SkillAlreadyPresent
 
         try:
-            for each in self.skills_list[skill]["requirements"]:
+            for each in self.sk_list[skill]["requirements"]:
                 if each not in self.skills:
                     raise SkillNotAvailable
         except KeyError:
             pass
 
-        self.money -= self.skills_list[skill]["price"]
+        self.money -= self.sk_list[skill]["price"]
         self.skills.append(skill)
 
-        for each in self.skills_list[skill]["effect"]:
+        for each in self.sk_list[skill]["effect"]:
             # This one is really abused... I should think this all again.
-            self.stat[each] += self.skills_list[skill]["effect"][each]
+            self.stat[each] += self.sk_list[skill]["effect"][each]
 
 
     def downgrade(self, skill):
@@ -76,15 +75,15 @@ class Virus:
         if skill not in self.skills:
             raise SkillNotPresent
 
-        for each in self.skills_list:
-            if skill in self.skills_list[each]:
+        for each in self.sk_list:
+            if skill in self.sk_list[each]:
                 self.downgrade(each)
 
-        self.money += floor(self.skills_list[skill]["price"] * 0.20)
+        self.money += floor(self.sk_list[skill]["price"] * 0.20)
         self.skills.remove(skill)
 
-        for each in self.skills_list[skill]["effect"]:
-            self.stat[each] -= self.skills_list[skill]["effect"][each]
+        for each in self.sk_list[skill]["effect"]:
+            self.stat[each] -= self.sk_list[skill]["effect"][each]
 
     def __str__(self):
         """
@@ -101,10 +100,10 @@ class Virus:
         state += "\n"
         state += "Stats\n"
         state += "-----\n"
-        state += "Dangerosity:   %s\n" % self.stat["dangerosity"]
-        state += "Detectability: %s\n" % self.stat["detectability"]
-        state += "Rentability:   %s\n" % self.stat["rentability"]
-        state += "Spreadability: %s\n" % self.stat["spreadability"]
+        state += "Dangerosity:   %s\n" % self.stat["danger"]
+        state += "Detectability: %s\n" % self.stat["detect"]
+        state += "Rentability:   %s\n" % self.stat["rentab"]
+        state += "Spreadability: %s\n" % self.stat["spread"]
         state += "\n"
         state += "Skills\n"
         state += "------\n"

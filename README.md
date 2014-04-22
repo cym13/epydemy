@@ -38,15 +38,16 @@ TODO
 Almost everything :)
 
 Yet, version 0.06, the objectives are:
-    + creating the basics of the architecture
-    + creating the basics of the mechanics
-    + add some basic data to allow testing
-    + creating a base of tests
-    + creating a basic ui
-    + adding save/load
-    - improving the game mechanics to something usable
-    - improving the ui
-    - adding stuff to populate the game
+
+[x] creating the basics of the architecture
+[x] creating the basics of the mechanics
+[x] add some basic data to allow testing
+[x] creating a base of tests
+[x] creating a basic ui
+[x] adding save/load
+[?] improving the game mechanics to something usable
+[ ] adding stuff to populate the game
+[ ] improving the ui
 
 There will be v0.1, and we will be able to move forward more complex game
 mechanics, ui and user experience.
