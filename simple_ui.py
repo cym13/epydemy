@@ -37,7 +37,7 @@ import yaml
 from exceptions import *
 from docopt import docopt
 from virus import Virus
-from world import World
+from world import World, countries
 from time import sleep
 
 
@@ -62,7 +62,7 @@ def play(virus, world, filename):
         cmd = input("\n> ")
 
         if cmd == "":
-            world.step()
+            virus.money += world.step()
             print(virus)
             print(world)
 
@@ -106,9 +106,9 @@ def patch(virus, world):
     cmd = None
     while cmd != "quit" and cmd != "":
         print("\nCurrent (%sBTC):" % virus.money)
-        for skill in virus.skills:
-            print("%s (%sBTC)" % (skill,
-                                  virus.sk_list[skill]["price"] / 5))
+        # for skill in virus.skills:
+        #     print("%s (%sBTC)" % (skill,
+        #                           virus.sk_list[skill]["price"] / 5))
         cmd = input(">> ")
 
         if cmd == "help":
@@ -190,9 +190,10 @@ def main():
 
         try:
             print("Available countries are:")
-            for name in World.countries:
+            for name in countries:
                 print(name)
             first_country = input("Where do you want to start? ")
+            print()
             world = World(virus, first_country)
 
         except CountryDoesNotExist:

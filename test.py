@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from virus import Virus
-from world import World
+from world import World, countries
 from exceptions import *
 from nose.tools import *
 
@@ -61,13 +61,13 @@ class TestVirus:
         virus.downgrade("fuzzy_code_2")
 
 
-world = World(virus, "France")
+world = World(virus, "Africa")
 class TestWorld:
     def setup(self):
         virus.__init__("test")
-        world.__init__(virus, "France")
+        world.__init__(virus, "Africa")
 
     def test_init(cls):
-        assert "United-States" in list(World.countries.keys())
-        assert "France" in list(World.countries.keys())
+        assert "Asia" in list(countries.keys())
+        assert "Africa" in list(countries.keys())
 

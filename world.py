@@ -16,14 +16,24 @@
 import yaml
 from exceptions import *
 
+
+with open("./countries.yaml") as f:
+    countries = yaml.load(f)
+
+    for each in countries:
+        countries[each]["sane"] = countries[each]["computers"]
+        countries[each]["infected"]       = 0
+        countries[each]["protected"]      = 0
+        countries[each]["destroyed"]      = 0
+        countries[each]["research_rate"]  = 0
+        countries[each]["research_level"] = 0
+
+
+
 class World:
     """
     This is the world you play in.
     """
-
-    with open("./countries.yaml") as f:
-        countries = yaml.load(f)
-
     def __init__(self, virus, init_country):
         self.virus = virus
 
@@ -32,106 +42,117 @@ class World:
         self.destroyed = 0
         self.protected = 0
 
-        for each in World.countries:
-            World.countries[each]["sane"] = World.countries[each]["computers"]
-            World.countries[each]["infected"]       = 0
-            World.countries[each]["protected"]      = 0
-            World.countries[each]["destroyed"]      = 0
-
-            World.countries[each]["research_rate"]  = 0
-            World.countries[each]["research_level"] = 0
-
         try:
-            World.countries[init_country]["infected"] = 1
+            countries[init_country]["infected"] = 1
         except KeyError:
             raise CountryDoesNotExist
+
 
     def step(self):
         """
         Perform one turn of spreading
         """
-        money = 0
-        self.sane = 0
-        self.infected = 0
+        money          = 0
+        self.sane      = 0
+        self.infected  = 0
         self.protected = 0
         self.destroyed = 0
 
         inf_r  = self.virus.stat["spread"] * 0.01
-        dest_r = self.virus.stat["danger"]   * 0.01
+        dest_r = self.virus.stat["danger"] * 0.01
         prot_r = self.virus.stat["detect"] * 0.01
         rent_r = self.virus.stat["rentab"]
 
-        for each in World.countries:
-            World.countries[each]["sane"] -= round(
-                                        inf_r * World.countries[each]["sane"])
-            self.sane += World.countries[each]["sane"]
+        for each in countries:
+            countries[each]["sane"] -= round(inf_r * countries[each]["sane"])
 
-            World.countries[each]["infected"] += round(
-                    inf_r * World.countries[each]["sane"] -
-                    (dest_r + prot_r) * World.countries[each]["infected"])
-            self.infected += World.countries[each]["infected"]
+            countries[each]["infected"]  += round(inf_r
+                                                * countries[each]["sane"]
+                                                - (dest_r + prot_r)
+                                                * countries[each]["infected"])
 
-            World.countries[each]["destroyed"] += round(
-                                    dest_r * World.countries[each]["infected"])
-            self.destroyed += World.countries[each]["destroyed"]
+            countries[each]["destroyed"] += round(dest_r
+                                                * countries[each]["infected"])
 
-            World.countries[each]["protected"] += round(
-                                    prot_r * World.countries[each]["infected"])
-            self.protected += World.countries[each]["protected"]
+            countries[each]["protected"] += round(prot_r
+                                                * countries[each]["infected"])
 
-            money += round(World.countries[each]["infected"]/
-                    World.countries[each]["computers"]* rent_r*
-                    World.countries[each]["money"])
+            self.sane      += countries[each]["sane"]
+            self.infected  += countries[each]["infected"]
+            self.destroyed += countries[each]["destroyed"]
+            self.protected += countries[each]["protected"]
+
+            money += round(countries[each]["infected"]
+                         / countries[each]["computers"]
+                         * rent_r
+                         * countries[each]["money"])
 
         return money
 
-    def upgrade(immunity_rate, countries=None):
+
+    def upgrade(immunity_rate, country_lst=None):
         """
         Apply a virus' upgrade given its immunity rate (between -1 and 1).
         One may specify a special list of countries, default is all.
         """
-        if not countries:
-            countries = World.countries
+        if not country_lst:
+            country_lst = countries
 
-        for each in countries:
+        for each in country_lst:
             each["sane"]      += round((1 - immunity_rate) * each["protected"])
             each["protected"]  = round(immunity_rate * each["protected"])
 
-    def repairs(rate, countries=None):
+
+    def repairs(rate, country_lst=None):
         """
         Apply general reparations to a given rate of country's computers.
         One may specify a special list of countries, default is all.
         """
-        if not countries:
-            countries = World.countries
+        if not country_lst:
+            countr_lst = countries
 
-        for each in countries:
+        for each in country_lst:
             each["sane"]      += round(rate * each["destroyed"])
             each["destroyed"] -= round(rate * each["destroyed"])
+
 
     def __str__(self):
         """
         Returns the world's state
         """
+        max_len = max([len(x) for x in countries]) + 4
+
         state  = "Sane\n"
         state += "----\n"
-        for each in World.countries:
-            if World.countries[each]["infected"] == 0:
-                state += each + " (%s)\n" % World.countries[each]["sane"]
+        for each in countries:
+            if countries[each]["infected"] == 0:
+                state += each.ljust(max_len)
+                state += " (%s\t/ %s)\n" % c_ratio(each, "sane", "protected")
 
         state += "\n"
         state += "Infected\n"
         state += "--------\n"
-        for each in World.countries:
-            if World.countries[each]["infected"] != 0:
-                state += each +" (%s/%s)\n"% (World.countries[each]["infected"],
-                                              World.countries[each]["sane"] +
-                                              World.countries[each]["infected"])
+        for each in countries:
+            if countries[each]["infected"] != 0:
+                state += each.ljust(max_len)
+                state += " (%s\t/ %s)\n"% c_ratio(each, "infected")
+
         state += "\n"
         state += "Destroyed\n"
         state += "---------\n"
-        for each in World.countries:
-            if World.countries[each]["infected"] != 0:
-                state += each +" (%s)\n" % World.countries[each]["destroyed"]
+        for each in countries:
+            if countries[each]["infected"] != 0:
+                state += each.ljust(max_len)
+                state += " (%s\t/ %s)\n" % c_ratio(each, "destroyed")
 
-        return state
+        return state.rstrip('\n')
+
+
+def c_ratio(country, *attributes):
+    total = (countries[country]["sane"]
+           + countries[country]["protected"]
+           + countries[country]["infected"]
+           + countries[country]["destroyed"])
+
+    value = sum([countries[country][x] for x in attributes])
+    return value, total

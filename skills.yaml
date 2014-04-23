@@ -4,7 +4,7 @@
 # This is the list of all skills
 #
 # price:  price of the skill
-# category: discretion, transmission, moneymaking or offensiveness
+# category: discretion, transmission, moneymaking, offensiveness or fun
 # requirements: list of required skills to unlock, if None, set one void
 #               element otherwise it bugs.
 # effect: list of values associated to one of the following categories:
@@ -14,6 +14,8 @@
 #           spread   for spreadability
 # description: description of the skill
 
+# DISCRETION
+############
 fuzzy_code_1:
     price: 100
     category: discretion
@@ -31,3 +33,99 @@ fuzzy_code_2:
       detect: -5
     description:
       The virus' code is mixed more effectively to bypass antivirus scans.
+
+# TRANSMISSION
+##############
+malicious_usb_key_1:
+    price: 100
+    category: transmission
+    effect:
+        spread: +5
+        detect: +5
+    description:
+        You can infect usb keys
+
+malicious_usb_key_2:
+    price: 200
+    category: transmission
+    requirements:
+        - malicious_usb_key_1
+    effect:
+        spread: +5
+        detect: +5
+    description:
+        You can infect usb keys with better chance of success
+
+malicious_email_1:
+    price: 500
+    category: transmission
+    effect:
+        spread: +15
+        detect: +20
+    description:
+        You can spread through emails
+
+malicious_email_1:
+    price: 1000
+    category: transmission
+    requirements:
+        - malicious_email_1
+    effect:
+        spread: +30
+        detect: +20
+    description:
+        You can spread through more emails
+
+
+# MONEYMAKING
+#############
+steal_family_photos_1:
+    price: 100
+    category: moneymaking
+    effect:
+        rentab: +5
+        detect: +1
+    description:
+        You steal family photos and sell them
+
+steal_family_photos_2:
+    price: 200
+    category: moneymaking
+    effect:
+        rentab: +5
+        detect: +1
+    description:
+        You target children photos and get more money !
+
+
+# OFFENSIVENESS
+###############
+windows_bug:
+    price: 100
+    category: offensiveness
+    effect:
+        danger: +2
+        detect: -1
+    description:
+        The target starts bugging... Well, no more than other windows bugs.
+
+linux_bug:
+    price: 100
+    category: offensiveness
+    effect:
+        danger: +2
+        detect: +10
+    description:
+        The target starts bugging... But linux has no bug normally !
+
+
+# FUN
+#####
+bunny_picture:
+    price: 500
+    category: fun
+    effect:
+        detect: +100
+    description:
+        Displays a bunny picture on the screen of the victim
+

@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import yaml
 from exceptions import *
 from math import floor
@@ -66,7 +65,6 @@ class Virus:
         self.skills.append(skill)
 
         for each in self.sk_list[skill]["effect"]:
-            # This one is really abused... I should think this all again.
             self.stat[each] += self.sk_list[skill]["effect"][each]
 
 
