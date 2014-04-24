@@ -1,3 +1,24 @@
+countries:
+  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 1,
+    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
+  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 0,
+    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 600000000}
+  Eastern_Europe: {computers: 80000000, defense: 30, destroyed: 0, detection: 30,
+    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 80000000}
+  Middle_East: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 0,
+    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
+  North_America: {computers: 300000000, defense: 100, destroyed: 0, detection: 100,
+    infected: 0, internet: 5, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 300000000}
+  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 0,
+    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 50000000}
+  South_America: {computers: 200000000, defense: 20, destroyed: 0, detection: 30,
+    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 200000000}
+  Western_Europe: {computers: 300000000, defense: 80, destroyed: 0, detection: 80,
+    infected: 0, internet: 3, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 300000000}
 virus: &id001 !!python/object:virus.Virus
   age: 0
   money: 1000
@@ -5,6 +26,11 @@ virus: &id001 !!python/object:virus.Virus
   research_level: 0
   research_rate: 0
   sk_list:
+    bunny_picture:
+      category: fun
+      description: Displays a bunny picture on the screen of the victim
+      effect: {detect: 100}
+      price: 500
     fuzzy_code_1:
       category: discretion
       description: The virus' code is mixed randomly to bypass antivirus scans.
@@ -16,6 +42,43 @@ virus: &id001 !!python/object:virus.Virus
       effect: {detect: -5}
       price: 200
       requirements: [fuzzy_code_1]
+    linux_bug:
+      category: offensiveness
+      description: The target starts bugging... But linux has no bug normally !
+      effect: {danger: 2, detect: 10}
+      price: 100
+    malicious_email_1:
+      category: transmission
+      description: You can spread through more emails
+      effect: {detect: 20, spread: 30}
+      price: 1000
+      requirements: [malicious_email_1]
+    malicious_usb_key_1:
+      category: transmission
+      description: You can infect usb keys
+      effect: {detect: 5, spread: 5}
+      price: 100
+    malicious_usb_key_2:
+      category: transmission
+      description: You can infect usb keys with better chance of success
+      effect: {detect: 5, spread: 5}
+      price: 200
+      requirements: [malicious_usb_key_1]
+    steal_family_photos_1:
+      category: moneymaking
+      description: You steal family photos and sell them
+      effect: {detect: 1, rentab: 5}
+      price: 100
+    steal_family_photos_2:
+      category: moneymaking
+      description: You target children photos and get more money !
+      effect: {detect: 1, rentab: 5}
+      price: 200
+    windows_bug:
+      category: offensiveness
+      description: The target starts bugging... Well, no more than other windows bugs.
+      effect: {danger: 2, detect: -1}
+      price: 100
   skills: []
   stat: {danger: 0, detect: 0, rentab: 0, spread: 0}
 world: !!python/object:world.World

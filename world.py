@@ -141,7 +141,7 @@ class World:
         state += "Destroyed\n"
         state += "---------\n"
         for each in countries:
-            if countries[each]["infected"] != 0:
+            if countries[each]["destroyed"] != 0:
                 state += each.ljust(max_len)
                 state += " (%s\t/ %s)\n" % c_ratio(each, "destroyed")
 

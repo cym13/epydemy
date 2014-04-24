@@ -37,7 +37,7 @@ import yaml
 from exceptions import *
 from docopt import docopt
 from virus import Virus
-from world import World, countries
+import world as W
 from time import sleep
 
 
@@ -168,12 +168,15 @@ def patch(virus, world):
 def load_file(path):
     with open(path) as f:
         state = yaml.load(f)
-        return state["virus"], state["world"]
+        return state["virus"], state["world"], state["countries"]
 
 
 def save_file(virus, world, path):
     with open(path, "w+") as f:
-        f.write(yaml.dump({"virus":virus, "world":world}))
+        f.write(yaml.dump({"virus":virus,
+                           "world":world,
+                           "countries": W.countries
+                           }))
 
 
 def main():
@@ -190,18 +193,18 @@ def main():
 
         try:
             print("Available countries are:")
-            for name in countries:
+            for name in W.countries:
                 print(name)
             first_country = input("Where do you want to start? ")
             print()
-            world = World(virus, first_country)
+            world = W.World(virus, first_country)
 
         except CountryDoesNotExist:
             print("This country does not exist.")
             sys.exit()
 
     else:
-        virus, world = load_file(filename)
+        virus, world, W.countries = load_file(filename)
 
     try:
         play(virus, world, filename)
