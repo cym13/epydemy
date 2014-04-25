@@ -91,6 +91,8 @@ steal_family_photos_1:
 steal_family_photos_2:
     price: 200
     category: moneymaking
+    requirements:
+         - steal_family_photos_1
     effect:
         rentab: +5
         detect: +1
