@@ -32,13 +32,13 @@ Options:
 
 
 import sys
-from os import path
 import yaml
-from exceptions import *
-from docopt import docopt
-from virus import Virus
 import world as W
+from os import path
 from time import sleep
+from virus import Virus
+from docopt import docopt
+from exceptions import *
 
 
 def uinput(prompt):
@@ -135,8 +135,16 @@ def patch(virus, world):
         elif cmd.startswith("info"):
             skill = cmd[5:]
 
-            for field in virus.sk_list[skill]:
-                print("%s: %s" % (field.title(), virus.sk_list[skill][field]))
+            try:
+                if skill not in virus.sk_list:
+                    raise SkillDoesNotExist
+
+                for field in virus.sk_list[skill]:
+                    print("%s: %s" % (field.title(),
+                                virus.sk_list[skill][field]))
+
+            except SkillDoesNotExist:
+                print("This skill does not exist: %s" % skill)
 
         elif cmd.startswith("upgrade"):
             skill = cmd[8:]
@@ -167,6 +175,8 @@ def patch(virus, world):
 
             except SkillNotPresent:
                 print("You don't have %s yet" % skill)
+            except skillDoesNotExist:
+                print("Wrong skill name: %s" % skill)
 
         elif cmd != "quit" and cmd != "":
             print("Wrong command")
