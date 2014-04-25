@@ -74,6 +74,7 @@ class World:
         rent_r = self.virus.stat["rentab"]
 
         for each in countries:
+            # add a if to avoid the case of negative sane
             countries[each]["sane"] -= round(inf_r * countries[each]["sane"])
 
             countries[each]["infected"]  += round(inf_r
