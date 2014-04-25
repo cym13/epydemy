@@ -41,6 +41,13 @@ import world as W
 from time import sleep
 
 
+def uinput(prompt):
+    """
+    Function to use to get user input, strip it and lower it systematically
+    """
+    return input(prompt).strip().lower()
+
+
 def play(virus, world, filename):
     """
     Main game shell and main game loop.
@@ -59,7 +66,7 @@ def play(virus, world, filename):
 
     cmd = None
     while cmd != "quit":
-        cmd = input("\n> ")
+        cmd = uinput("\n> ")
 
         if cmd == "":
             virus.money += world.step()
@@ -109,7 +116,7 @@ def patch(virus, world):
         # for skill in virus.skills:
         #     print("%s (%sBTC)" % (skill,
         #                           virus.sk_list[skill]["price"] / 5))
-        cmd = input(">> ")
+        cmd = uinput(">> ")
 
         if cmd == "help":
             print(help_msg)
@@ -188,14 +195,14 @@ def main():
         new_game = True
 
     if new_game:
-        name = input("Enter your virus' name: ")
+        name = uinput("Enter your virus' name: ")
         virus = Virus(name)
 
         try:
             print("Available countries are:")
             for name in W.countries:
                 print(name)
-            first_country = input("Where do you want to start? ")
+            first_country= uinput("\nWhere do you want to start? ")
             print()
             world = W.World(virus, first_country)
 
