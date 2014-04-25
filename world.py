@@ -29,6 +29,16 @@ with open("./countries.yaml") as f:
         countries[each]["research_level"] = 0
 
 
+def c_ratio(country, *attributes):
+    total = (countries[country]["sane"]
+           + countries[country]["protected"]
+           + countries[country]["infected"]
+           + countries[country]["destroyed"])
+
+    value = sum([countries[country][x] for x in attributes])
+    return value, total
+
+
 
 class World:
     """
@@ -146,13 +156,3 @@ class World:
                 state += " (%s\t/ %s)\n" % c_ratio(each, "destroyed")
 
         return state.rstrip('\n')
-
-
-def c_ratio(country, *attributes):
-    total = (countries[country]["sane"]
-           + countries[country]["protected"]
-           + countries[country]["infected"]
-           + countries[country]["destroyed"])
-
-    value = sum([countries[country][x] for x in attributes])
-    return value, total
