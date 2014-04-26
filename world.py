@@ -99,7 +99,7 @@ class World:
         print("##### %s #####"% self.protected)
 
         for country in countries:
-            self.spread(country)
+            self.spread(country, inf_r, dest_r, prot_r)
 
             self.sane      += countries[each]["sane"]
             self.infected  += countries[each]["infected"]
@@ -114,7 +114,7 @@ class World:
             return money
 
 
-    def spread(self, country):
+    def spread(self, country, inf_r, dest_r, prot_r):
         """
         Core of the game mechanics
         Manages the evolution of the infection in a country
@@ -148,22 +148,6 @@ class World:
         countries[each]["destroyed"] = destroyed
         countries[each]["protected"] = protected
         countries[each]["computers"] = computers
-
-
-    def step(self):
-        """
-        Reimplementation of step to try to fix a bug in game mechanics
-        """
-        money          = 0
-        self.sane      = 0
-        self.infected  = 0
-        self.protected = 0
-        self.destroyed = 0
-
-        inf_r  = virus.spread * 0.01
-        dest_r = virus.danger * 0.01
-        prot_r = virus.detect * 0.01
-        rent_r = virus.money
 
 
     def upgrade(immunity_rate, country_lst=None):
