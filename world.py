@@ -101,15 +101,15 @@ class World:
         for country in countries:
             self.spread(country, inf_r, dest_r, prot_r)
 
-            self.sane      += countries[each]["sane"]
-            self.infected  += countries[each]["infected"]
-            self.destroyed += countries[each]["destroyed"]
-            self.protected += countries[each]["protected"]
+            self.sane      += countries[country]["sane"]
+            self.infected  += countries[country]["infected"]
+            self.destroyed += countries[country]["destroyed"]
+            self.protected += countries[country]["protected"]
 
-            money += round(countries[each]["infected"]
-                         / countries[each]["computers"]
+            money += round(countries[country]["infected"]
+                         / countries[country]["computers"]
                          * rent_r
-                         * countries[each]["money"])
+                         * countries[country]["money"])
 
             return money
 
@@ -119,35 +119,36 @@ class World:
         Core of the game mechanics
         Manages the evolution of the infection in a country
         """
-        sane      = countries[each]["sane"]
-        infected  = countries[each]["infected"]
-        destroyed = countries[each]["destroyed"]
-        protected = countries[each]["protected"]
-        computers = countries[each]["computers"]
+        for country in countries:
+            sane      = countries[country]["sane"]
+            infected  = countries[country]["infected"]
+            destroyed = countries[country]["destroyed"]
+            protected = countries[country]["protected"]
+            computers = countries[country]["computers"]
 
-        sane -= round(inf_r * countries[country]["sane"])
-        if sane < 0:
-            sane = 0
+            sane -= round(inf_r * countries[country]["sane"])
+            if sane < 0:
+                sane = 0
 
-        infected += round(inf_r * countries[country]["sane"])
-        infected -= round(dest_r * countries[country]["infected"])
-        infected -= round(prot_r * countries[country]["infected"])
-        if infected > computers:
-            infected = computers
+            infected += round(inf_r * countries[country]["sane"])
+            infected -= round(dest_r * countries[country]["infected"])
+            infected -= round(prot_r * countries[country]["infected"])
+            if infected > computers:
+                infected = computers
 
-        destroyed += round(dest_r * infected)
-        if destroyed > computers:
-            destroyed = computers
+            destroyed += round(dest_r * infected)
+            if destroyed > computers:
+                destroyed = computers
 
-        protected += round(prot_r * infected)
-        if protected > computers:
-            protected = computers
+            protected += round(prot_r * infected)
+            if protected > computers:
+                protected = computers
 
-        countries[each]["sane"]      = sane
-        countries[each]["infected"]  = infected
-        countries[each]["destroyed"] = destroyed
-        countries[each]["protected"] = protected
-        countries[each]["computers"] = computers
+            countries[country]["sane"]      = sane
+            countries[country]["infected"]  = infected
+            countries[country]["destroyed"] = destroyed
+            countries[country]["protected"] = protected
+            countries[country]["computers"] = computers
 
 
     def upgrade(immunity_rate, country_lst=None):
