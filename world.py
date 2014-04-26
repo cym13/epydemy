@@ -98,31 +98,8 @@ class World:
 
         print("##### %s #####"% self.protected)
 
-        for each in countries:
-            # add a if to avoid the case of negative sane
-            countries[each]["sane"] -= round(inf_r * countries[each]["sane"])
-            if countries[each]["sane"] < 0 :
-                countries[each]["sane"] = 0
-
-            countries[each]["infected"]  += round(inf_r
-                                                * countries[each]["sane"]
-                                                - (dest_r + prot_r)
-                                                * countries[each]["infected"])
-
-            if countries[each]["infected"] > countries[each]["computers"]:
-                countries[each]["infected"] = countries[each]["computers"]
-
-            countries[each]["destroyed"] += round(dest_r
-                                                * countries[each]["infected"])
-
-            if countries[each]["destroyed"] > countries[each]["computers"]:
-                countries[each]["destroyed"] = countries[each]["computers"]
-
-            countries[each]["protected"] += round(prot_r
-                                                * countries[each]["infected"])
-
-            if countries[each]["protected"] > countries[each]["computers"]:
-                countries[each]["protected"] = countries[each]["computers"]
+        for country in countries:
+            self.spread(country)
 
             self.sane      += countries[each]["sane"]
             self.infected  += countries[each]["infected"]
@@ -134,7 +111,59 @@ class World:
                          * rent_r
                          * countries[each]["money"])
 
-        return money
+            return money
+
+
+    def spread(self, country):
+        """
+        Core of the game mechanics
+        Manages the evolution of the infection in a country
+        """
+        sane      = countries[each]["sane"]
+        infected  = countries[each]["infected"]
+        destroyed = countries[each]["destroyed"]
+        protected = countries[each]["protected"]
+        computers = countries[each]["computers"]
+
+        sane -= round(inf_r * countries[country]["sane"])
+        if sane < 0:
+            sane = 0
+
+        infected += round(inf_r * countries[country]["sane"])
+        infected -= round(dest_r * countries[country]["infected"])
+        infected -= round(prot_r * countries[country]["infected"])
+        if infected > computers:
+            infected = computers
+
+        destroyed += round(dest_r * infected)
+        if destroyed > computers:
+            destroyed = computers
+
+        protected += round(prot_r * infected)
+        if protected > computers:
+            protected = computers
+
+        countries[each]["sane"]      = sane
+        countries[each]["infected"]  = infected
+        countries[each]["destroyed"] = destroyed
+        countries[each]["protected"] = protected
+        countries[each]["computers"] = computers
+
+
+    def step(self):
+        """
+        Reimplementation of step to try to fix a bug in game mechanics
+        """
+        money          = 0
+        self.sane      = 0
+        self.infected  = 0
+        self.protected = 0
+        self.destroyed = 0
+
+        inf_r  = virus.spread * 0.01
+        dest_r = virus.danger * 0.01
+        prot_r = virus.detect * 0.01
+        rent_r = virus.money
 
 
     def upgrade(immunity_rate, country_lst=None):
