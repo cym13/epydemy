@@ -212,7 +212,7 @@ def main():
             print("Available countries are:")
             for name in W.countries:
                 print(name)
-            first_country= uinput("\nWhere do you want to start? ")
+            first_country= input("\nWhere do you want to start? ")
             print()
             world = W.World(virus, first_country)
 
