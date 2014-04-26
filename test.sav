@@ -21,7 +21,7 @@ countries:
     sane: 300000000}
 virus: &id001 !!python/object:virus.Virus
   age: 0
-  money: 700
+  money: 600
   name: test
   research_level: 0
   research_rate: 0
@@ -79,11 +79,11 @@ virus: &id001 !!python/object:virus.Virus
       description: The target starts bugging... Well, no more than other windows bugs.
       effect: {danger: 2, detect: -1}
       price: 100
-  skills: [fuzzy_code_1, fuzzy_code_2]
-  stat: {danger: 0, detect: -10, rentab: 0, spread: 0}
+  skills: [fuzzy_code_1, fuzzy_code_2, malicious_usb_key_1]
+  stat: {danger: 0, detect: -5, rentab: 0, spread: 5}
 world: !!python/object:world.World
   destroyed: 0
   infected: 1
   protected: 0
-  sane: 0
+  sane: 1730000000
   virus: *id001

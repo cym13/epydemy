@@ -30,15 +30,24 @@ class Virus:
         self.research_rate = 0
         self.research_level = 0
 
-        # Skill stats
-        self.stat = {"danger": 0,
-                     "detect": 0,
-                     "rentab": 0,
-                     "spread": 0}
+        self.danger = 0
+        self.detect = 0
+        self.rentab = 0
+        self.spread = 0
 
         self.skills = []
         with open("./skills.yaml") as f:
             self.sk_list = yaml.load(f)
+
+
+    def stat(self):
+        """
+        Used to iterate on stats or to get a value from a string
+        """
+        yield self.danger
+        yield self.detect
+        yield self.rentab
+        yield self.spread
 
 
     def upgrade(self, skill):
@@ -63,9 +72,7 @@ class Virus:
 
         self.money -= self.sk_list[skill]["price"]
         self.skills.append(skill)
-
-        for each in self.sk_list[skill]["effect"]:
-            self.stat[each] += self.sk_list[skill]["effect"][each]
+        self.__upgrade(skill)
 
 
     def downgrade(self, skill):
@@ -81,9 +88,19 @@ class Virus:
 
         self.money += floor(self.sk_list[skill]["price"] * 0.20)
         self.skills.remove(skill)
+        self.__upgrade(skill, substract=True)
 
+
+    def __upgrade(self, skill, substract=False):
+        """
+        Avoid repetition of hard-to-read stuff for upgrade and downgrade
+        """
         for each in self.sk_list[skill]["effect"]:
-            self.stat[each] -= self.sk_list[skill]["effect"][each]
+            value = self.sk_list[skill]["effect"][each]
+            if substract:
+                value *= -1
+
+            self.__setattr__(each, self.__getattribute__(each) + value)
 
 
     def __str__(self):
@@ -101,10 +118,10 @@ class Virus:
         state += "\n"
         state += "Stats\n"
         state += "-----\n"
-        state += "Dangerosity:   %s\n" % self.stat["danger"]
-        state += "Detectability: %s\n" % self.stat["detect"]
-        state += "Rentability:   %s\n" % self.stat["rentab"]
-        state += "Spreadability: %s\n" % self.stat["spread"]
+        state += "Dangerosity:   %s\n" % self.danger
+        state += "Detectability: %s\n" % self.detect
+        state += "Rentability:   %s\n" % self.rentab
+        state += "Spreadability: %s\n" % self.spread
         state += "\n"
         state += "Skills\n"
         state += "------\n"

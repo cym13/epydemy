@@ -35,6 +35,20 @@ def c_ratio(country, *attributes):
            + countries[country]["infected"]
            + countries[country]["destroyed"])
 
+    # Debug only
+    # with open("./countries.yaml") as f:
+    #     ctrs = yaml.load(f)
+    #     sum_sane      = sum([countries[country]["sane"]      for x in ctrs])
+    #     sum_infected  = sum([countries[country]["infected"]  for x in ctrs])
+    #     sum_protected = sum([countries[country]["protected"] for x in ctrs])
+    #     sum_destroyed = sum([countries[country]["destroyed"] for x in ctrs])
+
+    #     print("*" * 80)
+    #     print(sum_sane)
+    #     print(sum_infected)
+    #     print(sum_protected)
+    #     print(sum_destroyed)
+
     value = sum([countries[country][x] for x in attributes])
     return value, total
 
@@ -68,10 +82,21 @@ class World:
         self.protected = 0
         self.destroyed = 0
 
-        inf_r  = self.virus.stat["spread"] * 0.01
-        dest_r = self.virus.stat["danger"] * 0.01
-        prot_r = self.virus.stat["detect"] * 0.01
-        rent_r = self.virus.stat["rentab"]
+        inf_r  = self.virus.spread * 0.01
+        dest_r = self.virus.danger * 0.01
+        prot_r = self.virus.detect * 0.01
+        rent_r = self.virus.rentab
+
+        if inf_r < 0:
+            inf_r = 0
+        if dest_r < 0:
+            dest_r = 0
+        if prot_r < 0:
+            prot_r = 0
+        if rent_r < 0:
+            rent_r = 0
+
+        print("##### %s #####"% self.protected)
 
         for each in countries:
             # add a if to avoid the case of negative sane
