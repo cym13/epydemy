@@ -5,8 +5,8 @@
 
 2014-04-25
 ----------
-negative numbers in totals
-infected numbers continues growing even with spreadability at 0
+negative numbers in totals (corrected but not tested)
+infected numbers continues growing even with spreadability at 0 (corrected but not tested)
 buggy number of sane/infected (difference of 1)
 should be able to see infos about the virus on main screen
 should add infos about countries at startup screen

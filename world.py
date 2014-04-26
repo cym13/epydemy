@@ -58,6 +58,7 @@ class World:
             raise CountryDoesNotExist
 
 
+    @property
     def step(self):
         """
         Perform one turn of spreading
@@ -76,17 +77,25 @@ class World:
         for each in countries:
             # add a if to avoid the case of negative sane
             countries[each]["sane"] -= round(inf_r * countries[each]["sane"])
+            if countries[each]["sane"] < 0 :
+                countries[each]["sane"] = 0
 
             countries[each]["infected"]  += round(inf_r
                                                 * countries[each]["sane"]
                                                 - (dest_r + prot_r)
                                                 * countries[each]["infected"])
+            if countries[each]["infected"] > countries[each]["computer"]:
+                countries[each]["infected"] = countries[each]["computer"]
 
             countries[each]["destroyed"] += round(dest_r
                                                 * countries[each]["infected"])
+            if countries[each]["destroyed"] > countries[each]["computer"]:
+                countries[each]["destroyed"] = countries[each]["computer"]
 
             countries[each]["protected"] += round(prot_r
                                                 * countries[each]["infected"])
+            if countries[each]["protected"] > countries[each]["computer"]:
+                countries[each]["protected"] = countries[each]["computer"]
 
             self.sane      += countries[each]["sane"]
             self.infected  += countries[each]["infected"]
