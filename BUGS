@@ -5,6 +5,7 @@
 
 2014-04-25
 ----------
+totals should stay constant
 negative numbers in totals (corrected but not tested)
 infected numbers continues growing even with spreadability at 0 (corrected but not tested)
 buggy number of sane/infected (difference of 1)
