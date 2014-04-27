@@ -35,20 +35,6 @@ def c_ratio(country, *attributes):
            + countries[country]["infected"]
            + countries[country]["destroyed"])
 
-    # Debug only
-    # with open("./countries.yaml") as f:
-    #     ctrs = yaml.load(f)
-    #     sum_sane      = sum([countries[country]["sane"]      for x in ctrs])
-    #     sum_infected  = sum([countries[country]["infected"]  for x in ctrs])
-    #     sum_protected = sum([countries[country]["protected"] for x in ctrs])
-    #     sum_destroyed = sum([countries[country]["destroyed"] for x in ctrs])
-
-    #     print("*" * 80)
-    #     print(sum_sane)
-    #     print(sum_infected)
-    #     print(sum_protected)
-    #     print(sum_destroyed)
-
     value = sum([countries[country][x] for x in attributes])
     return value, total
 
@@ -76,6 +62,7 @@ class World:
         """
         Perform one turn of spreading
         """
+        self.virus.age += 1
         money          = 0
         self.sane      = 0
         self.infected  = 0
