@@ -5,7 +5,6 @@
 
 2014-04-25
 ----------
-infected numbers continues growing even with spreadability at 0 (corrected but not tested)
 should be able to see infos about the virus on main screen
 should add infos about countries at startup screen
 should add age in ui
