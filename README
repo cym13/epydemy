@@ -48,7 +48,7 @@ Yet the objectives are:
 [x] improve the game mechanics to something usable
 [ ] add stuff to populate the game
 [x] improve the ui
-[w] write tests
+[x] write tests
 
 Legend: [ ] Todo | [x] Finished | [?] Need Test | [w] In Work | [s] Stopped
 

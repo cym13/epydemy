@@ -48,9 +48,10 @@ def uinput(prompt):
     return input(prompt).strip().lower()
 
 
-def play(virus, world, filename, cmd=None):
+def play(virus, world, filename, command=None):
     """
     Main game shell and main game loop.
+    The 'command' argument is used to test commands and exit the loop
     """
 
     help_msg = """
@@ -64,8 +65,13 @@ def play(virus, world, filename, cmd=None):
     print(virus)
     print(world)
 
+    cmd = ""
     while cmd != "quit":
-        cmd = uinput("\n> ")
+        if command is None:
+            cmd = uinput("\n> ")
+        else:
+            command = None
+            cmd = "quit"
 
         if cmd == "":
             virus.money += world.step()
@@ -77,6 +83,7 @@ def play(virus, world, filename, cmd=None):
                     raise WhiteFlag
                 elif world.sane == 0:
                     raise VictoryFlag
+
 
         elif cmd == "help":
             print(help_msg)
@@ -185,6 +192,9 @@ def patch(virus, world, cmd=None):
 
 
 def available(skill, virus):
+    if skill not in virus.sk_list:
+        raise SkillDoesNotExist
+
     try:
         requirements = virus.sk_list[skill]["requirements"]
 
