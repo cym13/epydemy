@@ -55,11 +55,12 @@ def play(virus, world, filename, command=None):
     """
 
     help_msg = """
-    <enter>     Go one step forward
-    help        Print this help
-    patch       Open the patch panel
-    save        Save the game
-    quit        Quit the game
+    <enter>          Go one step forward
+    help             Print this help
+    patch            Open the patch panel
+    target country   Target a country or none if "None" is given
+    save             Save the game
+    quit             Quit the game
     """
 
     print(virus)
@@ -90,6 +91,9 @@ def play(virus, world, filename, command=None):
 
         elif cmd == "patch":
             patch(virus, world)
+
+        elif cmd.startswith("target"):
+            change_target(virus, cmd)
 
         elif cmd == "save":
             try:
@@ -205,6 +209,21 @@ def available(skill, virus):
 
     except KeyError:
         return True
+
+
+def change_target(virus, cmd):
+    cmd = cmd.split()
+    if len(cmd) == 1:
+        print("Country name missing")
+    else:
+        country = cmd[1].capitalize()
+        if country == "None":
+            virus.target = None
+        else:
+            if country in W.countries:
+                virus.target = country
+            else:
+                raise CountryDoesNotExist
 
 
 def load_file(path):

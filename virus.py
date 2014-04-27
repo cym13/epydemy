@@ -30,6 +30,8 @@ class Virus:
         self.research_rate = 0
         self.research_level = 0
 
+        self.target = None
+
         self.danger = 0
         self.detect = 0
         self.rentab = 0

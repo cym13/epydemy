@@ -1,7 +1,7 @@
 countries:
-  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 1,
+  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 0,
     internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
-  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 0,
+  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 1,
     internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 600000000}
   Eastern_Europe: {computers: 80000000, defense: 30, destroyed: 0, detection: 30,
     infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
@@ -22,8 +22,8 @@ countries:
 virus: &id001 !!python/object:virus.Virus
   age: 0
   danger: 0
-  detect: -5
-  money: 600
+  detect: 0
+  money: 800
   name: test
   rentab: 0
   research_level: 0
@@ -83,11 +83,12 @@ virus: &id001 !!python/object:virus.Virus
       description: The target starts bugging... Well, no more than other windows bugs.
       effect: {danger: 2, detect: -1}
       price: 100
-  skills: [fuzzy_code_1, fuzzy_code_2, malicious_usb_key_1]
+  skills: [fuzzy_code_1, malicious_usb_key_1]
   spread: 5
+  target: Oceania
 world: !!python/object:world.World
   destroyed: 0
   infected: 1
   protected: 0
-  sane: 1730000000
+  sane: 0
   virus: *id001

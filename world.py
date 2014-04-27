@@ -39,7 +39,6 @@ def c_ratio(country, *attributes):
     return value, total
 
 
-
 class World:
     """
     This is the world you play in.
@@ -69,9 +68,9 @@ class World:
         self.protected = 0
         self.destroyed = 0
 
-        inf_r  = self.virus.spread * 0.01
-        dest_r = self.virus.danger * 0.01
-        prot_r = self.virus.detect * 0.01
+        inf_r  = self.virus.spread * 0.001
+        dest_r = self.virus.danger * 0.001
+        prot_r = self.virus.detect * 0.001
         rent_r = self.virus.rentab
 
         if inf_r < 0:
@@ -110,6 +109,8 @@ class World:
         Core of the game mechanics
         Manages the evolution of the infection in a country
         """
+        target = self.virus.target
+
         for country in countries:
             sane      = countries[country]["sane"]
             infected  = countries[country]["infected"]
@@ -117,8 +118,15 @@ class World:
             protected = countries[country]["protected"]
             computers = countries[country]["computers"]
 
+            if target == None:
+                pass
+            elif target == country:
+                inf_r *= 1.80
+            else:
+                inf_r *= 0.20
+
             # Asymptotic limit counter-measure
-            countries[country]["sane"] += 100
+            countries[country]["sane"] += 1000
 
             sane -= round(inf_r * countries[country]["sane"])
             if sane < 0:
