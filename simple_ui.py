@@ -48,7 +48,7 @@ def uinput(prompt):
     return input(prompt).strip().lower()
 
 
-def play(virus, world, filename):
+def play(virus, world, filename, cmd=None):
     """
     Main game shell and main game loop.
     """
@@ -64,7 +64,6 @@ def play(virus, world, filename):
     print(virus)
     print(world)
 
-    cmd = None
     while cmd != "quit":
         cmd = uinput("\n> ")
 
@@ -96,7 +95,7 @@ def play(virus, world, filename):
             print("Wrong command")
 
 
-def patch(virus, world):
+def patch(virus, world, cmd=None):
     """
     Virus modification subshell
     """
@@ -105,17 +104,14 @@ def patch(virus, world):
     help              Print this help
     list              List the available patches
     list own          List the present patches
+    info              Print virus infos
     info patch        Print patch infos
     upgrade patch     Upgrade the given patch
     downgrade patch   Downgrade the given patch
     """
 
-    cmd = None
     while cmd != "quit" and cmd != "":
         print("\nCurrent (%sBTC):" % virus.money)
-        # for skill in virus.skills:
-        #     print("%s (%sBTC)" % (skill,
-        #                           virus.sk_list[skill]["price"] / 5))
         cmd = uinput(">> ")
 
         if cmd == "help":
@@ -133,21 +129,26 @@ def patch(virus, world):
                                       virus.sk_list[skill]["price"] / 5))
 
         elif cmd.startswith("info"):
-            skill = cmd[5:]
+            cmd = cmd.split()
+            if len(cmd) == 1:
+                print(virus)
 
-            try:
-                if skill not in virus.sk_list:
-                    raise SkillDoesNotExist
+            else:
+                skill = cmd[1]
+                try:
+                    if skill not in virus.sk_list:
+                        raise SkillDoesNotExist
 
-                for field in virus.sk_list[skill]:
-                    print("%s: %s" % (field.title(),
-                                virus.sk_list[skill][field]))
+                    for field in virus.sk_list[skill]:
+                        print("%s: %s" % (field.title(),
+                                    virus.sk_list[skill][field]))
 
-            except SkillDoesNotExist:
-                print("This skill does not exist: %s" % skill)
+                except SkillDoesNotExist:
+                    print("This skill does not exist: %s" % skill)
 
         elif cmd.startswith("upgrade"):
-            skill = cmd[8:]
+            cmd = cmd.split()
+            skill = cmd[1]
 
             try:
                 virus.upgrade(skill)
@@ -168,7 +169,8 @@ def patch(virus, world):
                         print(each)
 
         elif cmd.startswith("downgrade"):
-            skill = cmd[10:]
+            cmd = cmd.split()
+            skill = cmd[1]
 
             try:
                 virus.downgrade(skill)
