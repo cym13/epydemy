@@ -93,7 +93,10 @@ def play(virus, world, filename, command=None):
             patch(virus, world)
 
         elif cmd.startswith("target"):
-            change_target(virus, cmd)
+            try:
+                change_target(virus, cmd)
+            except CountryDoesNotExist:
+                print("This country does not exist: %s" % cmd.split()[1])
 
         elif cmd == "save":
             try:

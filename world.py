@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import yaml
+import random
 from exceptions import *
 
 
@@ -82,8 +83,6 @@ class World:
         if rent_r < 0:
             rent_r = 0
 
-        print("##### %s #####"% self.protected)
-
         for country in countries:
             self.spread(country, inf_r, dest_r, prot_r)
 
@@ -111,46 +110,51 @@ class World:
         """
         target = self.virus.target
 
-        for country in countries:
-            sane      = countries[country]["sane"]
-            infected  = countries[country]["infected"]
-            destroyed = countries[country]["destroyed"]
-            protected = countries[country]["protected"]
-            computers = countries[country]["computers"]
+        sane      = countries[country]["sane"]
+        infected  = countries[country]["infected"]
+        destroyed = countries[country]["destroyed"]
+        protected = countries[country]["protected"]
+        computers = countries[country]["computers"]
 
-            if target == None:
-                pass
-            elif target == country:
-                inf_r *= 1.80
-            else:
-                inf_r *= 0.20
+        # Add some randomness to the values
+        inf_r  *= (random.randint(1, 10) / 30)
+        dest_r *= (random.randint(1, 10) / 30)
+        prot_r *= (random.randint(1, 10) / 30)
 
-            # Asymptotic limit counter-measure
-            countries[country]["sane"] += 1000
+        if target == None:
+            pass
+        elif target == country:
+            print("== %s ==" % target)
+            inf_r *= 2.00
+        else:
+            inf_r *= 0.10
 
-            sane -= round(inf_r * countries[country]["sane"])
-            if sane < 0:
-                sane = 0
+        # Asymptotic limit counter-measure
+        countries[country]["sane"] += 1000
 
-            infected += round(inf_r  * countries[country]["sane"])
-            infected -= round(dest_r * countries[country]["infected"])
-            infected -= round(prot_r * countries[country]["infected"])
-            if infected > computers:
-                infected = computers
+        sane -= round(inf_r * countries[country]["sane"])
+        if sane < 0:
+            sane = 0
 
-            destroyed += round(dest_r * infected)
-            if destroyed > computers:
-                destroyed = computers
+        infected += round(inf_r  * countries[country]["sane"])
+        infected -= round(dest_r * countries[country]["infected"])
+        infected -= round(prot_r * countries[country]["infected"])
+        if infected > computers:
+            infected = computers
 
-            protected += round(prot_r * infected)
-            if protected > computers:
-                protected = computers
+        destroyed += round(dest_r * infected)
+        if destroyed > computers:
+            destroyed = computers
 
-            countries[country]["sane"]      = sane
-            countries[country]["infected"]  = infected
-            countries[country]["destroyed"] = destroyed
-            countries[country]["protected"] = protected
-            countries[country]["computers"] = computers
+        protected += round(prot_r * infected)
+        if protected > computers:
+            protected = computers
+
+        countries[country]["sane"]      = sane
+        countries[country]["infected"]  = infected
+        countries[country]["destroyed"] = destroyed
+        countries[country]["protected"] = protected
+        countries[country]["computers"] = computers
 
 
     def upgrade(immunity_rate, country_lst=None):

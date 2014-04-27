@@ -12,7 +12,7 @@
 #                    the number, the more connected is the country.
 # computers: 0-?     The number of computers in the country.
 
-North_America:
+North_america:
     defense:   100
     detection: 100
     money:     100
@@ -26,28 +26,28 @@ Asia:
     internet:  4
     computers: 600000000
 
-Middle_East:
+Middle_east:
     defense:   40
     detection: 40
     money:     60
     internet:  3
     computers: 100000000
 
-Western_Europe:
+Western_europe:
     defense:   80
     detection: 80
     money:     100
     internet:  3
     computers: 300000000
 
-Eastern_Europe:
+Eastern_europe:
     defense:   30
     detection: 30
     money:     40
     internet:  3
     computers: 80000000
 
-South_America:
+South_america:
     defense:   20
     detection: 30
     money:     40

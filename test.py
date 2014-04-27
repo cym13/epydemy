@@ -98,8 +98,8 @@ class TestWorld:
         computers = countries["Asia"]["computers"]
 
         world.spread("Asia", 0.01, 0, 0)
-        assert countries["Asia"]["sane"]       < sane
-        assert countries["Asia"]["infected"]   > infected
+        assert countries["Asia"]["sane"]      <= sane
+        assert countries["Asia"]["infected"]  >= infected
         assert countries["Asia"]["destroyed"] == destroyed
         assert countries["Asia"]["protected"] == protected
 
@@ -111,9 +111,9 @@ class TestWorld:
         computers = countries["Asia"]["computers"]
 
         world.spread("Asia", 0.01, 0.01, 0)
-        assert countries["Asia"]["sane"]       < sane
-        assert countries["Asia"]["infected"]   > infected
-        assert countries["Asia"]["destroyed"]  > destroyed
+        assert countries["Asia"]["sane"]      <= sane
+        assert countries["Asia"]["infected"]  >= infected
+        assert countries["Asia"]["destroyed"] >= destroyed
         assert countries["Asia"]["protected"] == protected
 
 
@@ -125,10 +125,10 @@ class TestWorld:
         computers = countries["Asia"]["computers"]
 
         world.spread("Asia", 0.01, 0, 0.01)
-        assert countries["Asia"]["sane"]       < sane
-        assert countries["Asia"]["infected"]   > infected
-        assert countries["Asia"]["destroyed"] == destroyed
-        assert countries["Asia"]["protected"]  > protected
+        assert countries["Asia"]["sane"]       <= sane
+        assert countries["Asia"]["infected"]   >= infected
+        assert countries["Asia"]["destroyed"]  == destroyed
+        assert countries["Asia"]["protected"]  >= protected
 
 
     def test_c_ratio_1(cls):
