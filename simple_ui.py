@@ -119,7 +119,7 @@ def patch(virus, world, cmd=None):
 
         elif cmd == "list":
             for skill in virus.sk_list:
-                if skill not in virus.skills:
+                if skill not in virus.skills and available(skill, virus):
                     print("%s (%sBTC)" % (skill,
                                           virus.sk_list[skill]["price"]))
 
@@ -182,6 +182,19 @@ def patch(virus, world, cmd=None):
 
         elif cmd != "quit" and cmd != "":
             print("Wrong command")
+
+
+def available(skill, virus):
+    try:
+        requirements = virus.sk_list[skill]["requirements"]
+
+        for each in requirements:
+            if each not in virus.skills:
+                return False
+        return True
+
+    except KeyError:
+        return True
 
 
 def load_file(path):
