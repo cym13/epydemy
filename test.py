@@ -179,3 +179,16 @@ class TestSimpleUI:
     @raises(SkillDoesNotExist)
     def test_available_3(cls):
         assert simple_ui.available("", virus)
+
+    def test_change_target_1(cls):
+        simple_ui.change_target(virus, "target None")
+        print(virus.target)
+        assert virus.target is None
+
+        simple_ui.change_target(virus, "target Asia")
+        assert virus.target == "Asia"
+
+    @raises(CountryDoesNotExist)
+    def test_change_target_2(cls):
+        simple_ui.change_target(virus, "target something_wrong")
+

@@ -124,7 +124,6 @@ class World:
         if target == None:
             pass
         elif target == country:
-            print("== %s ==" % target)
             inf_r *= 2.00
         else:
             inf_r *= 0.10
