@@ -198,6 +198,27 @@ def save_file(virus, world, path):
                            }))
 
 
+def choose_country():
+    print("Available countries are:")
+    for name in W.countries:
+        print(name)
+
+    print("\nTo get infos about a country add '?' at its end")
+
+    first_country = None
+    while not first_country:
+        first_country= input("Where do you want to start? ")
+        print()
+
+        if first_country.endswith("?"):
+            country = first_country.rstrip(" ?")
+            for stat in W.countries[country]:
+                print("%s: %s" % (stat, W.countries[country][stat]))
+            first_country = None
+
+    return first_country
+
+
 def main():
     args = docopt(__doc__)
     filename = args["FILE"]
@@ -211,13 +232,7 @@ def main():
         virus = Virus(name)
 
         try:
-            print("Available countries are:")
-            for name in W.countries:
-                print(name)
-            first_country= input("\nWhere do you want to start? ")
-            print()
-            world = W.World(virus, first_country)
-
+            world = W.World(virus, choose_country())
         except CountryDoesNotExist:
             print("This country does not exist.")
             sys.exit()
