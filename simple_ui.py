@@ -215,6 +215,9 @@ def available(skill, virus):
 
 
 def change_target(virus, cmd):
+    virus.money -= virus.change_target_price
+    virus.change_target_price += virus.change_target_price
+
     cmd = cmd.split()
     if len(cmd) == 1:
         print("Country name missing")

@@ -31,6 +31,7 @@ class Virus:
         self.research_level = 0
 
         self.target = None
+        self.change_target_price = 1000
 
         self.danger = 0
         self.detect = 0
