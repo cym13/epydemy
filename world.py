@@ -126,11 +126,14 @@ class World:
             protected = countries[country]["protected"]
             computers = countries[country]["computers"]
 
+            # Asymptotic limit counter-measure
+            countries[country]["sane"] += 100
+
             sane -= round(inf_r * countries[country]["sane"])
             if sane < 0:
                 sane = 0
 
-            infected += round(inf_r * countries[country]["sane"])
+            infected += round(inf_r  * countries[country]["sane"])
             infected -= round(dest_r * countries[country]["infected"])
             infected -= round(prot_r * countries[country]["infected"])
             if infected > computers:
