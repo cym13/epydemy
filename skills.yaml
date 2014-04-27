@@ -119,6 +119,15 @@ keylogger_2:
     description:
         You now focus on password that you can sell
 
+extra_files:
+    price: 200
+    category: moneymaking
+    effect:
+        rentab: +10
+        detect: +10
+    description
+        Put extra files to generate ads pop up. Looks normal if you use IE.
+
 # OFFENSIVENESS
 ###############
 windows_bug:
@@ -140,13 +149,24 @@ linux_bug:
         The target starts bugging... But linux has no bug normally !
 
 no_response:
-    price : 250
+    price : 380
     category : offensiveness
     effect:
         danger: +15
         detect: +25
     description:
         The target freezes. Need to restart and could destroyed the target; You should not run on Windows.
+
+delete_files:
+    price: 500
+    category: offensiveness
+    requirement:
+        - windows_bug
+    effect:
+        danger: +30
+        detect: +10
+    description:
+        Delete some files in target's HD. It will causes troubles but windows users will not be surprised.
 
 # FUN
 #####
