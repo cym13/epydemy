@@ -93,12 +93,16 @@ class World:
             self.destroyed += countries[country]["destroyed"]
             self.protected += countries[country]["protected"]
 
-            money += round(countries[country]["infected"]
+            money += self.money(country, rent_r)
+
+        return money
+
+
+    def money(self, country, rent_r):
+        return round(countries[country]["infected"]
                          / countries[country]["computers"]
                          * rent_r
                          * countries[country]["money"])
-
-            return money
 
 
     def spread(self, country, inf_r, dest_r, prot_r):

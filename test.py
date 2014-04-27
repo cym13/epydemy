@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from virus import Virus
-from world import World, countries
+from virus      import *
+from world      import *
 from exceptions import *
 from nose.tools import *
 
@@ -61,13 +61,87 @@ class TestVirus:
         virus.downgrade("fuzzy_code_2")
 
 
-world = World(virus, "Africa")
+world = World(virus, "Asia")
 class TestWorld:
+    def __init__(self):
+        self.countries = countries
+
     def setup(self):
         virus.__init__("test")
-        world.__init__(virus, "Africa")
+        world.__init__(virus, "Asia")
+        countries = self.countries
 
     def test_init(cls):
         assert "Asia" in list(countries.keys())
         assert "Africa" in list(countries.keys())
 
+    def test_spread_1(cls):
+        sane      = countries["Asia"]["sane"]
+        infected  = countries["Asia"]["infected"]
+        destroyed = countries["Asia"]["destroyed"]
+        protected = countries["Asia"]["protected"]
+        computers = countries["Asia"]["computers"]
+
+        world.spread("Asia", 0, 0, 0)
+        assert countries["Asia"]["sane"]      == sane
+        assert countries["Asia"]["infected"]  == infected
+        assert countries["Asia"]["destroyed"] == destroyed
+        assert countries["Asia"]["protected"] == protected
+
+    def test_spread_2(cls):
+        sane      = countries["Asia"]["sane"]
+        infected  = countries["Asia"]["infected"]
+        destroyed = countries["Asia"]["destroyed"]
+        protected = countries["Asia"]["protected"]
+        computers = countries["Asia"]["computers"]
+
+        world.spread("Asia", 0.01, 0, 0)
+        assert countries["Asia"]["sane"]       < sane
+        assert countries["Asia"]["infected"]   > infected
+        assert countries["Asia"]["destroyed"] == destroyed
+        assert countries["Asia"]["protected"] == protected
+
+    def test_spread_3(cls):
+        sane      = countries["Asia"]["sane"]
+        infected  = countries["Asia"]["infected"]
+        destroyed = countries["Asia"]["destroyed"]
+        protected = countries["Asia"]["protected"]
+        computers = countries["Asia"]["computers"]
+
+        world.spread("Asia", 0.01, 0.01, 0)
+        assert countries["Asia"]["sane"]       < sane
+        assert countries["Asia"]["infected"]   > infected
+        assert countries["Asia"]["destroyed"]  > destroyed
+        assert countries["Asia"]["protected"] == protected
+
+
+    def test_spread_4(cls):
+        sane      = countries["Asia"]["sane"]
+        infected  = countries["Asia"]["infected"]
+        destroyed = countries["Asia"]["destroyed"]
+        protected = countries["Asia"]["protected"]
+        computers = countries["Asia"]["computers"]
+
+        world.spread("Asia", 0.01, 0, 0.01)
+        assert countries["Asia"]["sane"]       < sane
+        assert countries["Asia"]["infected"]   > infected
+        assert countries["Asia"]["destroyed"] == destroyed
+        assert countries["Asia"]["protected"]  > protected
+
+
+    def test_c_ratio_1(cls):
+        assert c_ratio("Asia", "sane")      == (600000000, 600000001)
+        assert c_ratio("Asia", "infected")  == (        1, 600000001)
+        assert c_ratio("Asia", "protected") == (        0, 600000001)
+        assert c_ratio("Asia", "destroyed") == (        0, 600000001)
+
+    def test_c_ratio_2(cls):
+        print( c_ratio("Asia") )
+        assert c_ratio("Asia") == (0, 600000001)
+
+    def test_money_1(cls):
+        countries["Asia"]["infected"]  = 100
+        countries["Asia"]["computers"] = 1000
+        countries["Asia"]["money"]     = 1000
+        assert world.money("Asia", 0)    == 0
+        assert world.money("Asia", 0.01) == 1

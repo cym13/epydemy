@@ -45,10 +45,10 @@ Yet the objectives are:
 [x] create a base of tests
 [x] create a basic ui
 [x] add save/load
-[w] improve the game mechanics to something usable
+[x] improve the game mechanics to something usable
 [ ] add stuff to populate the game
-[w] improve the ui
-[ ] write tests
+[x] improve the ui
+[w] write tests
 
 Legend: [ ] Todo | [x] Finished | [?] Need Test | [w] In Work | [s] Stopped
 
