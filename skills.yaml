@@ -100,7 +100,7 @@ steal_family_photos_2:
         You target children photos and get more money !
 
 keylogger_1:
-    price: 150
+    price: 200
     category: moneymaking
     effect:
         rentab: +7
@@ -109,7 +109,7 @@ keylogger_1:
         You steal some interesting things typed on keyboard
 
 keylogger_2:
-    price: 200
+    price: 250
     category: moneymaking
     requirements:
         - keylogger_1
@@ -120,7 +120,7 @@ keylogger_2:
         You now focus on password that you can sell
 
 extra_files:
-    price: 200
+    price: 300
     category: moneymaking
     effect:
         rentab: +10
