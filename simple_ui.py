@@ -58,7 +58,7 @@ def play(virus, world, filename, command=None):
     <enter>          Go one step forward
     help             Print this help
     patch            Open the patch panel
-    target country   Target a country or none if "None" is given
+    target [country]   Target a country or none if "None" is given
     save             Save the game
     quit             Quit the game
     """
@@ -119,9 +119,9 @@ def patch(virus, world, cmd=None):
     list              List the available patches
     list own          List the present patches
     info              Print virus infos
-    info patch        Print patch infos
-    upgrade patch     Upgrade the given patch
-    downgrade patch   Downgrade the given patch
+    info [patch]        Print patch infos
+    upgrade [patch]     Upgrade the given patch
+    downgrade [patch]   Downgrade the given patch
     """
 
     while cmd != "quit" and cmd != "":
