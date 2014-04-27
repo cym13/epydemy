@@ -125,7 +125,7 @@ extra_files:
     effect:
         rentab: +10
         detect: +10
-    description
+    description:
         Put extra files to generate ads pop up. Looks normal if you use IE.
 
 # OFFENSIVENESS
