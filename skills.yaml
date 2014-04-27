@@ -139,6 +139,14 @@ linux_bug:
     description:
         The target starts bugging... But linux has no bug normally !
 
+no_response:
+    price : 250
+    category : offensiveness
+    effect:
+        danger: +15
+        detect: +25
+    description:
+        The target freezes. Need to restart and could destroyed the target; You should not run on Windows.
 
 # FUN
 #####
