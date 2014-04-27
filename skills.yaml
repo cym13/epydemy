@@ -99,6 +99,25 @@ steal_family_photos_2:
     description:
         You target children photos and get more money !
 
+keylogger_1:
+    price: 150
+    category: moneymaking
+    effect:
+        rentab: +7
+        detect: +2
+    description:
+        You steal some interesting things typed on keyboard
+
+keylogger_2:
+    price: 200
+    category: moneymaking
+    requirements:
+        - keylogger_1
+    effect:
+        rentab: +5
+        detect: +1
+    description:
+        You now focus on password that you can sell
 
 # OFFENSIVENESS
 ###############
