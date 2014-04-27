@@ -65,7 +65,7 @@ malicious_email_1:
     description:
         You can spread through emails
 
-malicious_email_1:
+malicious_email_2:
     price: 1000
     category: transmission
     requirements:
