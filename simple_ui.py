@@ -33,6 +33,7 @@ Options:
 
 import sys
 import yaml
+import genui
 import world as W
 from os import path
 from time import sleep
@@ -75,16 +76,7 @@ def play(virus, world, filename, command=None):
             cmd = "quit"
 
         if cmd == "":
-            virus.money += world.step()
-            print(virus)
-            print(world)
-
-            if world.infected == 0:
-                if world.sane != 0:
-                    raise WhiteFlag
-                elif world.sane == 0:
-                    raise VictoryFlag
-
+            genui.world_turn(virus, world)
 
         elif cmd == "help":
             print(help_msg)
@@ -94,13 +86,18 @@ def play(virus, world, filename, command=None):
 
         elif cmd.startswith("target"):
             try:
-                change_target(virus, cmd)
+                cmd = cmd.split()
+                if len(cmd) == 1:
+                    print("Country name missing")
+                else:
+                    genui.change_target(virus, countries, cmd[1])
+
             except CountryDoesNotExist:
                 print("This country does not exist: %s" % cmd.split()[1])
 
         elif cmd == "save":
             try:
-                save_file(virus, world, filename)
+                genui.save_file(virus, world, countries, filename)
                 print("Game saved.")
             except PermissionError:
                 print("The game couldn't be saved: Permission Denied")
@@ -133,7 +130,7 @@ def patch(virus, world, cmd=None):
 
         elif cmd == "list":
             for skill in virus.sk_list:
-                if skill not in virus.skills and available(skill, virus):
+                if skill not in virus.skills and genui.available(skill, virus):
                     print("%s (%sBTC)" % (skill,
                                           virus.sk_list[skill]["price"]))
 
@@ -198,54 +195,6 @@ def patch(virus, world, cmd=None):
             print("Wrong command")
 
 
-def available(skill, virus):
-    if skill not in virus.sk_list:
-        raise SkillDoesNotExist
-
-    try:
-        requirements = virus.sk_list[skill]["requirements"]
-
-        for each in requirements:
-            if each not in virus.skills:
-                return False
-        return True
-
-    except KeyError:
-        return True
-
-
-def change_target(virus, cmd):
-    virus.money -= virus.change_target_price
-    virus.change_target_price += virus.change_target_price
-
-    cmd = cmd.split()
-    if len(cmd) == 1:
-        print("Country name missing")
-    else:
-        country = cmd[1].capitalize()
-        if country == "None":
-            virus.target = None
-        else:
-            if country in W.countries:
-                virus.target = country
-            else:
-                raise CountryDoesNotExist
-
-
-def load_file(path):
-    with open(path) as f:
-        state = yaml.load(f)
-        return state["virus"], state["world"], state["countries"]
-
-
-def save_file(virus, world, path):
-    with open(path, "w+") as f:
-        f.write(yaml.dump({"virus":virus,
-                           "world":world,
-                           "countries": W.countries
-                           }))
-
-
 def choose_country():
     print("Available countries are:")
     for name in W.countries:
@@ -286,7 +235,7 @@ def main():
             sys.exit()
 
     else:
-        virus, world, W.countries = load_file(filename)
+        virus, world, W.countries = genui.load_file(filename)
 
     try:
         play(virus, world, filename)
