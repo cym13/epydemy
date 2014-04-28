@@ -1,4 +1,4 @@
-Epydemy version 0.8 - 2014-04-21
+Epydemy version 1.0 - 2014-04-21
 
 Manifest
 ========
@@ -15,6 +15,9 @@ To the user
 ===========
 
 Sorry, this is not usable yet. Be patient baby.
+
+If you really are impatient you can use our testing interface simple_ui to
+try it but it will really not be playable before v2.0.
 
 To the programmer
 =================
@@ -35,25 +38,26 @@ Each can be installed using pip.
 TODO
 ====
 
-Almost everything :)
+We are now in a phase where we start to have something usable and are
+thinking about turning it into a real game.
 
 Yet the objectives are:
 
-[x] create the basics of the architecture
-[x] create the basics of the mechanics
-[x] add some basic data to allow testing
-[x] create a base of tests
-[x] create a basic ui
-[x] add save/load
-[x] improve the game mechanics to something usable
-[w] add stuff to populate the game
-[x] improve the ui
-[x] write tests
+[w] create a cli ui
+[ ] create a curses ui
+[ ] define a clear victory scenario
+[ ] add basic multiplayer possibilities
+[ ] add in-content messages or images
+[ ] change prices of skills to add to player frustration
+[ ] improve the game mechanics to make it fun
+[ ] add stuff to populate the game
+[ ] write more tests
 
 Legend: [ ] Todo | [x] Finished | [?] Need Test | [w] In Work | [s] Stopped
 
-There will be v0.1, and we will be able to move forward more complex game
-mechanics, ui and user experience.
+The long-term objectives are the creation of a graphical ui (with pygame or
+qt), a diversification of the types of viruses to have different behaviours,
+objectives making it funnier, a pre-release in a month or so.
 
 License
 =======
