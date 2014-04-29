@@ -35,41 +35,60 @@ Options:
     -P, --port PORT         Connect on the port PORT
 """
 
+
 import sys
 import socket
 from os import path
 from exceptions import *
 from docopt import docopt
 
+
+def get_server(name, path):
+    """
+    Get a server by its name from path.
+    """
+    with open(path) as f:
+        for line in f.readlines():
+            if line.startswith(name + " "):
+                host, port = line.split()[1:3]
+                return host, int(port)
+    raise ServerNotFound
+
+
+
+def send(msg, host, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.sendto(bytes(msg + "\n", "utf-8"), (host, port))
+    return str(sock.recv(4096), "utf-8")
+
+
 def main():
     args = docopt(__doc__)
-    print(args)
-
-    if args["--server"]:
-        try:
-            with open("/tmp/epydemy.servers") as f:
-                for line in f.readlines():
-                    if line.startswith(args["--server"] + " "):
-                        host, port = line.split()[1:3]
-                        break
-                raise ServerNotFound
-        except ServerNotFound:
-            print("The serveur was not found in the list of current servers.")
-            sys.exit(1)
-    else:
-        host, port = args["--host"], int(args["--port"])
-
+    s_list = "/tmp/epydemy.servers"
     if not args["ARGS"]:
         args["ARGS"] = ""
 
+    if args["--server"]:
+        try:
+            host, port = get_server(args["--server"], s_list)
+
+        except ServerNotFound:
+            print("The serveur was not found in the list of current servers.")
+            sys.exit(1)
+
+        except FileNotFoundError:
+            print("The file was not found")
+            sys.exit(1)
+
+    else:
+        host, port = args["--host"], int(args["--port"])
+
     msg = ' '.join((args["VIRUS"], args["COMMAND"], args["ARGS"]))
+    received = send(msg, host, port)
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.sendto(bytes(msg + "\n", "utf-8"), (host, port))
-    received = str(sock.recv(4096), "utf-8")
+    for line in received.splitlines():
+        print(line)
 
-    for each in received.splitlines():
-        print(each)
 
 if __name__ == "__main__":
     main()

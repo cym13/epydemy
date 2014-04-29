@@ -257,3 +257,24 @@ class TestGenUI:
         genui.change_target(virus, countries, "something_wrong")
 
 
+import simple_client
+path = "/tmp/test_get_server.tmp"
+class TestSimpleClient:
+    def setup(self):
+        with open(path, "w") as f:
+            f.write("true_name localhost 8000")
+
+    def teardown(self):
+        os.remove(path)
+
+    @raises(ServerNotFound)
+    def test_get_server_1(cls):
+        simple_client.get_server("false_name", path)
+
+    @raises(FileNotFoundError)
+    def test_get_server_2(cls):
+        simple_client.get_server("true_name", "")
+
+    def test_get_server_3(cls):
+        assert simple_client.get_server("true_name", path) == ("localhost",8000)
+
