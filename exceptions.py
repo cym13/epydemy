@@ -87,3 +87,8 @@ class PortNotAvailable(Exception):
     """
     This port is already taken.
     """
+
+class ServerNotFound(Exception):
+    """
+    The server is not in the list of current servers.
+    """
