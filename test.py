@@ -56,7 +56,7 @@ class TestVirus:
         virus.skills = ["fuzzy_code_1"]
         virus.downgrade("fuzzy_code_1")
         assert virus.skills == []
-        assert virus.money == 5010
+        assert virus.money == 4960
 
     @raises(SkillNotPresent)
     def test_dowgrade_2(cls):
@@ -256,4 +256,25 @@ class TestGenUI:
     def test_change_target_2(cls):
         genui.change_target(virus, countries, "something_wrong")
 
+
+import simple_client
+path = "/tmp/test_get_server.tmp"
+class TestSimpleClient:
+    def setup(self):
+        with open(path, "w") as f:
+            f.write("true_name localhost 8000")
+
+    def teardown(self):
+        os.remove(path)
+
+    @raises(ServerNotFound)
+    def test_get_server_1(cls):
+        simple_client.get_server("false_name", path)
+
+    @raises(FileNotFoundError)
+    def test_get_server_2(cls):
+        simple_client.get_server("true_name", "")
+
+    def test_get_server_3(cls):
+        assert simple_client.get_server("true_name", path) == ("localhost",8000)
 
