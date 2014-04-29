@@ -17,42 +17,42 @@
 # DISCRETION
 ############
 fuzzy_code_1:
-    price: 100
+    price: 200
     category: discretion
     effect:
-      detect: -5
+      detect: -2
     description:
       The virus' code is mixed randomly to bypass antivirus scans.
 
 fuzzy_code_2:
-    price: 200
+    price: 400
     category: discretion
     requirements:
       - fuzzy_code_1
     effect:
-      detect: -5
+      detect: -3
     description:
       The virus' code is mixed more effectively to bypass antivirus scans.
 
 # TRANSMISSION
 ##############
 malicious_usb_key_1:
-    price: 100
+    price: 150
     category: transmission
     effect:
-        spread: +5
-        detect: +5
+        spread: +2
+        detect: +2
     description:
         You can infect usb keys
 
 malicious_usb_key_2:
-    price: 200
+    price: 300
     category: transmission
     requirements:
         - malicious_usb_key_1
     effect:
-        spread: +5
-        detect: +5
+        spread: +2
+        detect: +2
     description:
         You can infect usb keys with better chance of success
 
@@ -60,8 +60,8 @@ malicious_email_1:
     price: 500
     category: transmission
     effect:
-        spread: +15
-        detect: +20
+        spread: +5
+        detect: +5
     description:
         You can spread through emails
 
@@ -71,8 +71,8 @@ malicious_email_2:
     requirements:
         - malicious_email_1
     effect:
-        spread: +30
-        detect: +20
+        spread: +5
+        detect: +5
     description:
         You can spread through more emails
 
@@ -83,7 +83,7 @@ steal_family_photos_1:
     price: 100
     category: moneymaking
     effect:
-        rentab: +5
+        rentab: +1
         detect: +1
     description:
         You steal family photos and sell them
@@ -94,7 +94,7 @@ steal_family_photos_2:
     requirements:
          - steal_family_photos_1
     effect:
-        rentab: +5
+        rentab: +1
         detect: +1
     description:
         You target children photos and get more money !
@@ -103,7 +103,7 @@ keylogger_1:
     price: 200
     category: moneymaking
     effect:
-        rentab: +7
+        rentab: +3
         detect: +2
     description:
         You steal some interesting things typed on keyboard
@@ -114,8 +114,8 @@ keylogger_2:
     requirements:
         - keylogger_1
     effect:
-        rentab: +5
-        detect: +1
+        rentab: +3
+        detect: +2
     description:
         You now focus on password that you can sell
 
@@ -152,7 +152,7 @@ no_response:
     price : 380
     category : offensiveness
     effect:
-        danger: +15
+        danger: +10
         detect: +25
     description:
         The target freezes. Need to restart and could destroyed the target; You should not run on Windows.
@@ -163,7 +163,7 @@ delete_files:
     requirement:
         - windows_bug
     effect:
-        danger: +30
+        danger: +20
         detect: +10
     description:
         Delete some files in target's HD. It will causes troubles but windows users will not be surprised.

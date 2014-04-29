@@ -1,29 +1,30 @@
 countries:
-  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 83334,
-    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 99916666}
-  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 500001,
-    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 599499999}
+  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 0,
+    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
+  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 1,
+    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 600000000}
   Eastern_europe: {computers: 80000000, defense: 30, destroyed: 0, detection: 30,
-    infected: 66668, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
-    sane: 79933332}
-  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 166668,
-    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 99833332}
+    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 80000000}
+  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 0,
+    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
   North_america: {computers: 300000000, defense: 100, destroyed: 0, detection: 100,
-    infected: 250001, internet: 5, money: 100, protected: 0, research_level: 0, research_rate: 0,
-    sane: 299749999}
-  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 83335,
-    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 49916665}
+    infected: 0, internet: 5, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 300000000}
+  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 0,
+    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 50000000}
   South_america: {computers: 200000000, defense: 20, destroyed: 0, detection: 30,
-    infected: 333335, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
-    sane: 199666665}
+    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 200000000}
   Western_europe: {computers: 300000000, defense: 80, destroyed: 0, detection: 80,
-    infected: 200002, internet: 3, money: 100, protected: 0, research_level: 0, research_rate: 0,
-    sane: 299799999}
+    infected: 0, internet: 3, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 300000000}
 virus: &id001 !!python/object:virus.Virus
-  age: 1
+  age: 0
+  change_target_price: 1000
   danger: 0
-  detect: 100
-  money: 300
+  detect: 0
+  money: 500
   name: test
   prev_research_level: 0
   rentab: 0
@@ -35,27 +36,40 @@ virus: &id001 !!python/object:virus.Virus
       description: Displays a bunny picture on the screen of the victim
       effect: {detect: 100}
       price: 500
+    delete_files:
+      category: offensiveness
+      description: Delete some files in target's HD. It will causes troubles but windows
+        users will not be surprised.
+      effect: {danger: 20, detect: 10}
+      price: 500
+      requirement: [windows_bug]
+    extra_files:
+      category: moneymaking
+      description: Put extra files to generate ads pop up. Looks normal if you use
+        IE.
+      effect: {detect: 10, rentab: 10}
+      price: 300
     fuzzy_code_1:
       category: discretion
       description: The virus' code is mixed randomly to bypass antivirus scans.
-      effect: {detect: -5}
-      price: 100
+      effect: {detect: -2}
+      price: 200
     fuzzy_code_2:
       category: discretion
       description: The virus' code is mixed more effectively to bypass antivirus scans.
-      effect: {detect: -5}
-      price: 200
+      effect: {detect: -3}
+      price: 400
       requirements: [fuzzy_code_1]
     keylogger_1:
       category: moneymaking
       description: You steal some interesting things typed on keyboard
-      effect: {detect: 2, rentab: 7}
-      price: 150
+      effect: {detect: 2, rentab: 3}
+      price: 200
     keylogger_2:
       category: moneymaking
       description: You now focus on password that you can sell
-      effect: {detect: 1, rentab: 5}
-      price: 200
+      effect: {detect: 2, rentab: 3}
+      price: 250
       requirements: [keylogger_1]
     linux_bug:
       category: offensiveness
@@ -65,34 +79,40 @@ virus: &id001 !!python/object:virus.Virus
     malicious_email_1:
       category: transmission
       description: You can spread through emails
-      effect: {detect: 20, spread: 15}
+      effect: {detect: 5, spread: 5}
       price: 500
     malicious_email_2:
       category: transmission
       description: You can spread through more emails
-      effect: {detect: 20, spread: 30}
+      effect: {detect: 5, spread: 5}
       price: 1000
       requirements: [malicious_email_1]
     malicious_usb_key_1:
       category: transmission
       description: You can infect usb keys
-      effect: {detect: 5, spread: 5}
-      price: 100
+      effect: {detect: 2, spread: 2}
+      price: 150
     malicious_usb_key_2:
       category: transmission
       description: You can infect usb keys with better chance of success
-      effect: {detect: 5, spread: 5}
-      price: 200
+      effect: {detect: 2, spread: 2}
+      price: 300
       requirements: [malicious_usb_key_1]
+    no_response:
+      category: offensiveness
+      description: The target freezes. Need to restart and could destroyed the target;
+        You should not run on Windows.
+      effect: {danger: 10, detect: 25}
+      price: 380
     steal_family_photos_1:
       category: moneymaking
       description: You steal family photos and sell them
-      effect: {detect: 1, rentab: 5}
+      effect: {detect: 1, rentab: 1}
       price: 100
     steal_family_photos_2:
       category: moneymaking
       description: You target children photos and get more money !
-      effect: {detect: 1, rentab: 5}
+      effect: {detect: 1, rentab: 1}
       price: 200
       requirements: [steal_family_photos_1]
     windows_bug:
@@ -100,12 +120,12 @@ virus: &id001 !!python/object:virus.Virus
       description: The target starts bugging... Well, no more than other windows bugs.
       effect: {danger: 2, detect: -1}
       price: 100
-  skills: [fuzzy_code_1, malicious_usb_key_1, bunny_picture]
-  spread: 5
+  skills: []
+  spread: 0
   target: null
 world: !!python/object:world.World
   destroyed: 0
-  infected: 1683344
+  infected: 1
   protected: 0
-  sane: 1728316657
+  sane: 0
   virus: *id001

@@ -26,7 +26,7 @@ class Virus:
         # Game stats
         self.name  = name
         self.age   = 0
-        self.money = 1000
+        self.money = 500
         self.research_rate       = 0
         self.research_level      = 0
         self.prev_research_level = 0
@@ -90,7 +90,7 @@ class Virus:
             if skill in self.sk_list[each]:
                 self.downgrade(each)
 
-        self.money += floor(self.sk_list[skill]["price"] * 0.20)
+        self.money -= floor(self.sk_list[skill]["price"] * 0.20)
         self.skills.remove(skill)
         self.__upgrade(skill, substract=True)
 

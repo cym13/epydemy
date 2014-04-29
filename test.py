@@ -49,14 +49,14 @@ class TestVirus:
         virus.money = 5000
         virus.upgrade("fuzzy_code_1")
         assert virus.skills == ["fuzzy_code_1"]
-        assert virus.money == 4900
+        assert virus.money == 4800
 
     def test_dowgrade_1(cls):
-        virus.money = 0
+        virus.money = 5000
         virus.skills = ["fuzzy_code_1"]
         virus.downgrade("fuzzy_code_1")
         assert virus.skills == []
-        assert virus.money == 20
+        assert virus.money == 5010
 
     @raises(SkillNotPresent)
     def test_dowgrade_2(cls):
@@ -124,9 +124,6 @@ class TestVirus:
         virus.research_level      = 5
         virus.prev_research_level = 0
         virus.update_research()
-        print(virus.research_rate)
-        print(virus.research_level)
-        print(virus.prev_research_level)
 
 
 

@@ -197,7 +197,6 @@ def patch(virus, world, cmd=None):
                 skill = cmd[1]
             except IndexError:
                 print("You must enter a skill to be upgraded.")
-                continue
 
             try:
                 virus.downgrade(skill)
