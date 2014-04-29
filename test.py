@@ -62,6 +62,73 @@ class TestVirus:
     def test_dowgrade_2(cls):
         virus.downgrade("fuzzy_code_2")
 
+    def test_update_research_1(cls):
+        virus.detect              = 10
+        virus.research_rate       = 0
+        virus.research_level      = 0
+        virus.prev_research_level = 0
+
+        virus.update_research()
+
+        assert virus.detect               == 10
+        assert virus.research_rate        == 10
+        assert virus.research_level       == 10
+        assert virus.prev_research_level  == 0
+
+        virus.update_research()
+
+        assert virus.detect               == 10
+        assert virus.research_rate        == 10
+        assert virus.research_level       == 20
+        assert virus.prev_research_level  == 10
+
+        virus.detect = 5
+        virus.update_research()
+
+        assert virus.research_rate        ==  8
+        assert virus.research_level       == 28
+        assert virus.prev_research_level  == 20
+
+    @raises(WhiteFlag)
+    def test_update_research_2(cls):
+        virus.research_rate       = 100
+        virus.research_level      = 240
+        virus.prev_research_level = 200
+        virus.update_research()
+
+    @raises(EventFlag)
+    def test_update_research_3(cls):
+        virus.research_rate       = 50
+        virus.research_level      = 190
+        virus.prev_research_level = 180
+        virus.update_research()
+
+    @raises(EventFlag)
+    def test_update_research_4(cls):
+        virus.research_rate       = 50
+        virus.research_level      = 90
+        virus.prev_research_level = 80
+        virus.update_research()
+
+    @raises(EventFlag)
+    def test_update_research_5(cls):
+        virus.research_rate       = 50
+        virus.research_level      = 40
+        virus.prev_research_level = 0
+        virus.update_research()
+
+    @raises(EventFlag)
+    def test_update_research_6(cls):
+        virus.detect              = -10
+        virus.research_rate       = -10
+        virus.research_level      = 5
+        virus.prev_research_level = 0
+        virus.update_research()
+        print(virus.research_rate)
+        print(virus.research_level)
+        print(virus.prev_research_level)
+
+
 
 world = World(virus, "Asia")
 class TestWorld:

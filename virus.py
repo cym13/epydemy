@@ -107,6 +107,36 @@ class Virus:
             self.__setattr__(each, self.__getattribute__(each) + value)
 
 
+    def update_research(self):
+        detect        = self.detect
+
+        if self.detect >= self.research_rate:
+            self.research_rate = self.detect
+        else:
+            self.research_rate -= (self.research_rate - self.detect) // 2
+
+        self.prev_research_level = self.research_level
+        self.research_level     += self.research_rate
+        if self.research_level < 0:
+            self.research_level = 0
+
+        prev = self.prev_research_level
+        if self.research_level >= 250 and prev < 250:
+            raise WhiteFlag("The FBI caught you!")
+
+        elif self.research_level >= 200 and prev < 200:
+            raise EventFlag("The FBI is looking for you!")
+
+        elif self.research_level >= 100 and prev < 100:
+            raise EventFlag("Your virus is well-known!")
+
+        elif self.research_level >= 50 and prev < 50:
+            raise EventFlag("You are beginning to attract attention...")
+
+        elif self.research_level == 0 and prev > 0:
+            raise EventFlag("Nobody knows you!")
+
+
     def __str__(self):
         """
         Returns the state of the virus.
