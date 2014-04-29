@@ -56,7 +56,7 @@ class TestVirus:
         virus.skills = ["fuzzy_code_1"]
         virus.downgrade("fuzzy_code_1")
         assert virus.skills == []
-        assert virus.money == 5010
+        assert virus.money == 4960
 
     @raises(SkillNotPresent)
     def test_dowgrade_2(cls):

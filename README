@@ -45,13 +45,13 @@ Yet the objectives are:
 
 [w] create a cli ui
 [ ] create a curses ui
-[ ] define a clear victory scenario
+[?] define a clear victory scenario
 [ ] add basic multiplayer possibilities
 [x] add in-content messages or images
-[ ] change prices of skills to add to player frustration
-[ ] improve the game mechanics to make it fun
+[?] change prices of skills to add to player frustration
+[w] improve the game mechanics to make it fun
 [ ] add stuff to populate the game
-[ ] write more tests
+[w] write more tests
 
 Legend: [ ] Todo | [x] Finished | [?] Need Test | [w] In Work | [s] Stopped
 
