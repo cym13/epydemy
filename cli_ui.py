@@ -14,22 +14,27 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# We should use a cache file to remember name of last used file for not
+# having to type it each time and to remember the time of the last command to
+# compute the delay and the corresponding number of rounds.
 
 """
-Usage: cli_ui.py [options] FILE
+Usage: cli_ui.py [options] [-n] FILE
+       cli_ui.py [options] [FILE]
 
 Arguments:
     FILE    Save file
 
 Options:
     -h, --help              Print this help and exit
+    -d, --downgrade PATCH   Downgrade the patch PATCH and gain money
+    -i, --info PATCH        Print infos about the patch PATCH
+    -l, --list              List available patches
     -n, --new               Force new game
+    -u, --upgrade PATCH     Buy and upgrade the patch PATCH
     -v, --virus             Print the state of the virus
     -w, --world             Print the state of the world
-    -l, --list              List available patches
-    -i, --info PATCH        Print infos about the patch PATCH
-    -u, --upgrade PATCH     Buy and upgrade the patch PATCH
-    -d, --downgrade PATCH   Downgrade the patch PATCH and gain money
     -t, --target COUNTRY    Target the country COUNTRY
                             or none if "None" is given
 """

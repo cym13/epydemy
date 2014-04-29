@@ -47,7 +47,7 @@ Yet the objectives are:
 [ ] create a curses ui
 [ ] define a clear victory scenario
 [ ] add basic multiplayer possibilities
-[ ] add in-content messages or images
+[x] add in-content messages or images
 [ ] change prices of skills to add to player frustration
 [ ] improve the game mechanics to make it fun
 [ ] add stuff to populate the game
