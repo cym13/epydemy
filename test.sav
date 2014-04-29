@@ -1,30 +1,31 @@
 countries:
-  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 0,
-    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
-  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 0,
-    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 600000000}
+  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 83334,
+    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 99916666}
+  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 500001,
+    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 599499999}
   Eastern_europe: {computers: 80000000, defense: 30, destroyed: 0, detection: 30,
-    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
-    sane: 80000000}
-  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 0,
-    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
+    infected: 66668, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 79933332}
+  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 166668,
+    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 99833332}
   North_america: {computers: 300000000, defense: 100, destroyed: 0, detection: 100,
-    infected: 0, internet: 5, money: 100, protected: 0, research_level: 0, research_rate: 0,
-    sane: 300000000}
-  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 0,
-    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 50000000}
+    infected: 250001, internet: 5, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 299749999}
+  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 83335,
+    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 49916665}
   South_america: {computers: 200000000, defense: 20, destroyed: 0, detection: 30,
-    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
-    sane: 200000000}
+    infected: 333335, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 199666665}
   Western_europe: {computers: 300000000, defense: 80, destroyed: 0, detection: 80,
-    infected: 1, internet: 3, money: 100, protected: 0, research_level: 0, research_rate: 0,
-    sane: 300000000}
+    infected: 200002, internet: 3, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 299799999}
 virus: &id001 !!python/object:virus.Virus
-  age: 0
+  age: 1
   danger: 0
-  detect: 0
-  money: 800
+  detect: 100
+  money: 300
   name: test
+  prev_research_level: 0
   rentab: 0
   research_level: 0
   research_rate: 0
@@ -99,12 +100,12 @@ virus: &id001 !!python/object:virus.Virus
       description: The target starts bugging... Well, no more than other windows bugs.
       effect: {danger: 2, detect: -1}
       price: 100
-  skills: [fuzzy_code_1, malicious_usb_key_1]
+  skills: [fuzzy_code_1, malicious_usb_key_1, bunny_picture]
   spread: 5
   target: null
 world: !!python/object:world.World
   destroyed: 0
-  infected: 1
+  infected: 1683344
   protected: 0
-  sane: 0
+  sane: 1728316657
   virus: *id001

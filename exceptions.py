@@ -17,6 +17,17 @@
 Game specific exceptions.
 """
 
+class MsgException(Exception):
+    """
+    An exception that contains a message.
+    """
+    def __init__(self, msg):
+        self.message = msg
+
+    def __str__(self):
+        return str(self.message)
+
+
 class SkillDoesNotExist(Exception):
     """
     There is no such skill
@@ -47,12 +58,17 @@ class CountryDoesNotExist(Exception):
     There is no such country.
     """
 
-class VictoryFlag(Exception):
+class VictoryFlag(MsgException):
     """
     This is a Victory event, feel proud !
     """
 
-class WhiteFlag(Exception):
+class WhiteFlag(MsgException):
     """
     You can't win anymore, try again !
+    """
+
+class EventFlag(MsgException):
+    """
+    An event occured
     """

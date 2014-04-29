@@ -30,9 +30,12 @@ def world_turn(virus, world):
     virus.money += world.step()
     if world.infected == 0:
         if world.sane != 0:
-            raise WhiteFlag
+            raise WhiteFlag("Your virus was beaten up by antiviruses...")
         elif world.sane == 0:
-            raise VictoryFlag
+            raise VictoryFlag("You exterminated the internet!")
+
+    res_lvl  = virus.research_level
+    prev_lvl = virus.prev_research_level
 
 def change_target(virus, countries, target):
     virus.money -= virus.change_target_price

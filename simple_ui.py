@@ -76,7 +76,15 @@ def play(virus, world, filename, command=None):
             cmd = "quit"
 
         if cmd == "":
-            genui.world_turn(virus, world)
+            try:
+                genui.world_turn(virus, world)
+            except EventFlag as e:
+                print("*" * 40)
+                print(e)
+                print("*" * 40)
+            finally:
+                print(virus)
+                print(world)
 
         elif cmd == "help":
             print(help_msg)
@@ -90,14 +98,14 @@ def play(virus, world, filename, command=None):
                 if len(cmd) == 1:
                     print("Country name missing")
                 else:
-                    genui.change_target(virus, countries, cmd[1])
+                    genui.change_target(virus, W.countries, cmd[1])
 
             except CountryDoesNotExist:
                 print("This country does not exist: %s" % cmd.split()[1])
 
         elif cmd == "save":
             try:
-                genui.save_file(virus, world, countries, filename)
+                genui.save_file(virus, world, W.countries, filename)
                 print("Game saved.")
             except PermissionError:
                 print("The game couldn't be saved: Permission Denied")
@@ -239,10 +247,18 @@ def main():
 
     try:
         play(virus, world, filename)
-    except VictoryFlag:
+    except VictoryFlag as e:
+        print("*" * 40)
+        print(e)
         print("You Win!")
-    except WhiteFlag:
+        print("*" * 40)
+        sys.exit()
+    except WhiteFlag as e:
+        print("*" * 40)
+        print(e)
         print("GAME OVER")
+        print("*" * 40)
+        sys.exit()
 
 
 if __name__=="__main__":

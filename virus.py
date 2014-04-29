@@ -24,11 +24,12 @@ class Virus:
     """
     def __init__(self, name):
         # Game stats
-        self.name = name
-        self.age = 0
+        self.name  = name
+        self.age   = 0
         self.money = 1000
-        self.research_rate = 0
-        self.research_level = 0
+        self.research_rate       = 0
+        self.research_level      = 0
+        self.prev_research_level = 0
 
         self.target = None
         self.change_target_price = 1000
@@ -116,8 +117,8 @@ class Virus:
         state += "Age:   %s\n" % self.age
         state += "Money: %s\n" % self.money
         state += "\n"
-        state += "Research level: %s\n" % self.research_rate
-        state += "Research rate:  %s\n" % self.research_level
+        state += "Research level: %s\n" % self.research_level
+        state += "Research rate:  %s\n" % self.research_rate
         state += "\n"
         state += "Stats\n"
         state += "-----\n"

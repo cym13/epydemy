@@ -83,6 +83,39 @@ class World:
         if rent_r < 0:
             rent_r = 0
 
+        detect        = self.virus.detect
+        research_rate = self.virus.research_rate
+
+        if detect >= research_rate:
+            research_rate = detect
+        else:
+            research_rate -= (research_rate - detect) / 2
+
+        prev = self.virus.prev_research_level
+        rlvl = self.virus.research_level
+
+        self.virus.prev_research_level = rlvl
+        self.virus.research_rate       = research_rate
+
+        self.virus.research_level     += research_rate
+        if self.virus.research_level < 0:
+            self.virus.research_level = 0
+
+        if rlvl >= 250 and prev < 250:
+            raise WhiteFlag("The FBI caught you!")
+
+        elif rlvl >= 200 and prev < 200:
+            raise EventFlag("The FBI is looking for you!")
+
+        elif rlvl >= 100 and prev < 100:
+            raise EventFlag("Your virus is well-known!")
+
+        elif rlvl >= 50 and prev < 50:
+            raise EventFlag("You are beginning to attract attention...")
+
+        elif rlvl == 0 and prev > 0:
+            raise EventFlag("Nobody knows you!")
+
         for country in countries:
             self.spread(country, inf_r, dest_r, prot_r)
 
