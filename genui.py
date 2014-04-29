@@ -38,11 +38,15 @@ def world_turn(virus, world):
     prev_lvl = virus.prev_research_level
 
 def change_target(virus, countries, target):
+    """
+    Change targeted country.
+    If "None" is given as a country name, then no country is targetted.
+    """
     virus.money -= virus.change_target_price
     virus.change_target_price += virus.change_target_price
 
     country = target.capitalize()
-    if country == "None":
+    if country == "None" or country is None:
         virus.target = None
     else:
         if country in countries:
@@ -52,12 +56,18 @@ def change_target(virus, countries, target):
 
 
 def load_file(path):
+    """
+    Load the game file located at 'path'.
+    """
     with open(path) as f:
         state = yaml.load(f)
         return state["virus"], state["world"], state["countries"]
 
 
 def save_file(virus, world, countries, path):
+    """
+    Save the game into the file located at 'path'.
+    """
     with open(path, "w+") as f:
         f.write(yaml.dump({"virus":virus,
                            "world":world,
@@ -66,6 +76,9 @@ def save_file(virus, world, countries, path):
 
 
 def available(skill, virus):
+    """
+    Return wether a skill is available or not.
+    """
     if skill not in virus.sk_list:
         raise SkillDoesNotExist
 
