@@ -1,6 +1,7 @@
 # Bug quick report and request file: they should be sorted by order of
 # importance and then apparent ease of correcting.
 #
-# Requests are introduces by "should" !
+# Requests must contain "should" !
 
-events are not shown in simple_ui
+errors should have raise the corresponding exit code
+"available" should be a method of virus

@@ -30,7 +30,7 @@ class MsgException(Exception):
 
 class SkillDoesNotExist(Exception):
     """
-    There is no such skill
+    There is no such skill.
     """
 
 class NotEnoughMoney(Exception):
@@ -70,5 +70,20 @@ class WhiteFlag(MsgException):
 
 class EventFlag(MsgException):
     """
-    An event occured
+    An event occured.
+    """
+
+class ServerAlreadyExists(Exception):
+    """
+    This name is not available.
+    """
+
+class ServerDoesNotExists(Exception):
+    """
+    There is no server of this name.
+    """
+
+class PortNotAvailable(Exception):
+    """
+    This port is already taken.
     """
