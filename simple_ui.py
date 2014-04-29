@@ -247,7 +247,7 @@ def main():
             world = W.World(virus, choose_country())
         except CountryDoesNotExist:
             print("This country does not exist.")
-            sys.exit()
+            sys.exit(1)
 
     else:
         virus, world, W.countries = genui.load_file(filename)
