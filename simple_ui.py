@@ -139,12 +139,12 @@ def patch(virus, world, cmd=None):
         elif cmd == "list":
             for skill in virus.sk_list:
                 if skill not in virus.skills and genui.available(skill, virus):
-                    print("%s (%sBTC)" % (skill,
+                    print("%s \t(%sBTC)" % (skill,
                                           virus.sk_list[skill]["price"]))
 
         elif cmd == "list own":
             for skill in virus.skills:
-                print("%s (%sBTC)" % (skill,
+                print("%s \t(%sBTC)" % (skill,
                                       virus.sk_list[skill]["price"] / 5))
 
         elif cmd.startswith("info"):
@@ -167,7 +167,11 @@ def patch(virus, world, cmd=None):
 
         elif cmd.startswith("upgrade"):
             cmd = cmd.split()
-            skill = cmd[1]
+            try:
+                skill = cmd[1]
+            except IndexError:
+                print("You must enter a skill to be upgraded.")
+                continue
 
             try:
                 virus.upgrade(skill)
@@ -189,7 +193,11 @@ def patch(virus, world, cmd=None):
 
         elif cmd.startswith("downgrade"):
             cmd = cmd.split()
-            skill = cmd[1]
+            try:
+                skill = cmd[1]
+            except IndexError:
+                print("You must enter a skill to be upgraded.")
+                continue
 
             try:
                 virus.downgrade(skill)
