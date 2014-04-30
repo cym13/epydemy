@@ -161,7 +161,7 @@ def main():
     downgrade_skill = args["--downgrade"]
     target_country = args["--target"]
     cache = r"/tmp/epy_temp"
-    current_time = round(time());
+    current_time = round(time())
     slice_time = 3
     last_time = current_time
     tfile = ""
