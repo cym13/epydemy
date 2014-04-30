@@ -148,6 +148,8 @@ def target(country, virus):
 
     except CountryDoesNotExist:
         print("This country does not exist: %s" % country)
+    except NotEnoughMoney:
+        print("You don't have enough money.")
 
 
 def main():
