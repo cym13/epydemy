@@ -70,6 +70,9 @@ class Server(socketserver.BaseRequestHandler):
         self.viruses = {}
         self.world   = MultiWorld(viruses)
 
+        with open() as f:
+            f.write
+
     def handler(self):
         """
         Handles requests of the form:

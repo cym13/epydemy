@@ -78,22 +78,3 @@ def save_file(virus, world, countries, path):
                            }))
 
 
-def available(skill, virus):
-    """
-    Return wether a skill is available or not.
-    """
-    if skill not in virus.sk_list:
-        raise SkillDoesNotExist
-
-    try:
-        requirements = virus.sk_list[skill]["requirements"]
-
-        for each in requirements:
-            if each not in virus.skills:
-                return False
-        return True
-
-    except KeyError:
-        return True
-
-

@@ -125,6 +125,17 @@ class TestVirus:
         virus.prev_research_level = 0
         virus.update_research()
 
+    def test_available_1(cls):
+        assert virus.available("fuzzy_code_1") == True
+        assert virus.available("fuzzy_code_2") == False
+
+    @raises(SkillDoesNotExist)
+    def test_available_2(cls):
+        assert virus.available("something_wrong")
+
+    @raises(SkillDoesNotExist)
+    def test_available_3(cls):
+        assert virus.available("")
 
 
 world = World(virus, "Asia")
@@ -231,18 +242,6 @@ class TestGenUI:
         assert n_countries == countries
 
         os.remove("./tmp")
-
-    def test_available_1(cls):
-        assert genui.available("fuzzy_code_1", virus) == True
-        assert genui.available("fuzzy_code_2", virus) == False
-
-    @raises(SkillDoesNotExist)
-    def test_available_2(cls):
-        assert genui.available("something_wrong", virus)
-
-    @raises(SkillDoesNotExist)
-    def test_available_3(cls):
-        assert genui.available("", virus)
 
     def test_change_target_1(cls):
         virus.money = 1000

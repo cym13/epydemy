@@ -104,7 +104,7 @@ def print_patch(skill, virus):
 
 def print_list(virus):
     for skill in virus.sk_list:
-        if skill not in virus.skills and genui.available(skill, virus):
+        if skill not in virus.skills and virus.available(skill):
             print("%s \t(%sBTC)" % (skill,
                                         virus.sk_list[skill]["price"]))
 

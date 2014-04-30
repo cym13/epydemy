@@ -137,6 +137,25 @@ class Virus:
             raise EventFlag("Nobody knows you!")
 
 
+    def available(self, skill):
+        """
+        Return wether a skill is available or not.
+        """
+        if skill not in self.sk_list:
+            raise SkillDoesNotExist
+
+        try:
+            requirements = self.sk_list[skill]["requirements"]
+
+            for each in requirements:
+                if each not in self.skills:
+                    return False
+            return True
+
+        except KeyError:
+            return True
+
+
     def __str__(self):
         """
         Returns the state of the virus.
