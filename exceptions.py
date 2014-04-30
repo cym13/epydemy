@@ -73,12 +73,12 @@ class EventFlag(MsgException):
     An event occured.
     """
 
-class ServerAlreadyExists(Exception):
+class ServerAlreadyExist(Exception):
     """
     This name is not available.
     """
 
-class ServerDoesNotExists(Exception):
+class ServerDoesNotExist(Exception):
     """
     There is no server of this name.
     """

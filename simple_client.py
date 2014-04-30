@@ -73,7 +73,7 @@ def main():
             host, port = get_server(args["--server"], s_list)
 
         except ServerNotFound:
-            print("The serveur was not found in the list of current servers.")
+            print("The server was not found in the list of current servers.")
             sys.exit(1)
 
         except FileNotFoundError:

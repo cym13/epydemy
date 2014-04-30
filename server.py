@@ -20,8 +20,8 @@
 """
 Epidemy game server
 
-Usage: serveur.py [-h] [-p PORT] [-n NUMBER] NAME
-       serveur.py [-h] [-i] (-p PORT | NAME)
+Usage: server.py [-h] [-p PORT] [-n NUMBER] NAME
+       server.py [-h] [-i] (-p PORT | NAME)
 
 Arguments:
     NAME    World name
@@ -44,10 +44,15 @@ from exceptions import *
 
 def infos(identifier):
     """
-    Print infos about a serveur known by 'identifier'.
+    Print infos about a server known by 'identifier'.
     'identifier' can be a string (the server's name) or an integer (the
     server's port).
     """
+    with open(self.path) as f:
+        for line in f.readlines():
+            data = line.split()
+            if identifier in data:
+                return data
 
 
 class Server(socketserver.BaseRequestHandler):
@@ -69,9 +74,31 @@ class Server(socketserver.BaseRequestHandler):
 
         self.viruses = {}
         self.world   = MultiWorld(viruses)
+        self.server_list = "/tmp/epydemy.servers"
 
-        with open() as f:
-            f.write
+        update_server_list()
+
+
+    def update_server_list(self, quit=False):
+        if not quit:
+            with open(self.path) as f:
+                for line in f.readlines():
+                    if line.startswith(self.name + " "):
+                        raise ServerAlreadyExist
+
+            with open(self.path, "a") as f:
+                f.write("%s localhost %s" % (self.name, self.port))
+
+        else:
+            with open(self.path) as f:
+                servers = f.readlines()
+
+            if True not in [x.startswith(self.name + " ") for x in servers]:
+                raise ServerDoesNotExist
+
+            with open(self.path, "w") as f:
+                f.writelines([x for x in servers if x.startswith(self.name+''])
+
 
     def handler(self):
         """
@@ -250,7 +277,7 @@ def main():
             port += 1
 
     # Should do some sort of error catching there
-    print("Initiating serveur on port " + str(port))
+    print("Initiating server on port " + str(port))
     server.serve_forever()
 
 
