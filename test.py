@@ -245,16 +245,26 @@ class TestGenUI:
         assert genui.available("", virus)
 
     def test_change_target_1(cls):
+        virus.money = 1000
         genui.change_target(virus, countries, "None")
         print(virus.target)
         assert virus.target is None
+        assert virus.money == 0
 
+        virus.money = 2000
         genui.change_target(virus, countries, "Asia")
         assert virus.target == "Asia"
+        assert virus.money == 0
 
     @raises(CountryDoesNotExist)
     def test_change_target_2(cls):
+        virus.money = 1000
         genui.change_target(virus, countries, "something_wrong")
+
+    @raises(NotEnoughMoney)
+    def test_change_target_3(cls):
+        virus.money = 0
+        genui.change_target(virus, countries, "Asia")
 
 
 import simple_client

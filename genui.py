@@ -42,6 +42,9 @@ def change_target(virus, countries, target):
     Change targeted country.
     If "None" is given as a country name, then no country is targetted.
     """
+    if virus.money - virus.change_target_price < 0:
+        raise NotEnoughMoney
+
     virus.money -= virus.change_target_price
     virus.change_target_price += virus.change_target_price
 
