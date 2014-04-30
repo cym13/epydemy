@@ -1,39 +1,35 @@
 countries:
-  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 21590447,
-    internet: 1, money: 30, protected: 3196586, research_level: 0, research_rate: 0,
-    sane: 75223375}
-  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 123641016,
-    internet: 4, money: 70, protected: 19696630, research_level: 0, research_rate: 0,
-    sane: 456717695}
+  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 4030879,
+    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 95969121}
+  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 20447984,
+    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 579552017}
   Eastern_europe: {computers: 80000000, defense: 30, destroyed: 0, detection: 30,
-    infected: 16791632, internet: 3, money: 40, protected: 2711642, research_level: 0,
-    research_rate: 0, sane: 60504402}
-  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 19906552,
-    internet: 3, money: 60, protected: 3256937, research_level: 0, research_rate: 0,
-    sane: 76845784}
+    infected: 2886007, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 77113993}
+  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 3646063,
+    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 96353937}
   North_america: {computers: 300000000, defense: 100, destroyed: 0, detection: 100,
-    infected: 61673395, internet: 5, money: 100, protected: 9809971, research_level: 0,
-    research_rate: 0, sane: 228544609}
-  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 10418530,
-    internet: 2, money: 50, protected: 1598778, research_level: 0, research_rate: 0,
-    sane: 37987577}
+    infected: 11669794, internet: 5, money: 100, protected: 0, research_level: 0,
+    research_rate: 0, sane: 288330206}
+  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 2015470,
+    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 47984530}
   South_america: {computers: 200000000, defense: 20, destroyed: 0, detection: 30,
-    infected: 40979373, internet: 3, money: 40, protected: 6621011, research_level: 0,
-    research_rate: 0, sane: 152419849}
+    infected: 7343495, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 192656505}
   Western_europe: {computers: 300000000, defense: 80, destroyed: 0, detection: 80,
-    infected: 61018270, internet: 3, money: 100, protected: 9780955, research_level: 0,
-    research_rate: 0, sane: 229229025}
+    infected: 11130909, internet: 3, money: 100, protected: 0, research_level: 0,
+    research_rate: 0, sane: 288869091}
 virus: &id001 !!python/object:virus.Virus
-  age: 1158
-  change_target_price: 2000
+  age: 127
+  change_target_price: 1000
   danger: 0
-  detect: 4
-  money: -950
-  name: test
-  prev_research_level: 1530
+  detect: 0
+  money: 150
+  name: sama
+  prev_research_level: 0
   rentab: 0
-  research_level: 1534
-  research_rate: 4
+  research_level: 0
+  research_rate: 0
   sk_list:
     bunny_picture:
       category: fun
@@ -124,12 +120,12 @@ virus: &id001 !!python/object:virus.Virus
       description: The target starts bugging... Well, no more than other windows bugs.
       effect: {danger: 2, detect: -1}
       price: 100
-  skills: [malicious_usb_key_1, malicious_usb_key_2]
-  spread: 4
-  target: Africa
+  skills: [fuzzy_code_1, malicious_usb_key_1]
+  spread: 2
+  target: null
 world: !!python/object:world.World
   destroyed: 0
-  infected: 356019215
-  protected: 56672510
-  sane: 1317472316
+  infected: 63170601
+  protected: 0
+  sane: 1666829400
   virus: *id001
