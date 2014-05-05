@@ -277,7 +277,7 @@ def main():
             port += 1
 
     # Should do some sort of error catching there
-    print("Initiating server on port " + str(port))
+    print("Initiating server on port ", port)
     server.serve_forever()
 
 

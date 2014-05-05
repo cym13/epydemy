@@ -265,6 +265,16 @@ class TestGenUI:
         virus.money = 0
         genui.change_target(virus, countries, "Asia")
 
+    def test_change_target3(cls):
+        virus.money = 0
+
+        try:
+            genui.change_target(virus, countries, "Asia")
+        except NotEnoughMoney:
+            assert 1==1
+        else:
+            assert 1==2
+
 
 import simple_client
 path = "/tmp/test_get_server.tmp"
