@@ -31,6 +31,10 @@ with open("./countries.yaml") as f:
 
 
 def c_ratio(country, *attributes):
+    """
+    Return the number of computer with the given attributes in the given country and
+    the total of computer in this country
+    """
     total = (countries[country]["sane"]
            + countries[country]["protected"]
            + countries[country]["infected"]
@@ -191,6 +195,7 @@ class World:
         """
         Returns the world's state
         """
+        #allow to justify the presentation of the world in ui.
         max_len = max([len(x) for x in countries]) + 4
 
         state  = "Sane\n"
