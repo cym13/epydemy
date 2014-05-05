@@ -180,7 +180,7 @@ class World:
         One may specify a special list of countries, default is all.
         """
         if not country_lst:
-            countr_lst = countries
+            country_lst = countries
 
         for each in country_lst:
             each["sane"]      += round(rate * each["destroyed"])

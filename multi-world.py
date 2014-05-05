@@ -22,15 +22,8 @@ from exceptions import *
 with open("./countries.yaml") as f:
     countries = yaml.load(f)
 
-    for each in countries:
-        countries[each]["sane"] = countries[each]["computers"]
-        countries[each]["infected"]       = 0
-        countries[each]["protected"]      = 0
-        countries[each]["destroyed"]      = 0
-        countries[each]["research_rate"]  = 0
-        countries[each]["research_level"] = 0
 
-
+# To change
 def c_ratio(country, *attributes):
     total = (countries[country]["sane"]
            + countries[country]["protected"]
@@ -143,6 +136,7 @@ class MultiWorld:
         self.infected[virus, country]  = infected
         self.protected[virus, country] = protected
         self.destroyed[virus, country] = destroyed
+        self.viruses[virus].money += self.money(virus, country)
 
 
     # To change
