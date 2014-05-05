@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# TODO: manage multiple servers
-# TODO: solve the user join concurrency problem
 """
 Epidemy game server
 
@@ -34,6 +32,7 @@ Options:
 """
 
 import sys
+import time
 import genui
 import threading
 import socketserver
@@ -71,9 +70,10 @@ class Server(socketserver.BaseRequestHandler):
         if number is None:
             number = 100
         self.max_number = number
+        self.ready      = 0
 
-        self.viruses = {}
-        self.world   = MultiWorld(viruses)
+        self.viruses     = {}
+        self.world       = MultiWorld(viruses)
         self.server_list = "/tmp/epydemy.servers"
 
         update_server_list()
@@ -153,6 +153,7 @@ class Server(socketserver.BaseRequestHandler):
         if len(cmd) == 1:
             """
             quit                Quit the game.
+            ready               Player ready to start the game
             virus               Returns infos about the virus.
             world               Returns infos about the world.
             list                List available skills.
@@ -160,6 +161,15 @@ class Server(socketserver.BaseRequestHandler):
             if cmd == "quit":
                 self.viruses.pop(virus)
                 return "SUCCESS: Your virus is no longer in the game"
+
+            elif cmd == "ready":
+                self.ready += 1
+
+                if self.ready < len(self.viruses):
+                    return "Waiting for %s players..."
+                            % (len(self.viruses - self.ready)
+
+                return "Every player ready: starting the game."
 
             elif cmd == "virus":
                 return "SUCCESS: " + self.viruses[virus].__str__
@@ -247,6 +257,15 @@ class Server(socketserver.BaseRequestHandler):
 
         return "ERROR: Invalid command"
 
+    def start(self):
+        # Should do some sort of error catching there
+        print("Initiating server on port %s")
+
+        while self.ready < len(self.viruses):
+            time.sleep(1)
+
+        self.serve_forever()
+
 
 def main():
     args   = docopt(__doc__)
@@ -276,9 +295,7 @@ def main():
         except PortNotAvailable:
             port += 1
 
-    # Should do some sort of error catching there
-    print("Initiating server on port ", port)
-    server.serve_forever()
+    server.start()
 
 
 if __name__ == "__main__":

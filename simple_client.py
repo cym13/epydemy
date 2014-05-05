@@ -86,8 +86,12 @@ def main():
     msg = ' '.join((args["VIRUS"], args["COMMAND"], args["ARGS"]))
     received = send(msg, host, port)
 
-    for line in received.splitlines():
-        print(line)
+    if type(received) == str:
+        received = (received,)
+
+    for each in received:
+        for line in received.splitlines():
+            print(line)
 
 
 if __name__ == "__main__":
