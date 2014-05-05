@@ -47,14 +47,10 @@ class MultiWorld:
     """
     def __init__(self, viruses, first_countries):
         self.viruses   = viruses
-        self.inf_state = {x.name : for x in viruses
-                            sane      = 0
-                            infected  = 0
-                            destroyed = 0
-                            protected = 0
-                            countries = {c : 0 for c in countries}
-                            }
-
+        self.sane      = { x : 0 for x in zip(viruses, country) }
+        self.infected  = { x : 0 for x in zip(viruses, country) }
+        self.destroyed = { x : 0 for x in zip(viruses, country) }
+        self.protected = { x : 0 for x in zip(viruses, country) }
 
     def step(self):
         """
