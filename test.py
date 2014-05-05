@@ -20,6 +20,7 @@ from world      import *
 from exceptions import *
 from nose.tools import *
 
+
 virus = Virus("test")
 class TestVirus:
     def setup(self):
@@ -296,4 +297,23 @@ class TestSimpleClient:
 
     def test_get_server_3(cls):
         assert simple_client.get_server("true_name", path) == ("localhost",8000)
+
+import cli_ui
+
+cache = r"/tmp/epy_temp_test"
+path = r"test.tmp"
+last_time = 1823
+class testCliUi:
+    def setup(self):
+        with open(cache,"w") as f:
+            f.write(str(last_time))
+            f.write(path)
+
+    def teardown(self):
+        os.remove(cache)
+
+    def test_cache(cls):
+        cli_ui.write_cache(cache, last_time, path)
+        print(cli_ui.read_cache(cache))
+        assert cli_ui.read_cache(cache) == (last_time, 'test.tmp')
 

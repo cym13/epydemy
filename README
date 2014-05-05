@@ -43,7 +43,7 @@ thinking about turning it into a real game.
 
 Yet the objectives are:
 
-[w] create a cli ui
+[x] create a cli ui
 [ ] create a curses ui
 [?] define a clear victory scenario
 [ ] add basic multiplayer possibilities

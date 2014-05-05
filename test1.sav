@@ -1,35 +1,39 @@
 countries:
-  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 4030879,
-    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 95969121}
-  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 20447984,
-    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 579552017}
-  Eastern_europe: {computers: 80000000, defense: 30, destroyed: 0, detection: 30,
-    infected: 2886007, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
-    sane: 77113993}
-  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 3646063,
-    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 96353937}
-  North_america: {computers: 300000000, defense: 100, destroyed: 0, detection: 100,
-    infected: 11669794, internet: 5, money: 100, protected: 0, research_level: 0,
-    research_rate: 0, sane: 288330206}
-  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 2015470,
-    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 47984530}
-  South_america: {computers: 200000000, defense: 20, destroyed: 0, detection: 30,
-    infected: 7343495, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
-    sane: 192656505}
-  Western_europe: {computers: 300000000, defense: 80, destroyed: 0, detection: 80,
-    infected: 11130909, internet: 3, money: 100, protected: 0, research_level: 0,
-    research_rate: 0, sane: 288869091}
+  Africa: {computers: 100000000, defense: 10, destroyed: 658472, detection: 10, infected: 701,
+    internet: 1, money: 30, protected: 99167346, research_level: 0, research_rate: 0,
+    sane: 0}
+  Asia: {computers: 600000000, defense: 50, destroyed: 3980322, detection: 40, infected: 2610,
+    internet: 4, money: 70, protected: 594992700, research_level: 0, research_rate: 0,
+    sane: 814}
+  Eastern_europe: {computers: 80000000, defense: 30, destroyed: 509774, detection: 30,
+    infected: 649, internet: 3, money: 40, protected: 79359843, research_level: 0,
+    research_rate: 0, sane: 0}
+  Middle_east: {computers: 100000000, defense: 40, destroyed: 620714, detection: 40,
+    infected: 602, internet: 3, money: 60, protected: 99222809, research_level: 0,
+    research_rate: 0, sane: 0}
+  North_america: {computers: 300000000, defense: 100, destroyed: 1876383, detection: 100,
+    infected: 1408, internet: 5, money: 100, protected: 297636479, research_level: 0,
+    research_rate: 0, sane: 0}
+  Oceania: {computers: 50000000, defense: 40, destroyed: 316017, detection: 20, infected: 620,
+    internet: 2, money: 50, protected: 49603850, research_level: 0, research_rate: 0,
+    sane: 0}
+  South_america: {computers: 200000000, defense: 20, destroyed: 1197677, detection: 30,
+    infected: 883, internet: 3, money: 40, protected: 198460029, research_level: 0,
+    research_rate: 0, sane: 0}
+  Western_europe: {computers: 300000000, defense: 80, destroyed: 1870141, detection: 80,
+    infected: 1701, internet: 3, money: 100, protected: 297650993, research_level: 0,
+    research_rate: 0, sane: 185}
 virus: &id001 !!python/object:virus.Virus
-  age: 127
+  age: 5430
   change_target_price: 1000
   danger: 0
-  detect: 0
-  money: 150
-  name: sama
-  prev_research_level: 0
-  rentab: 0
-  research_level: 0
-  research_rate: 0
+  detect: 24
+  money: 1883999
+  name: test
+  prev_research_level: 117831
+  rentab: 17
+  research_level: 117855
+  research_rate: 24
   sk_list:
     bunny_picture:
       category: fun
@@ -120,12 +124,14 @@ virus: &id001 !!python/object:virus.Virus
       description: The target starts bugging... Well, no more than other windows bugs.
       effect: {danger: 2, detect: -1}
       price: 100
-  skills: [fuzzy_code_1, malicious_usb_key_1]
-  spread: 2
+  skills: [malicious_usb_key_1, steal_family_photos_1, keylogger_1, fuzzy_code_1,
+    fuzzy_code_2, extra_files, malicious_usb_key_2, malicious_email_1, malicious_email_2,
+    keylogger_2]
+  spread: 14
   target: null
 world: !!python/object:world.World
-  destroyed: 0
-  infected: 63170601
-  protected: 0
-  sane: 1666829400
+  destroyed: 11029500
+  infected: 9174
+  protected: 1716094049
+  sane: 999
   virus: *id001

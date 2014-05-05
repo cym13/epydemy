@@ -152,13 +152,31 @@ def target(country, virus):
         print("You don't have enough money.")
 
 
+def read_cache(cache):
+    with open(cache) as c:
+        t = int(c.readline())
+        file = c.readline()
+        return t, file
+
+
+def write_cache(cache, time, file):
+    with open(cache, "w") as c:
+        c.write(str(time) + "\n")
+        c.write(str(file))
+
+
+def refresh(virus, world, n_step):
+    for i in range(n_step):
+        genui.world_turn(virus, world)
+
+
 def main():
     #raise CountryDoesNotExist
     args = docopt(__doc__)
     #print(args)
     file = args["FILE"]
     patch = args["--info"]
-    list = args["--list"]
+    lst = args["--list"]
     upgrade_skill = args["--upgrade"]
     downgrade_skill = args["--downgrade"]
     target_country = args["--target"]
@@ -166,18 +184,12 @@ def main():
     current_time = round(time())
     slice_time = 3
     last_time = current_time
-    tfile = ""
 
-    if path.exists(cache):
-        with open(cache, "r") as f:
-            last_time = int(f.readline())
-            tfile = f.readline()
-
-
+    if path.exists(cache) and not file == None :
+        last_time, file = read_cache(cache)
 
     if args["--new"]:
         virus, world, W.countries = new_game(file)
-        tfile = file
     else:
         if file == None:
             virus, world, W.countries = load_game(tfile)
@@ -186,19 +198,15 @@ def main():
             virus, world, W.countries = load_game(file)
             tfile = file
 
-
-    with open(cache, "w") as tmp:
-        tmp.write(str(current_time) +"\n")
-        tmp.write(file)
+    write_cache(cache, current_time, file)
 
     n_step = (current_time - last_time)//slice_time
-    for i in range(n_step):
-        genui.world_turn(virus, world)
-#    game_data = (virus, world, W.countries)
+
+    refresh(virus, world, n_step)
 
     if patch:
         print_patch(patch, virus)
-    elif list:
+    elif lst:
         print_list(virus)
     elif upgrade_skill:
         upgrade(upgrade_skill, virus)
@@ -212,6 +220,7 @@ def main():
         target(target_country, virus)
 
     genui.save_file(virus, world, W.countries, tfile)
+
     sys.exit()
 
 
