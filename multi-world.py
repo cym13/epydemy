@@ -40,10 +40,11 @@ class MultiWorld:
     """
     def __init__(self, viruses, first_countries):
         self.viruses   = viruses
-        self.sane      = { x : 0 for x in zip(viruses, country) }
-        self.infected  = { x : 0 for x in zip(viruses, country) }
-        self.destroyed = { x : 0 for x in zip(viruses, country) }
-        self.protected = { x : 0 for x in zip(viruses, country) }
+        for country in countries:
+            self.sane      = { x : 0 for x in zip(viruses, country) }
+            self.infected  = { x : 0 for x in zip(viruses, country) }
+            self.destroyed = { x : 0 for x in zip(viruses, country) }
+            self.protected = { x : 0 for x in zip(viruses, country) }
 
         for each in zip(viruses, first_countries):
             self.infected[each] = 1
