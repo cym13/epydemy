@@ -80,25 +80,32 @@ class Server(socketserver.BaseRequestHandler):
 
 
     def update_server_list(self, quit=False):
-        if not quit:
-            with open(self.server_list, 'w+') as f:
-                for line in f.readlines():
-                    if line.startswith(self.name + " "):
-                        raise ServerAlreadyExist
+        try:
+            if quit is False:
+                with open(self.server_list) as f:
+                    for line in f.readlines():
+                        if line.startswith(self.name + " "):
+                            raise ServerAlreadyExist
 
-            with open(self.server_list, "a") as f:
-                f.write("%s localhost %s" % (self.name, self.port))
+                with open(self.server_list, "a") as f:
+                    f.write("%s localhost %s\n" % (self.name, self.port))
 
-        else:
-            with open(self.server_list, 'w+') as f:
-                servers = f.readlines()
+            else:
+                print("quitting")
+                with open(self.server_list, 'r') as f:
+                    servers = f.readlines()
 
-            if True not in [x.startswith(self.name + " ") for x in servers]:
-                raise ServerDoesNotExist
+                if True not in [x.startswith(self.name + " ") for x in servers]:
+                    raise ServerDoesNotExist
 
-            with open(self.server_list, "w") as f:
-                f.writelines([x for x in servers
-                                if x.startswith(self.name+' ')])
+                with open(self.server_list, "w") as f:
+                    f.writelines([x for x in servers
+                                    if not x.startswith(self.name+' ')])
+
+        except FileNotFoundError:
+            open(self.server_list, "w")
+            self.update_server_list()
+
 
 
     def handler(self):
@@ -306,7 +313,10 @@ def main():
         except PortNotAvailable:
             port += 1
 
-    server.start()
+    try:
+        server.start()
+    except KeyboardInterrupt:
+        server.update_server_list(True)
 
 
 if __name__ == "__main__":
