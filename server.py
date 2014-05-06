@@ -73,31 +73,32 @@ class Server(socketserver.BaseRequestHandler):
         self.ready      = 0
 
         self.viruses     = {}
-        self.world       = MultiWorld(viruses)
+        self.world       = None
         self.server_list = "/tmp/epydemy.servers"
 
-        update_server_list()
+        self.update_server_list()
 
 
     def update_server_list(self, quit=False):
         if not quit:
-            with open(self.path) as f:
+            with open(self.server_list, 'w+') as f:
                 for line in f.readlines():
                     if line.startswith(self.name + " "):
                         raise ServerAlreadyExist
 
-            with open(self.path, "a") as f:
+            with open(self.server_list, "a") as f:
                 f.write("%s localhost %s" % (self.name, self.port))
 
         else:
-            with open(self.path) as f:
+            with open(self.server_list, 'w+') as f:
                 servers = f.readlines()
 
             if True not in [x.startswith(self.name + " ") for x in servers]:
                 raise ServerDoesNotExist
 
-            with open(self.path, "w") as f:
-                f.writelines([x for x in servers if x.startswith(self.name+''])
+            with open(self.server_list, "w") as f:
+                f.writelines([x for x in servers
+                                if x.startswith(self.name+' ')])
 
 
     def handler(self):
@@ -107,7 +108,7 @@ class Server(socketserver.BaseRequestHandler):
         virus_name command [parameter]
 
         Available commands are:
-            init                Initialize a virus in the world.
+            init      COUNTRY   Initialize a virus in the world.
             quit                Quit the game.
             virus               Returns infos about the virus.
             world               Returns infos about the world.
@@ -138,17 +139,21 @@ class Server(socketserver.BaseRequestHandler):
         """
         Computes the command 'cmd' with the arguments 'args' from 'virus'.
         """
-        cmd = cmd.lower()
+        cmd = cmd.lower().split()
 
-        if cmd == "init" and virus not in self.viruses:
+        if cmd[0] == "init" and virus not in self.viruses:
+            """
+            init      COUNTRY   Initialize a virus in the world.
+            """
             if len(self.viruses) < self.max_number:
-                self.viruses[virus] = Virus(virus)
+                self.viruses[virus] = (Virus(virus), cmd[1])
                 return "SUCCESS: Virus added to the game"
             else:
                 return "ERROR: The game is full"
 
         elif virus not in self.viruses:
             return "ERROR: Virus not initiated"
+
 
         if len(cmd) == 1:
             """
@@ -158,26 +163,27 @@ class Server(socketserver.BaseRequestHandler):
             world               Returns infos about the world.
             list                List available skills.
             """
-            if cmd == "quit":
+            if cmd[0] == "quit":
                 self.viruses.pop(virus)
                 return "SUCCESS: Your virus is no longer in the game"
 
-            elif cmd == "ready":
+            elif cmd[0] == "ready":
                 self.ready += 1
+                countries
 
                 if self.ready < len(self.viruses):
-                    return "Waiting for %s players..."
-                            % (len(self.viruses - self.ready)
+                    return "Waiting for %s players..." % len(self.viruses
+                                                           - self.ready)
 
                 return "Every player ready: starting the game."
 
-            elif cmd == "virus":
+            elif cmd[0] == "virus":
                 return "SUCCESS: " + self.viruses[virus].__str__
 
-            elif cmd == "world":
+            elif cmd[0] == "world":
                 return "SUCCESS: " + self.world.__str__
 
-            elif cmd == "list":
+            elif cmd[0] == "list":
                 vir = self.viruses[virus]
                 answer = []
                 for skill in self.viruses[virus].sk_list:
@@ -195,7 +201,7 @@ class Server(socketserver.BaseRequestHandler):
             target    TARGET    Targets the country TARGET
             """
             arg = cmd[1]
-            if cmd == "info":
+            if cmd[0] == "info":
                 try:
                     vir = self.viruses[virus]
                     if arg not in vir.sk_list:
@@ -211,7 +217,7 @@ class Server(socketserver.BaseRequestHandler):
                 except SkillDoesNotExist:
                     return "ERROR: This skill does not exist: %s" % arg
 
-            elif cmd == "upgrade":
+            elif cmd[0] == "upgrade":
                 try:
                     self.viruses[virus].upgrade(arg)
                     return "SUCCESS: Your virus has been upgraded."
@@ -234,7 +240,7 @@ class Server(socketserver.BaseRequestHandler):
                     vir = None
                     return "ERROR: " + '\n'.join(answer)
 
-            elif cmd == "downgrade":
+            elif cmd[0] == "downgrade":
                 try:
                     self.viruses[virus].downgrade(arg)
                     return "SUCCESS: Your virus has been downgraded."
@@ -245,7 +251,7 @@ class Server(socketserver.BaseRequestHandler):
                 except skillDoesNotExist:
                     return "ERROR: Wrong skill name: %s" % arg
 
-            elif cmd == "target":
+            elif cmd[0] == "target":
                 try:
                     genui.change_target(self.viruses[virus],
                                         self.countries,
@@ -259,11 +265,16 @@ class Server(socketserver.BaseRequestHandler):
 
     def start(self):
         # Should do some sort of error catching there
-        print("Initiating server on port %s")
+        print("Initiating server on port %s" % self.port)
+        print("Waiting for players to be ready")
 
-        while self.ready < len(self.viruses):
-            time.sleep(1)
+        while self.ready < len(self.viruses) or self.viruses == {}:
+            time.sleep(2)
+            print(".", end="")
+            sys.stdout.flush()
 
+        viruses, firstcountries = zip(self.viruses[x] for x in self.viruses)
+        self.world = MultiWorld(viruses, first_countries)
         self.serve_forever()
 
 
@@ -279,7 +290,7 @@ def main():
                 infos(name)
             else:
                 infos(port)
-        except ServerDoesNotExists:
+        except ServerDoesNotExist:
             print("Server does not exist")
             sys.exit(1)
 
@@ -288,7 +299,7 @@ def main():
             server = Server(name, port, number)
             break
 
-        except ServerAlreadyExists:
+        except ServerAlreadyExist:
             print("This server name is not available")
             sys.exit(1)
 

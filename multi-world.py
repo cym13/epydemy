@@ -23,7 +23,6 @@ with open("./countries.yaml") as f:
     countries = yaml.load(f)
 
 
-# To change
 def c_ratio(country, *attributes):
     total = (countries[country]["sane"]
            + countries[country]["protected"]
@@ -86,7 +85,6 @@ class MultiWorld:
                          * countries[country]["money"])
 
 
-    # This may be simplified
     def spread(self, virus, country, inf_r, dest_r, prot_r):
         """
         Core of the game mechanics
@@ -116,7 +114,7 @@ class MultiWorld:
         elif target == country:
             inf_r *= 2.00
         else:
-            inf_r *= 0.10
+            inf_r *= 0.05
 
         sane -= round(inf_r * p_sane)
         if sane < 0:
@@ -143,7 +141,6 @@ class MultiWorld:
         self.viruses[virus].money += self.money(virus, country)
 
 
-    # To change
     def upgrade(self, virus, immunity_rate, country_lst=None):
         """
         Apply a virus's upgrade given its immunity rate (between -1 and 1).
@@ -158,7 +155,7 @@ class MultiWorld:
             self.protected[virus, each]  = round(immunity_rate
                                                  * self.protected[virus, each])
 
-    # To change
+
     def repairs(self, virus, rate, country_lst=None):
         """
         Apply general reparations to a given rate of country's computers.
@@ -220,10 +217,3 @@ class MultiWorld:
                 state += " (%s\t/ %s)\n" % c_ratio(each, "destroyed")
 
         return state.rstrip('\n')
-
-
-    # To change
-    def __str__(self):
-        """
-        Returns the world's state
-        """

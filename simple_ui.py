@@ -103,6 +103,9 @@ def play(virus, world, filename, command=None):
             except CountryDoesNotExist:
                 print("This country does not exist: %s" % cmd.split()[1])
 
+            except NotEnoughMoney:
+                print("You don't have enough money.")
+
         elif cmd == "save":
             try:
                 genui.save_file(virus, world, W.countries, filename)

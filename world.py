@@ -130,12 +130,16 @@ class World:
         dest_r *= (random.randint(1, 10) / 30)
         prot_r *= (random.randint(1, 10) / 30)
 
+        ####################
+        target = "Asia"
+        ####################
+
         if target == None:
             pass
         elif target == country:
-            inf_r *= 2.00
+            inf_r *= 1.00
         else:
-            inf_r *= 0.10
+            inf_r *= 0.01
 
         # Asymptotic limit counter-measure
         countries[country]["sane"] += 1000
