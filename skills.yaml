@@ -36,25 +36,25 @@ fuzzy_code_2:
 
 # TRANSMISSION
 ##############
-malicious_usb_key_1:
+malicious_usb_stick_1:
     price: 150
     category: transmission
     effect:
         spread: +2
         detect: +2
     description:
-        You can infect usb keys
+        You can infect usb sticks
 
-malicious_usb_key_2:
+malicious_usb_stick_2:
     price: 300
     category: transmission
     requirements:
-        - malicious_usb_key_1
+        - malicious_usb_stick_1
     effect:
         spread: +2
         detect: +2
     description:
-        You can infect usb keys with better chance of success
+        You can infect usb sticks with better chance of success
 
 malicious_email_1:
     price: 500
@@ -99,20 +99,20 @@ steal_family_photos_2:
     description:
         You target children photos and get more money !
 
-keylogger_1:
+sticklogger_1:
     price: 200
     category: moneymaking
     effect:
         rentab: +3
         detect: +2
     description:
-        You steal some interesting things typed on keyboard
+        You steal some interesting things typed on stickboard
 
-keylogger_2:
+sticklogger_2:
     price: 250
     category: moneymaking
     requirements:
-        - keylogger_1
+        - sticklogger_1
     effect:
         rentab: +3
         detect: +2
