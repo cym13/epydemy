@@ -1,39 +1,35 @@
 countries:
-  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 21590447,
-    internet: 1, money: 30, protected: 3196586, research_level: 0, research_rate: 0,
-    sane: 75223375}
-  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 123641016,
-    internet: 4, money: 70, protected: 19696630, research_level: 0, research_rate: 0,
-    sane: 456717695}
+  Africa: {computers: 100000000, defense: 10, destroyed: 0, detection: 10, infected: 0,
+    internet: 1, money: 30, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
+  Asia: {computers: 600000000, defense: 50, destroyed: 0, detection: 40, infected: 1,
+    internet: 4, money: 70, protected: 0, research_level: 0, research_rate: 0, sane: 600000000}
   Eastern_europe: {computers: 80000000, defense: 30, destroyed: 0, detection: 30,
-    infected: 16791632, internet: 3, money: 40, protected: 2711642, research_level: 0,
-    research_rate: 0, sane: 60504402}
-  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 19906552,
-    internet: 3, money: 60, protected: 3256937, research_level: 0, research_rate: 0,
-    sane: 76845784}
+    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 80000000}
+  Middle_east: {computers: 100000000, defense: 40, destroyed: 0, detection: 40, infected: 0,
+    internet: 3, money: 60, protected: 0, research_level: 0, research_rate: 0, sane: 100000000}
   North_america: {computers: 300000000, defense: 100, destroyed: 0, detection: 100,
-    infected: 61673395, internet: 5, money: 100, protected: 9809971, research_level: 0,
-    research_rate: 0, sane: 228544609}
-  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 10418530,
-    internet: 2, money: 50, protected: 1598778, research_level: 0, research_rate: 0,
-    sane: 37987577}
+    infected: 0, internet: 5, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 300000000}
+  Oceania: {computers: 50000000, defense: 40, destroyed: 0, detection: 20, infected: 0,
+    internet: 2, money: 50, protected: 0, research_level: 0, research_rate: 0, sane: 50000000}
   South_america: {computers: 200000000, defense: 20, destroyed: 0, detection: 30,
-    infected: 40979373, internet: 3, money: 40, protected: 6621011, research_level: 0,
-    research_rate: 0, sane: 152419849}
+    infected: 0, internet: 3, money: 40, protected: 0, research_level: 0, research_rate: 0,
+    sane: 200000000}
   Western_europe: {computers: 300000000, defense: 80, destroyed: 0, detection: 80,
-    infected: 61018270, internet: 3, money: 100, protected: 9780955, research_level: 0,
-    research_rate: 0, sane: 229229025}
+    infected: 0, internet: 3, money: 100, protected: 0, research_level: 0, research_rate: 0,
+    sane: 300000000}
 virus: &id001 !!python/object:virus.Virus
-  age: 1158
-  change_target_price: 2000
+  age: 0
+  change_target_price: 1000
   danger: 0
-  detect: 4
-  money: -950
+  detect: 0
+  money: 500
   name: test
-  prev_research_level: 1530
+  prev_research_level: 0
   rentab: 0
-  research_level: 1534
-  research_rate: 4
+  research_level: 0
+  research_rate: 0
   sk_list:
     bunny_picture:
       category: fun
@@ -64,17 +60,6 @@ virus: &id001 !!python/object:virus.Virus
       effect: {detect: -3}
       price: 400
       requirements: [fuzzy_code_1]
-    keylogger_1:
-      category: moneymaking
-      description: You steal some interesting things typed on keyboard
-      effect: {detect: 2, rentab: 3}
-      price: 200
-    keylogger_2:
-      category: moneymaking
-      description: You now focus on password that you can sell
-      effect: {detect: 2, rentab: 3}
-      price: 250
-      requirements: [keylogger_1]
     linux_bug:
       category: offensiveness
       description: The target starts bugging... But linux has no bug normally !
@@ -91,17 +76,17 @@ virus: &id001 !!python/object:virus.Virus
       effect: {detect: 5, spread: 5}
       price: 1000
       requirements: [malicious_email_1]
-    malicious_usb_key_1:
+    malicious_usb_stick_1:
       category: transmission
-      description: You can infect usb keys
+      description: You can infect usb sticks
       effect: {detect: 2, spread: 2}
       price: 150
-    malicious_usb_key_2:
+    malicious_usb_stick_2:
       category: transmission
-      description: You can infect usb keys with better chance of success
+      description: You can infect usb sticks with better chance of success
       effect: {detect: 2, spread: 2}
       price: 300
-      requirements: [malicious_usb_key_1]
+      requirements: [malicious_usb_stick_1]
     no_response:
       category: offensiveness
       description: The target freezes. Need to restart and could destroyed the target;
@@ -119,17 +104,28 @@ virus: &id001 !!python/object:virus.Virus
       effect: {detect: 1, rentab: 1}
       price: 200
       requirements: [steal_family_photos_1]
+    sticklogger_1:
+      category: moneymaking
+      description: You steal some interesting things typed on stickboard
+      effect: {detect: 2, rentab: 3}
+      price: 200
+    sticklogger_2:
+      category: moneymaking
+      description: You now focus on password that you can sell
+      effect: {detect: 2, rentab: 3}
+      price: 250
+      requirements: [sticklogger_1]
     windows_bug:
       category: offensiveness
       description: The target starts bugging... Well, no more than other windows bugs.
       effect: {danger: 2, detect: -1}
       price: 100
-  skills: [malicious_usb_key_1, malicious_usb_key_2]
-  spread: 4
-  target: Africa
+  skills: []
+  spread: 0
+  target: null
 world: !!python/object:world.World
   destroyed: 0
-  infected: 356019215
-  protected: 56672510
-  sane: 1317472316
+  infected: 1
+  protected: 0
+  sane: 0
   virus: *id001

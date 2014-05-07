@@ -55,7 +55,6 @@ def get_server(name, path):
     raise ServerNotFound
 
 
-
 def send(msg, host, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(bytes(msg + "\n", "utf-8"), (host, port))
