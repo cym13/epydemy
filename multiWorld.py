@@ -217,13 +217,3 @@ class MultiWorld:
                 state += " (%s\t/ %s)\n" % c_ratio(each, "destroyed")
 
         return state.rstrip('\n')
-<<<<<<< HEAD:multi-world.py
-
-
-    # To change
-    #def __str__(self):
-    #    """
-    #    Returns the world's state
-    #    """
-=======
->>>>>>> FETCH_HEAD:multiWorld.py

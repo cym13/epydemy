@@ -273,18 +273,6 @@ class Server:
 
         return "ERROR: Invalid command"
 
-    def init_game(self):
-        t = time()
-        end_waiting = t + 40
-        while t<end_waiting:
-            t=time()
-            if self.(request[1])[0].strip().lower() = "init"
-                self.handler()
-            #TODO insert code which allow users to only create viruses.
-
-
-
-
 
     def serve_forever(self):
         """
