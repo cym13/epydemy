@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2014, Cédric Picard
+# Copyright (c) 2014, Cédric Picard, Nicolas Loridon
 # All rights reserved.
 #
 # This program is free software: you can redistribute it and/or modify
