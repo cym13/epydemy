@@ -32,9 +32,12 @@ Options:
 """
 
 import sys
+import genui
 import socket
 import multiWorld
-from docopt import docopt
+from virus      import Virus
+from docopt     import docopt
+from exceptions import *
 
 class Server:
     """
@@ -44,17 +47,20 @@ class Server:
     def __init__(self, name, port, number):
         """
         Initiate if possible a new server with name 'name' on port 'port' and
-        with a maximum of 'number' simultaneous players.
+        with a maximum of 'number' (default 16) simultaneous players.
         """
         self.name       = name
         self.port       = port
 
         self.ready_nbr  = 0
-        self.max_nbr    = number
+        self.max_nbr    = number or 16
 
         self.ready      = False
         self.world      = None
         self.viruses    = {}
+
+        self.server_list = "/tmp/epydemy.servers"
+        self.update_server_list()
 
 
     def update_server_list(self, quit=False):
@@ -62,6 +68,30 @@ class Server:
         If quit is False, then append the name of the server into the server
         list, otherwise removes it from it.
         """
+        try:
+            if quit is False:
+                with open(self.server_list) as f:
+                    for line in f.readlines():
+                        if line.startswith(self.name + " "):
+                            raise ServerAlreadyExist
+
+                with open(self.server_list, "a") as f:
+                    f.write("%s localhost %s\n" % (self.name, self.port))
+
+            else:
+                with open(self.server_list, 'r') as f:
+                    servers = f.readlines()
+
+                if True not in [x.startswith(self.name + " ") for x in servers]:
+                    raise ServerDoesNotExist
+
+                with open(self.server_list, "w") as f:
+                    f.writelines([x for x in servers
+                                    if not x.startswith(self.name+' ')])
+
+        except FileNotFoundError:
+            open(self.server_list, "w")
+            self.update_server_list()
 
 
     def handle(self, data):
@@ -87,7 +117,7 @@ class Server:
         return handler(virus, command)
 
 
-    def pre_game(self, virus, command):
+    def pre_game(self, virus, cmd):
         """
         Computes pre-game commands (wait for players to come)
 
@@ -97,10 +127,26 @@ class Server:
             ready               Indicate that you are ready to begin.
                                 Returns the number of players still not ready.
         """
-        return "hello"
+        if cmd == "init" and virus not in self.viruses:
+            if len(self.viruses) < self.max_number:
+                self.viruses[virus] = (Virus(virus), cmd[1])
+                return "SUCCESS: Virus added to the game"
+            else:
+                return "ERROR: The game is full"
+
+        elif virus not in self.viruses:
+            return "ERROR: Virus not initiated"
+
+        elif cmd[0] == "ready":
+            self.ready += 1
+
+            if not self.ready:
+                return "Waiting for %s players..." % (len(self.viruses)
+                                                       - self.ready_nbr)
+            return "Every player ready: starting the game."
 
 
-    def game(self, virus, command):
+    def game(self, virus, cmd):
         """
         Computes game commands
 
@@ -115,6 +161,114 @@ class Server:
             target    TARGET    Targets the country TARGET
                                 or none if "None" is given.
         """
+        if virus not in self.viruses:
+            return "ERROR: Virus not initiated"
+
+        if len(cmd) == 1:
+            # quit                Quit the game.
+            # ready               Player ready to start the game
+            # virus               Returns infos about the virus.
+            # world               Returns infos about the world.
+            # list                List available skills.
+            if cmd[0] == "quit":
+                self.viruses.pop(virus)
+                return "SUCCESS: Your virus is no longer in the game"
+
+            elif cmd[0] == "ready":
+                self.ready += 1
+                countries
+
+                if self.ready < len(self.viruses):
+                    v, fc = zip(self.viruses[x] for x in self.viruses)
+                    self.world = MultiWorld(v, fc)
+                    return "Waiting for %s players..." % len(self.viruses
+                                                           - self.ready)
+
+                return "Every player ready: starting the game."
+
+            elif cmd[0] == "virus":
+                return "SUCCESS: " + self.viruses[virus].__str__
+
+            elif cmd[0] == "world":
+                return "SUCCESS: " + self.world.__str__
+
+            elif cmd[0] == "list":
+                vir = self.viruses[virus]
+                answer = []
+                for skill in self.viruses[virus].sk_list:
+                    if vir.available(skill) and skill not in vir.skills:
+                        answer.append("%s \t(%sBTC)" % (skill,
+                                                  vir.sk_list[skill]["price"]))
+                vir = None
+                return "SUCCESS: " + '\n'.join(answer)
+
+        elif len(cmd) == 2:
+            # info      PATCH     Get informations about PATCH
+            # upgrade   PATCH     Upgrades the virus with patch PATCH.
+            # downgrade PATCH     Upgrades the virus with patch PATCH.
+            # target    TARGET    Targets the country TARGET
+            arg = cmd[1]
+            if cmd[0] == "info":
+                try:
+                    vir = self.viruses[virus]
+                    if arg not in vir.sk_list:
+                        raise SkillDoesNotExist
+
+                    answer = []
+                    for field in vir.sk_list[arg]:
+                        answer.append("%s: %s" % (field.title(),
+                                                  vir.sk_list[arg][field]))
+
+                    return "SUCCESS: " + '\n'.join(answer)
+
+                except SkillDoesNotExist:
+                    return "ERROR: This skill does not exist: %s" % arg
+
+            elif cmd[0] == "upgrade":
+                try:
+                    self.viruses[virus].upgrade(arg)
+                    return "SUCCESS: Your virus has been upgraded."
+
+                except SkillDoesNotExist:
+                    return "ERROR: %s does not exist." % arg
+
+                except SkillAlreadyPresent:
+                    return "ERROR: %s is already present." % arg
+
+                except NotEnoughMoney:
+                    return "ERROR: You don't have enough money to buy " % arg
+
+                except SkillNotAvailable:
+                    vir = self.viruses[virus]
+                    answer = ["You have to unlock this skills first:"]
+                    for each in vir.sk_list[arg]["requirements"]:
+                        if each not in vir.skills:
+                            answer.append(each)
+                    vir = None
+                    return "ERROR: " + '\n'.join(answer)
+
+            elif cmd[0] == "downgrade":
+                try:
+                    self.viruses[virus].downgrade(arg)
+                    return "SUCCESS: Your virus has been downgraded."
+
+                except SkillNotPresent:
+                    return "ERROR: You don't have %s yet" % arg
+
+                except skillDoesNotExist:
+                    return "ERROR: Wrong skill name: %s" % arg
+
+            elif cmd[0] == "target":
+                try:
+                    genui.change_target(self.viruses[virus],
+                                        self.countries,
+                                        arg)
+                    return "SUCCESS: Your target has changed."
+
+                except CountryDoesNotExist:
+                    return "ERROR: This country does not exist: %s" % arg
+
+        return "ERROR: Invalid command"
 
 
     def serve_forever(self):
@@ -124,13 +278,18 @@ class Server:
         udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         udp_sock.bind(("localhost", self.port))
 
-        while True:
-            data, addr = udp_sock.recvfrom(1024)
-            print(addr, ":\n", data)
-            sys.stdout.flush()
-            udp_sock.sendto(bytes(self.handle(data), "utf-8"), addr)
+        try:
+            while True:
+                data, addr = udp_sock.recvfrom(1024)
+                print(addr, ":\n", data)
+                sys.stdout.flush()
 
-        udp_sock.close()
+                msg = bytes(self.handle(data), "utf-8")
+                udp_sock.sendto(msg, addr)
+
+        finally:
+            udp_sock.close()
+            self.update_server_list(quit=True)
 
 
     def infos(self, identifier):
@@ -152,8 +311,25 @@ def main():
     port   = args["--port"] or 31337
     number = args["--number"] or None
 
-    server = Server(name, port, number)
-    server.serve_forever()
+    while True:
+        try:
+            server = Server(name, port, number)
+            break
+
+        except ServerAlreadyExist:
+            print("This server name is not available")
+            sys.exit(1)
+
+        except PortNotAvailable:
+            print("Port", port, "not available")
+            port += 1
+            print("Trying on port", port)
+
+    try:
+        server.serve_forever()
+
+    except KeyboardInterrupt:
+        print("Quitting...")
 
 
 if __name__ == "__main__":
