@@ -18,8 +18,8 @@
 """
 Epidemy game server
 
-Usage: server.py [-h] [-p PORT] [-n NUMBER] NAME
-       server.py [-h] [-i] (-p PORT | NAME)
+Usage: server.py [-h] [-f] [-p PORT] [-n NUMBER] NAME
+       server.py [-h] [-f] [-i] (-p PORT | NAME)
 
 Arguments:
     NAME    World name
@@ -29,6 +29,8 @@ Options:
     -p, --port PORT         On what port to listen. Default is 31337
     -n, --number NUMBER     Limit the number of players to 'number'
     -i, --info              Print infos on a running server
+    -f, --force             Force the use of NAME even if another server is
+                            registered with it
 """
 
 import sys
@@ -44,7 +46,7 @@ class Server:
     This is an epydemy server. It controls the world in which players act
     concurrently. It accepts commands on a UDP socket.
     """
-    def __init__(self, name, port, number):
+    def __init__(self, name, port, number, force):
         """
         Initiate if possible a new server with name 'name' on port 'port' and
         with a maximum of 'number' (default 16) simultaneous players.
@@ -60,10 +62,10 @@ class Server:
         self.viruses    = {}
 
         self.server_list = "/tmp/epydemy.servers"
-        self.update_server_list()
+        self.update_server_list(force=force)
 
 
-    def update_server_list(self, quit=False):
+    def update_server_list(self, force=False, quit=False):
         """
         If quit is False, then append the name of the server into the server
         list, otherwise removes it from it.
@@ -72,7 +74,7 @@ class Server:
             if quit is False:
                 with open(self.server_list) as f:
                     for line in f.readlines():
-                        if line.startswith(self.name + " "):
+                        if line.startswith(self.name + " ") and not force:
                             raise ServerAlreadyExist
 
                 with open(self.server_list, "a") as f:
@@ -310,10 +312,11 @@ def main():
     name   = args["NAME"]
     port   = args["--port"] or 31337
     number = args["--number"] or None
+    force  = args["--force"]
 
     while True:
         try:
-            server = Server(name, port, number)
+            server = Server(name, port, number, force)
             break
 
         except ServerAlreadyExist:
