@@ -103,7 +103,7 @@ class Server:
 
         virus_name command [parameter]
         """
-        data    = str(data).strip().lower().split()
+        data    = data.decode("utf-8").strip(" \n").lower().split()
         virus   = data[0]
         command = data[1:]
 
@@ -122,18 +122,37 @@ class Server:
 
     def pre_game(self, virus, cmd):
         """
-        Computes pre-game commands (wait for players to come)
-
+        Pre-game commands (wait for players to come)
 
         Available commands are:
             init      COUNTRY   Initialize a virus in the world.
             ready               Indicate that you are ready to begin.
                                 Returns the number of players still not ready.
+            help                Print this help message
+            quit                Quit the game.
         """
-        if cmd == "init" and virus not in self.viruses:
-            if len(self.viruses) < self.max_number:
+        if cmd[0] == "help":
+            # Get rid of unecessary spaces before text
+            return '\n'.join((x[8:] for x in self.pre_game.__doc__.split('\n')))
+
+        elif cmd[0] == "init" and virus not in self.viruses:
+            if len(cmd) == 1:
+                msg  = "ERROR: Enter a country name\n"
+                msg += "Are available:"
+                for each in multiWorld.countries:
+                    msg += "    %s\n" % each
+                return msg
+
+            elif len(self.viruses) < self.max_nbr:
+                if cmd[1].capitalize() not in multiWorld.countries:
+                    msg  = "ERROR: Unknown country\n"
+                    msg += "Are available:\n"
+                    for each in multiWorld.countries:
+                        msg += "    %s\n" % each
+                    return msg
                 self.viruses[virus] = (Virus(virus), cmd[1])
                 return "SUCCESS: Virus added to the game"
+
             else:
                 return "ERROR: The game is full"
 
@@ -148,6 +167,15 @@ class Server:
                                                        - self.ready_nbr)
             return "Every player ready: starting the game."
 
+        elif cmd[0] == "help":
+            return self.pre_game.__doc__
+
+        elif cmd[0] == "quit":
+            self.viruses.pop(virus)
+            return "SUCCESS: Your virus is no longer in the game"
+
+        else:
+            return "ERROR: Invalid command"
 
     def game(self, virus, cmd):
         """
@@ -167,6 +195,10 @@ class Server:
         if virus not in self.viruses:
             return "ERROR: Virus not initiated"
 
+        if cmd[0] == "help":
+            # Get rid of unecessary spaces before text
+            return '\n'.join((x[8:] for x in self.pre_game.__doc__.split('\n')))
+
         if len(cmd) == 1:
             # quit                Quit the game.
             # ready               Player ready to start the game
@@ -179,7 +211,6 @@ class Server:
 
             elif cmd[0] == "ready":
                 self.ready += 1
-                countries
 
                 if self.ready < len(self.viruses):
                     v, fc = zip(self.viruses[x] for x in self.viruses)
@@ -264,7 +295,7 @@ class Server:
             elif cmd[0] == "target":
                 try:
                     genui.change_target(self.viruses[virus],
-                                        self.countries,
+                                        multiWorld.countries,
                                         arg)
                     return "SUCCESS: Your target has changed."
 
@@ -287,7 +318,10 @@ class Server:
                 print(addr, ":\n", data)
                 sys.stdout.flush()
 
-                msg = bytes(self.handle(data), "utf-8")
+                command = data.decode("utf-8").strip(" \n").lower().split()[1:]
+
+                msg  = bytes(">> " + ' '.join(command) + "\n", "utf-8")
+                msg += bytes(self.handle(data), "utf-8")
                 udp_sock.sendto(msg, addr)
 
         finally:
