@@ -40,7 +40,7 @@ import multiWorld
 from virus      import Virus
 from docopt     import docopt
 from exceptions import *
-from time import time
+
 
 class Server:
     """
@@ -151,7 +151,9 @@ class Server:
                         msg += "    %s\n" % each
                     return msg
                 self.viruses[virus] = (Virus(virus), cmd[1])
-                return "SUCCESS: Virus added to the game"
+                return ("SUCCESS: Virus added to the game\n"
+                      + "Be sure to announce that you are ready with the "
+                      + "ready command.")
 
             else:
                 return "ERROR: The game is full"
@@ -160,12 +162,12 @@ class Server:
             return "ERROR: Virus not initiated"
 
         elif cmd[0] == "ready":
-            self.ready += 1
+            self.ready_nbr += 1
 
-            if not self.ready:
-                return "Waiting for %s players..." % (len(self.viruses)
-                                                       - self.ready_nbr)
-            return "Every player ready: starting the game."
+            if not self.ready and len(self.viruses) != self.ready_nbr:
+                return "SUCCESS: Waiting for %s players..." % (len(self.viruses)
+                                                               - self.ready_nbr)
+            return "SUCCESS: Every player ready: starting the game."
 
         elif cmd[0] == "help":
             return self.pre_game.__doc__
@@ -197,7 +199,7 @@ class Server:
 
         if cmd[0] == "help":
             # Get rid of unecessary spaces before text
-            return '\n'.join((x[8:] for x in self.pre_game.__doc__.split('\n')))
+            return '\n'.join((x[8:] for x in self.game.__doc__.split('\n')))
 
         if len(cmd) == 1:
             # quit                Quit the game.
@@ -221,15 +223,17 @@ class Server:
                 return "Every player ready: starting the game."
 
             elif cmd[0] == "virus":
-                return "SUCCESS: " + self.viruses[virus].__str__
+                return "SUCCESS: " + self.viruses[virus][0].__str__()
 
             elif cmd[0] == "world":
-                return "SUCCESS: " + self.world.__str__
+                msg  = "SUCCESS:\n"
+                msg += self.world.print_country(virus)
+                return msg
 
             elif cmd[0] == "list":
-                vir = self.viruses[virus]
+                vir = self.viruses[virus][0]
                 answer = []
-                for skill in self.viruses[virus].sk_list:
+                for skill in self.viruses[virus][0].sk_list:
                     if vir.available(skill) and skill not in vir.skills:
                         answer.append("%s \t(%sBTC)" % (skill,
                                                   vir.sk_list[skill]["price"]))
@@ -244,7 +248,7 @@ class Server:
             arg = cmd[1]
             if cmd[0] == "info":
                 try:
-                    vir = self.viruses[virus]
+                    vir = self.viruses[virus][0]
                     if arg not in vir.sk_list:
                         raise SkillDoesNotExist
 
@@ -260,7 +264,7 @@ class Server:
 
             elif cmd[0] == "upgrade":
                 try:
-                    self.viruses[virus].upgrade(arg)
+                    self.viruses[virus][0].upgrade(arg)
                     return "SUCCESS: Your virus has been upgraded."
 
                 except SkillDoesNotExist:
@@ -273,7 +277,7 @@ class Server:
                     return "ERROR: You don't have enough money to buy " % arg
 
                 except SkillNotAvailable:
-                    vir = self.viruses[virus]
+                    vir = self.viruses[virus][0]
                     answer = ["You have to unlock this skills first:"]
                     for each in vir.sk_list[arg]["requirements"]:
                         if each not in vir.skills:
@@ -283,7 +287,7 @@ class Server:
 
             elif cmd[0] == "downgrade":
                 try:
-                    self.viruses[virus].downgrade(arg)
+                    self.viruses[virus][0].downgrade(arg)
                     return "SUCCESS: Your virus has been downgraded."
 
                 except SkillNotPresent:
@@ -294,7 +298,7 @@ class Server:
 
             elif cmd[0] == "target":
                 try:
-                    genui.change_target(self.viruses[virus],
+                    genui.change_target(self.viruses[virus][0],
                                         multiWorld.countries,
                                         arg)
                     return "SUCCESS: Your target has changed."
@@ -367,7 +371,7 @@ def main():
         server.serve_forever()
 
     except KeyboardInterrupt:
-        print("Quitting...")
+        print("\nQuitting...")
 
 
 if __name__ == "__main__":

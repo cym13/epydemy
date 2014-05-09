@@ -15,22 +15,11 @@
 
 import yaml
 import random
-from collections import namedtuple
 from exceptions import *
 
 
 with open("./countries.yaml") as f:
     countries = yaml.load(f)
-
-
-def c_ratio(country, *attributes):
-    total = (countries[country]["sane"]
-           + countries[country]["protected"]
-           + countries[country]["infected"]
-           + countries[country]["destroyed"])
-
-    value = sum([countries[country][x] for x in attributes])
-    return value, total
 
 
 class MultiWorld:
@@ -39,15 +28,18 @@ class MultiWorld:
     """
     def __init__(self, viruses, first_countries):
         self.viruses   = viruses
-        for country in countries:
-            self.sane      = { x : 0 for x in zip(viruses, country) }
-            self.infected  = { x : 0 for x in zip(viruses, country) }
-            self.destroyed = { x : 0 for x in zip(viruses, country) }
-            self.protected = { x : 0 for x in zip(viruses, country) }
+
+        v_names = [x.name for x in self.viruses]
+        self.infected  = { (v,c): 0 for v in v_names for c in countries }
+        self.protected = { (v,c): 0 for v in v_names for c in countries }
+        self.destroyed = { (v,c): 0 for v in v_names for c in countries }
+        self.sane      = { (v,c): countries[c]["computers"]
+                                    for v in v_names for c in countries }
 
         for each in zip(viruses, first_countries):
+            print(each)
             self.infected[each] = 1
-            self.viruses[each[0]].target = each[1]
+            each[0].target = each[1]
 
 
     def step(self):
@@ -177,10 +169,12 @@ class MultiWorld:
         country and the total of computer in this country
         """
         total = (self.sane[virus, country]
-          + self.protected[virus, country]
-           + self.infected[virus, country]
-          + self.destroyed[virus, country])
-        value = sum([eval("self.%s[virus, country]" % x) for x in attributes])
+               + self.protected[virus, country]
+               + self.infected[virus, country]
+               + self.destroyed[virus, country])
+
+        value = sum((self.__getattribute__(x)[virus, country]
+                        for x in attributes))
         return value, total
 
 
@@ -189,31 +183,32 @@ class MultiWorld:
         return a string which describe the progression of the `virus' in a
         specific `country' or all of them if not specified
         """
-        if not country:
-            country += countries
+        country = country or countries
 
-        max_len = max([len(x) for x in countries]) + 4
+        max_len = max([len(x) for x in country]) + 4
 
         state  = "Sane\n"
         state += "----\n"
         for each in country:
             state += each.ljust(max_len)
-            state += " (%s\t/ %s)\n" % c_ratio(each, "sane", "protected")
+            state += " (%s\t/ %s)\n" % self.c_ratio(virus, each,
+                                                    "sane", "protected")
 
         state += "\n"
         state += "Infected\n"
         state += "--------\n"
-        for each in countries:
-            if self.infected[virus, country] != 0:
+        for each in country:
+            if self.infected[virus, each] != 0:
                 state += each.ljust(max_len)
-                state += " (%s\t/ %s)\n"% c_ratio(each, "infected")
+                state += " (%s\t/ %s)\n"% self.c_ratio(virus, each, "infected")
 
         state += "\n"
         state += "Destroyed\n"
         state += "---------\n"
-        for each in countries:
-            if self.destroyed[virus, country] != 0:
+        for each in country:
+            if self.destroyed[virus, each] != 0:
                 state += each.ljust(max_len)
-                state += " (%s\t/ %s)\n" % c_ratio(each, "destroyed")
+                state += " (%s\t/ %s)\n" % self.c_ratio(virus, each, "destroyed")
 
         return state.rstrip('\n')
+
