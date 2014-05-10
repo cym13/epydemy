@@ -239,7 +239,7 @@ class Server:
             elif cmd[0] == "list":
                 answer = []
                 for skill in virus.sk_list:
-                    if virus.available(skill) and skill not in vir.skills:
+                    if virus.available(skill) and skill not in virus.skills:
                         answer.append("%s \t(%sBTC)" % (skill,
                                               virus.sk_list[skill]["price"]))
                 return "SUCCESS:\n" + '\n'.join(answer)
@@ -253,13 +253,13 @@ class Server:
             if cmd[0] == "info":
                 try:
                     vir = self.viruses[virus][0]
-                    if arg not in vir.sk_list:
+                    if arg not in virus.sk_list:
                         raise SkillDoesNotExist
 
                     answer = []
-                    for field in vir.sk_list[arg]:
+                    for field in virus.sk_list[arg]:
                         answer.append("%s: %s" % (field.title(),
-                                                  vir.sk_list[arg][field]))
+                                                  virus.sk_list[arg][field]))
 
                     return "SUCCESS:\n" + '\n'.join(answer)
 
@@ -283,10 +283,9 @@ class Server:
                 except SkillNotAvailable:
                     vir = self.viruses[virus][0]
                     answer = ["You have to unlock this skills first:"]
-                    for each in vir.sk_list[arg]["requirements"]:
-                        if each not in vir.skills:
+                    for each in virus.sk_list[arg]["requirements"]:
+                        if each not in virus.skills:
                             answer.append(each)
-                    vir = None
                     return "ERROR: " + '\n'.join(answer)
 
             elif cmd[0] == "downgrade":
