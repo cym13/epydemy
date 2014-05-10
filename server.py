@@ -34,6 +34,7 @@ Options:
 """
 
 import sys
+import time
 import genui
 import socket
 import multiWorld
@@ -61,6 +62,7 @@ class Server:
         self.ready      = False
         self.world      = None
         self.viruses    = {}
+        self.time       = time.time()
 
         self.server_list = "/tmp/epydemy.servers"
         self.update_server_list(force=force)
@@ -108,13 +110,15 @@ class Server:
         command = data[1:]
 
         if len(self.viruses) != 0 and len(self.viruses) == self.ready_nbr:
-            v, fc = zip(*(self.viruses[x] for x in self.viruses))
-            self.world = multiWorld.MultiWorld(v, fc)
-            self.ready = True
+            if not self.world:
+                v, fc = zip(*(self.viruses[x] for x in self.viruses))
+                self.world = multiWorld.MultiWorld(v, fc)
+                self.ready = True
 
         if not self.ready:
             handler = self.pre_game
         else:
+            self.refresh()
             handler = self.game
 
         return handler(virus, command)
@@ -195,7 +199,7 @@ class Server:
                                 or none if "None" is given.
         """
         if virus not in self.viruses:
-            return "ERROR: Virus not initiated"
+            return "ERROR: Game already started"
 
         if cmd[0] == "help":
             # Get rid of unecessary spaces before text
@@ -331,6 +335,17 @@ class Server:
         finally:
             udp_sock.close()
             self.update_server_list(quit=True)
+
+
+    def refresh(self):
+        """
+        Refresh the world to give the illusion of a continuous time.
+        """
+        last_time = self.time
+        self.time = time.time()
+
+        for i in range(round(self.time - last_time)):
+            self.world.step()
 
 
     def infos(self, identifier):

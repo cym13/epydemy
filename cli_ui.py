@@ -15,10 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# We should use a cache file to remember name of last used file for not
-# having to type it each time and to remember the time of the last command to
-# compute the delay and the corresponding number of rounds.
-
 """
 Usage: cli_ui.py [options] [-n] FILE
        cli_ui.py [options] [FILE]
@@ -39,7 +35,6 @@ Options:
                             or none if "None" is given
 """
 import sys
-#import yaml
 import genui
 from time import time
 import world as W
@@ -171,9 +166,7 @@ def refresh(virus, world, n_step):
 
 
 def main():
-    #raise CountryDoesNotExist
     args = docopt(__doc__)
-    #print(args)
     file = args["FILE"]
     patch = args["--info"]
     lst = args["--list"]
