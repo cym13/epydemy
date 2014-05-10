@@ -201,6 +201,8 @@ class Server:
         if virus not in self.viruses:
             return "ERROR: Game already started"
 
+        virus = self.viruses[virus][0]
+
         if cmd[0] == "help":
             # Get rid of unecessary spaces before text
             return '\n'.join((x[8:] for x in self.game.__doc__.split('\n')))
@@ -227,7 +229,7 @@ class Server:
                 return "Every player ready: starting the game."
 
             elif cmd[0] == "virus":
-                return "SUCCESS:\n" + self.viruses[virus][0].__str__()
+                return "SUCCESS:\n" + virus.__str__()
 
             elif cmd[0] == "world":
                 msg  = "SUCCESS:\n"
@@ -235,13 +237,11 @@ class Server:
                 return msg
 
             elif cmd[0] == "list":
-                vir = self.viruses[virus][0]
                 answer = []
-                for skill in self.viruses[virus][0].sk_list:
-                    if vir.available(skill) and skill not in vir.skills:
+                for skill in virus.sk_list:
+                    if virus.available(skill) and skill not in vir.skills:
                         answer.append("%s \t(%sBTC)" % (skill,
-                                                  vir.sk_list[skill]["price"]))
-                vir = None
+                                              virus.sk_list[skill]["price"]))
                 return "SUCCESS:\n" + '\n'.join(answer)
 
         elif len(cmd) == 2:
