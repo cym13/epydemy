@@ -99,20 +99,20 @@ steal_family_photos_2:
     description:
         You target children photos and get more money !
 
-sticklogger_1:
+keylogger_1:
     price: 200
     category: moneymaking
     effect:
         rentab: +3
         detect: +2
     description:
-        You steal some interesting things typed on stickboard
+        You steal some interesting things typed on keyboard
 
-sticklogger_2:
+keylogger_2:
     price: 250
     category: moneymaking
     requirements:
-        - sticklogger_1
+        - keylogger_1
     effect:
         rentab: +3
         detect: +2
