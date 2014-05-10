@@ -27,6 +27,7 @@ class MultiWorld:
     This is a multiplayer-oriented world.
     """
     def __init__(self, viruses, first_countries):
+        first_countries = (x.capitalize() for x in first_countries)
         self.viruses   = viruses
 
         v_names = [x.name for x in self.viruses]
@@ -36,10 +37,15 @@ class MultiWorld:
         self.sane      = { (v,c): countries[c]["computers"]
                                     for v in v_names for c in countries }
 
+        print(self.infected)
+
         for each in zip(viruses, first_countries):
-            print(each)
-            self.infected[each] = 1
+            name = each[0].name
+            self.infected[name, each[1]] += 1
+            self.sane[name, each[1]]     -= 1
             each[0].target = each[1]
+
+        print(self.infected)
 
 
     def step(self):
@@ -199,8 +205,8 @@ class MultiWorld:
         state += "--------\n"
         for each in country:
             if self.infected[virus, each] != 0:
-                state += each.ljust(max_len)
-                state += " (%s\t/ %s)\n"% self.c_ratio(virus, each, "infected")
+               state += each.ljust(max_len)
+               state += " (%s\t/ %s)\n"% self.c_ratio(virus, each, "infected")
 
         state += "\n"
         state += "Destroyed\n"

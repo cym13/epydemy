@@ -138,7 +138,7 @@ class Server:
         elif cmd[0] == "init" and virus not in self.viruses:
             if len(cmd) == 1:
                 msg  = "ERROR: Enter a country name\n"
-                msg += "Are available:"
+                msg += "Are available:\n"
                 for each in multiWorld.countries:
                     msg += "    %s\n" % each
                 return msg
@@ -223,7 +223,7 @@ class Server:
                 return "Every player ready: starting the game."
 
             elif cmd[0] == "virus":
-                return "SUCCESS: " + self.viruses[virus][0].__str__()
+                return "SUCCESS:\n" + self.viruses[virus][0].__str__()
 
             elif cmd[0] == "world":
                 msg  = "SUCCESS:\n"
@@ -238,7 +238,7 @@ class Server:
                         answer.append("%s \t(%sBTC)" % (skill,
                                                   vir.sk_list[skill]["price"]))
                 vir = None
-                return "SUCCESS: " + '\n'.join(answer)
+                return "SUCCESS:\n" + '\n'.join(answer)
 
         elif len(cmd) == 2:
             # info      PATCH     Get informations about PATCH
@@ -257,7 +257,7 @@ class Server:
                         answer.append("%s: %s" % (field.title(),
                                                   vir.sk_list[arg][field]))
 
-                    return "SUCCESS: " + '\n'.join(answer)
+                    return "SUCCESS:\n" + '\n'.join(answer)
 
                 except SkillDoesNotExist:
                     return "ERROR: This skill does not exist: %s" % arg
