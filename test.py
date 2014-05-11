@@ -319,33 +319,107 @@ class TestCliUi:
 
 
 import multiWorld
+virus1 = Virus("test1")
+virus2 = Virus("test2")
+mw = multiWorld.MultiWorld((virus1, virus2) , ("Asia", "Africa"))
 class TestMultiWorld:
     def setup(self):
-        pass
+        virus1 = Virus("test1")
+        virus2 = Virus("test2")
 
     def test_init(cls):
-        pass
+        assert mw.viruses == (virus1, virus2)
+
+        assert mw.infected[virus1, "Asia"]    == 1
+        assert mw.infected[virus1, "Africa"]  == 0
+        assert mw.infected[virus2, "Africa"]  == 1
+        assert mw.infected[virus2, "Asia"]    == 0
+
+        assert mw.protected[virus1, "Asia"]   == 0
+        assert mw.protected[virus1, "Africa"] == 0
+        assert mw.protected[virus2, "Asia"]   == 0
+        assert mw.protected[virus2, "Africa"] == 0
+
+        assert mw.destroyed[virus1, "Asia"]   == 0
+        assert mw.destroyed[virus1, "Africa"] == 0
+        assert mw.destroyed[virus2, "Africa"] == 0
+        assert mw.destroyed[virus2, "Asia"]   == 0
+
+        assert mw.sane[virus1, "Asia"]   == 599999999
+        assert mw.sane[virus1, "Africa"] == 100000000
+        assert mw.sane[virus2, "Africa"] == 99999999
+        assert mw.sane[virus2, "Asia"]   == 600000000
 
     def test_step(cls):
-        pass
+        virus1.spread = 10
+        virus2.spread = 0
+
+        mw.step()
+
+        assert virus1.age == 1
+        assert virus2.age == 1
+
+        assert virus1.danger == 0
+        assert virus1.detect == 0
+        assert virus1.spread == 10
+        assert virus1.rentab == 0
+
+        assert mw.sane[virus1, "Asia"]       > 0
+        assert mw.sane[virus1, "Asia"]       < 600000000
+        assert mw.infected[virus1, "Asia"]   > 1
+        assert mw.infected[virus1, "Asia"]   < 600000000
+        assert mw.protected[virus1, "Asia"] == 0
+        assert mw.destroyed[virus1, "Asia"] == 0
+
+        assert mw.sane[virus1, "Africa"]      > 0
+        assert mw.sane[virus1, "Africa"]      < 100000000
+        assert mw.infected[virus1, "Africa"]  > 0
+        assert mw.infected[virus1, "Africa"]  < 100000000
+        assert mw.protected[virus1, "Africa"] == 0
+        assert mw.destroyed[virus1, "Africa"] == 0
+
+        assert virus2.danger == 0
+        assert virus2.detect == 0
+        assert virus2.spread == 0
+        assert virus2.rentab == 0
+
+        assert mw.sane[virus2, "Asia"]      == 600000000
+        assert mw.infected[virus2, "Asia"]  == 0
+        assert mw.protected[virus2, "Asia"] == 0
+        assert mw.destroyed[virus2, "Asia"] == 0
+
+        assert mw.sane[virus2, "Africa"]      == 99999999
+        assert mw.infected[virus2, "Africa"]  == 1
+        assert mw.protected[virus2, "Africa"] == 0
+        assert mw.destroyed[virus2, "Africa"] == 0
 
     def test_money(cls):
-        pass
-
-    def test_spread(cls):
-        pass
-
-    def test_upgrade(cls):
-        pass
-
-    def test_downgrade(cls):
-        pass
-
-    def test_repairs(cls):
-        pass
+        mw.infected[virus1, "Asia"] = 1000000000
+        assert mw.money(virus1, "Asia", 0)   == 0
+        assert mw.money(virus1, "Asia", 1)   == 117
+        assert mw.money(virus1, "Asia", 2)   == 233
+        mw.infected[virus1, "Asia"] = 1
 
     def test_c_ratio(cls):
-        pass
+        assert mw.c_ratio(virus1, "Asia", "sane")      == (599999999, 600000000)
+        assert mw.c_ratio(virus1, "Asia", "infected")  == (        1, 600000000)
+        assert mw.c_ratio(virus1, "Asia", "protected") == (        0, 600000000)
+        assert mw.c_ratio(virus1, "Asia", "destroyed") == (        0, 600000000)
+
+        assert mw.c_ratio(virus1, "Africa", "sane")     ==(100000000, 100000000)
+        assert mw.c_ratio(virus1, "Africa", "infected") ==(        0, 100000000)
+        assert mw.c_ratio(virus1, "Africa", "protected")==(        0, 100000000)
+        assert mw.c_ratio(virus1, "Africa", "destroyed")==(        0, 100000000)
+
+        assert mw.c_ratio(virus2, "Asia", "sane")      == (600000000, 600000000)
+        assert mw.c_ratio(virus2, "Asia", "infected")  == (        0, 600000000)
+        assert mw.c_ratio(virus2, "Asia", "protected") == (        0, 600000000)
+        assert mw.c_ratio(virus2, "Asia", "destroyed") == (        0, 600000000)
+
+        assert mw.c_ratio(virus2, "Africa", "sane")     == (99999999, 100000000)
+        assert mw.c_ratio(virus2, "Africa", "infected") == (       1, 100000000)
+        assert mw.c_ratio(virus2, "Africa", "protected")== (       0, 100000000)
+        assert mw.c_ratio(virus2, "Africa", "destroyed")== (       0, 100000000)
 
 
 import server
