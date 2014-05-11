@@ -298,12 +298,12 @@ class TestSimpleClient:
     def test_get_server_3(cls):
         assert simple_client.get_server("true_name", path) == ("localhost",8000)
 
-import cli_ui
 
+import cli_ui
 cache = r"/tmp/epy_temp_test"
 path = r"test.tmp"
 last_time = 1823
-class testCliUi:
+class TestCliUi:
     def setup(self):
         with open(cache,"w") as f:
             f.write(str(last_time))
@@ -317,3 +317,100 @@ class testCliUi:
         print(cli_ui.read_cache(cache))
         assert cli_ui.read_cache(cache) == (last_time, 'test.tmp')
 
+
+import multiWorld
+class TestMultiWorld:
+    def setup(self):
+        pass
+
+    def test_init(cls):
+        pass
+
+    def test_step(cls):
+        pass
+
+    def test_money(cls):
+        pass
+
+    def test_spread(cls):
+        pass
+
+    def test_upgrade(cls):
+        pass
+
+    def test_downgrade(cls):
+        pass
+
+    def test_repairs(cls):
+        pass
+
+    def test_c_ratio(cls):
+        pass
+
+
+import server
+class TestServer:
+    def setup(self):
+        pass
+
+    def test_init(cls):
+        pass
+
+    def test_update_server_list_1(cls):
+        pass
+
+    @raises(ServerAlreadyExist)
+    def test_update_server_list_2(cls):
+        raise ServerAlreadyExist
+
+    def test_update_server_list_3(cls):
+        pass
+
+    def test_update_server_list_4(cls):
+        pass
+
+    @raises(ServerDoesNotExist)
+    def test_update_server_list_5(cls):
+        raise ServerDoesNotExist
+
+    def test_handle_1(cls):
+        pass
+
+    def test_handle_2(cls):
+        pass
+
+    def test_pre_game_init(cls):
+        pass
+
+    def test_pre_game_ready(cls):
+        pass
+
+    def test_pre_game_quit(cls):
+        pass
+
+    def test_game_init(cls):
+        pass
+
+    def test_game_info(cls):
+        pass
+
+    def test_game_upgrade(cls):
+        pass
+
+    def test_game_downgrade(cls):
+        pass
+
+    def test_game_target(cls):
+        pass
+
+    def test_game_invalid_command(cls):
+        pass
+
+    def test_refresh(cls):
+        pass
+
+    def test_server_infos(cls):
+        pass
+
+    def test_serve_forever(self):
+        pass
