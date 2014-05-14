@@ -14,6 +14,7 @@
 #           spread   for spreadability
 # description: description of the skill
 
+
 # DISCRETION
 ############
 fuzzy_code_1:
@@ -33,6 +34,88 @@ fuzzy_code_2:
       detect: -3
     description:
       The virus' code is mixed more effectively to bypass antivirus scans.
+
+complex_code_1:
+    price: 200
+    category: discretion
+    effect:
+        detect: -2
+    description:
+        The virus' code is more complex which slow the researches.
+
+complex_code_2:
+    price: 400
+    category: discretion
+    requirements:
+        - complex_code_1
+    effect:
+        detect: -4
+    description:
+        The virus' code is more complex which slow the researches.
+
+trace_hider:
+    price: 800
+    category: discretion
+    requirements:
+        - complex_code_2
+    effect:
+        detect: -10
+    description:
+        Add a code in the virus which hide its traces.
+
+trace_deleter:
+    price: 1000
+    category: discretion
+    requirements:
+        - trace_hider
+    effect:
+        detect: -20
+    description:
+        Add a code in the virus which delete its traces.
+
+encrypted_code_1:
+    price: 400
+    category: discretion
+    effect:
+        detect: -5
+    description:
+        The virus' code is encrypted which make it difficult to be analysed.
+
+encrypted_code_2:
+    price: 800
+    category: discretion
+    effect:
+        detect: -10
+    description:
+        The virus' code is encrypted with efficient methods, which make it really difficult to be analysed.
+
+polymorphic_code:
+    price: 800
+    category: discretion
+    requirements:
+        - complex_code_2
+    effect:
+        detect: -10
+    description:
+        The virus change its signature when spreading, making it more difficult to be catched by antivirus scans.
+
+metamorphic_code:
+    price: 1000
+    category: discretion
+    requirements:
+        - polymorphic_code
+    effect:
+        detect: -20
+    description:
+        The virus change its code when spreading, making him it nearly impossible to be catched by antivirus scans.
+
+vpn_user:
+    price: 100
+    category: discretion
+    effect:
+        detect: -5
+    description:
+        You use VPNs.
 
 # TRANSMISSION
 ##############
@@ -76,6 +159,25 @@ malicious_email_2:
     description:
         You can spread through more emails
 
+malicious_website_1:
+    price: 800
+    category: transmission
+    effect:
+        spread: +10
+        detect: +10
+    description:
+        You can spread through websites
+
+malicious_website_2:
+    price: 1600
+    category: transmission
+    requirements:
+        - malicious_website_1
+    effect:
+        spread: +10
+        detect: +10
+    description:
+        You can spread through more websites.
 
 # MONEYMAKING
 #############
@@ -128,6 +230,96 @@ extra_files:
     description:
         Put extra files to generate ads pop up. Looks normal if you use IE.
 
+steal_address_book_1:
+    price: 200
+    category: moneymaking
+    effect:
+        rentab: +2
+        detect: +1
+    description:
+        You steal a list of emails, phone numbers and addresses and sell them.
+
+steal_address_book_2:
+    price: 300
+    category: moneymaking
+    requirements:
+        - steal_address_book_1
+    effect:
+        rentab: +2
+        detect: +1
+    description:
+        You steal a list of emails, phone numbers and addresses, focusing on more important people and sell them.
+
+spy_company_1:
+    price: 250
+    category: moneymaking
+    effect:
+        rentab: +5
+        detect: +4
+    description:
+        You spy and steal companies' information and sell it to there competitors.
+
+spy_company_2:
+    price: 500
+    category: moneymaking
+    requirements:
+        - spy_company_1
+    effect:
+        rentab: +5
+        detect:+4
+    description:
+        You spy and steal important companies' information and sell it to there competitors.
+
+spy_people_1:
+    price: 150
+    category: moneymaking
+    effect:
+        rentab: +1
+        detect: +1
+    description:
+        You spy and steal personal information of a random person and sell it.
+
+spy_people_2:
+    price: 250
+    category: moneymaking
+    requirements:
+        - spy_people_1
+    effect:
+        rentab: +1
+        detect: +1
+    description:
+        You spy and steal personal information of a celebrity and sell it to paparazzi or tabloid newspapers.
+
+steal_bank_information:
+    price: 400
+    category : moneymaking
+    effect:
+        rentab: +20
+        detect:+15
+    description:
+        You steal bank information and sell or use it.
+
+blackmail_1:
+    price: 300
+    category: moneymaking
+    effect:
+        rentab: +10
+        detect: +100
+    description:
+        You try to blackmail a random person.
+
+blackmail_2:
+    price: 400
+    category: moneymaking
+    requirements:
+        - blackmail_1
+    effect:
+        rentab: +10
+        detect: +100
+    description:
+        You try to blackmail a celebrity.
+
+
 # OFFENSIVENESS
 ###############
 windows_bug:
@@ -168,6 +360,24 @@ delete_files:
     description:
         Delete some files in target's HD. It will causes troubles but windows users will not be surprised.
 
+ddos_servers:
+    price: 1000
+    category: offensiveness
+    effect:
+        danger: +50
+        detect: +30
+    description:
+        DDOS one or many servers of a company.
+
+computer_overheat:
+    price: 800
+    category: offensiveness
+    effect:
+        danger: +40
+        detect: +20
+    description:
+        The virus make infected computers overheating. Can destroy the computers.
+
 # FUN
 #####
 bunny_picture:
@@ -178,3 +388,10 @@ bunny_picture:
     description:
         Displays a bunny picture on the screen of the victim
 
+enter_pentagon_database:
+    price: 1000
+    category: fun
+    effect:
+        detect: +100
+    description:
+        Enter into the Pentagon database, found information about aliens and Zone 51 and get arrest by the FBI. Worth it, you now know that aliens really exist.
