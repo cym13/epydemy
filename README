@@ -55,9 +55,9 @@ Yet the objectives are:
 
 Legend: [ ] Todo | [x] Finished | [?] Need Test | [w] In Work | [s] Stopped
 
-The long-term objectives are the creation of a graphical ui (with pygame or
-qt), a diversification of the types of viruses to have different behaviours,
-objectives making it funnier, a pre-release in a month or so.
+The long-term objectives are the creation of a graphical ui (with pygame, qt
+or kivy), a diversification of the types of viruses to have different
+behaviours, objectives making it funnier, a pre-release in a month or so.
 
 License
 =======

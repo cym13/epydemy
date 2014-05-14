@@ -121,7 +121,10 @@ class Server:
             self.refresh()
             handler = self.game
 
-        return handler(virus, command)
+        try:
+            return handler(virus, command)
+        except (EventFlag, WhiteFlag, VictoryFlag) as e:
+            return e
 
 
     def pre_game(self, virus, cmd):
